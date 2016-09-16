@@ -9,10 +9,10 @@ Ks 0.000000 0.000000 0.000000
 Ni 1.000000
 d 0.000000
 illum 1
-map_Kd ghoulferal_d.tga
-map_Bump ghoulferal_n.tga
-map_Ka ghoulferal_o.tga
-map_d ghoulferal_d.tga
+map_Kd Ghoulferal_d.tga
+map_Bump Ghoulferal_n.tga
+map_Ka Ghoulferal_o.tga
+map_d Ghoulferal_d.tga
 
 newmtl FeralGhoulEyes
 Ns 96.078431
@@ -22,10 +22,10 @@ Ks 0.000000 0.000000 0.000000
 Ni 1.000000
 d 0.000000
 illum 1
-map_Kd ghoulferal_d.tga
-map_Bump ghoulferal_n.tga
-map_Ka ghoulferal_o.tga
-map_d ghoulferal_d.tga
+map_Kd Ghoulferal_d.tga
+map_Bump Ghoulferal_n.tga
+map_Ka Ghoulferal_o.tga
+map_d Ghoulferal_d.tga
 
 newmtl FeralGhoulPants
 Ns 96.078431
@@ -35,7 +35,7 @@ Ks 0.000000 0.000000 0.000000
 Ni 1.000000
 d 0.000000
 illum 1
-map_Kd ghoulferal_d.tga
-map_Bump ghoulferal_n.tga
-map_Ka ghoulferal_o.tga
-map_d ghoulferal_d.tga
+map_Kd Ghoulferal_d.tga
+map_Bump Ghoulferal_n.tga
+map_Ka Ghoulferal_o.tga
+map_d Ghoulferal_d.tga

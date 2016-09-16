@@ -133,15 +133,16 @@ public class SoundManager
     Media track = new Media(url.toString());
     tracks.add(track);
   }
-  
+
   /**
    * plays a random soundclip of a given type defined by the Sound enum.
    * the sound will be played at the specified balance, volume, and pan<br><br>
-   * 
+   *
    * should be used for zombie sounds
-   * 
+   *
    * @param sound
-   * @param zombie
+   * @param distance
+   * @param balance
    */
   public void playSoundClip(Sound sound, double distance, double balance){
     Random random = new Random();

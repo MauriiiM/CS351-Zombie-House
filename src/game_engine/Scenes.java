@@ -392,7 +392,7 @@ public class Scenes
     
     //Main menu Scene
     startRoot = new BorderPane();
-    startRoot.setStyle("-fx-background-image: url(\"/Images/background.png\");-fx-background-size: 1280, 800;-fx-background-repeat: no-repeat;");
+    startRoot.setStyle("-fx-background-image: url(/Images/background.png);-fx-background-size: 1280, 800;-fx-background-repeat: no-repeat;");
     startRoot.setPrefSize(winW, winH);
     VBox buttonVBox = new VBox();
     buttonVBox.getChildren().addAll(

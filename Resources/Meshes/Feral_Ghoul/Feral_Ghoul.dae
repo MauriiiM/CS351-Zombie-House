@@ -6,43 +6,43 @@
   </asset>
   <library_images>
     <image id="Image">
-      <init_from>file:///ghoulferal_d.tga</init_from>
+      <init_from>file:///Ghoulferal_d.tga</init_from>
     </image>
     <image id="Image1">
-      <init_from>file:///ghoulferal_d.tga</init_from>
+      <init_from>file:///Ghoulferal_d.tga</init_from>
     </image>
     <image id="Image2">
-      <init_from>file:///ghoulferal_d.tga</init_from>
+      <init_from>file:///Ghoulferal_d.tga</init_from>
     </image>
   </library_images>
   <library_materials>
-    <material id="VisualMaterial" name="FeralGhoulPants__ghoulferal_d_tga">
+    <material id="VisualMaterial" name="FeralGhoulPants__Ghoulferal_d_tga">
       <instance_effect url="#Effect"/>
       <extra>
         <technique profile="FCOLLADA">
-          <user_properties>FeralGhoulPants__ghoulferal_d_tga</user_properties>
+          <user_properties>FeralGhoulPants__Ghoulferal_d_tga</user_properties>
         </technique>
       </extra>
     </material>
-    <material id="VisualMaterial1" name="FeralGhoulEyes__ghoulferal_d_tga">
+    <material id="VisualMaterial1" name="FeralGhoulEyes__Ghoulferal_d_tga">
       <instance_effect url="#Effect1"/>
       <extra>
         <technique profile="FCOLLADA">
-          <user_properties>FeralGhoulEyes__ghoulferal_d_tga</user_properties>
+          <user_properties>FeralGhoulEyes__Ghoulferal_d_tga</user_properties>
         </technique>
       </extra>
     </material>
-    <material id="VisualMaterial2" name="FeralGhoulBody__ghoulferal_d_tga">
+    <material id="VisualMaterial2" name="FeralGhoulBody__Ghoulferal_d_tga">
       <instance_effect url="#Effect2"/>
       <extra>
         <technique profile="FCOLLADA">
-          <user_properties>FeralGhoulBody__ghoulferal_d_tga</user_properties>
+          <user_properties>FeralGhoulBody__Ghoulferal_d_tga</user_properties>
         </technique>
       </extra>
     </material>
   </library_materials>
   <library_effects>
-    <effect id="Effect" name="ghoulferal_d_tga">
+    <effect id="Effect" name="Ghoulferal_d_tga">
       <profile_COMMON>
         <newparam sid="Image-surface">
           <surface type="2D">
@@ -98,11 +98,11 @@
       </profile_COMMON>
       <extra>
         <technique profile="FCOLLADA">
-          <user_properties>ghoulferal_d.tga</user_properties>
+          <user_properties>Ghoulferal_d.tga</user_properties>
         </technique>
       </extra>
     </effect>
-    <effect id="Effect1" name="ghoulferal_d_tga">
+    <effect id="Effect1" name="Ghoulferal_d_tga">
       <profile_COMMON>
         <newparam sid="Image1-surface">
           <surface type="2D">
@@ -158,11 +158,11 @@
       </profile_COMMON>
       <extra>
         <technique profile="FCOLLADA">
-          <user_properties>ghoulferal_d.tga</user_properties>
+          <user_properties>Ghoulferal_d.tga</user_properties>
         </technique>
       </extra>
     </effect>
-    <effect id="Effect2" name="ghoulferal_d_tga">
+    <effect id="Effect2" name="Ghoulferal_d_tga">
       <profile_COMMON>
         <newparam sid="Image2-surface">
           <surface type="2D">
@@ -218,7 +218,7 @@
       </profile_COMMON>
       <extra>
         <technique profile="FCOLLADA">
-          <user_properties>ghoulferal_d.tga</user_properties>
+          <user_properties>Ghoulferal_d.tga</user_properties>
         </technique>
       </extra>
     </effect>
