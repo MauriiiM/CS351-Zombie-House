@@ -7,6 +7,7 @@ import com.interactivemesh.jfx.importer.obj.ObjModelImporter;
 
 import entities.EntityManager;
 import entities.Player;
+import entities.Prop;
 import entities.Zombie;
 import graphing.GraphNode;
 import graphing.TileGraph;
@@ -65,6 +66,10 @@ public class ZombieHouse3d
 
   // The list of walls used for collision detection.
   public ArrayList<Box> walls = new ArrayList<>();
+
+  // list of props
+  public ArrayList<Prop> props = new ArrayList<>();
+
   //private static int zombieCounter = 0;
   public int numZombies = 0;
   boolean initZombieMovement = true;
@@ -80,6 +85,8 @@ public class ZombieHouse3d
 
   private String Feral_Ghoul = "Resources/Meshes/Feral_Ghoul/Feral_Ghoul.obj";
   private String Lambent_Female = "Resources/Meshes/Lambent_Female/Lambent_Female.obj";
+  private String Desk = "Resources/Meshes/Desk.obj";
+  private String Sofa = "Resources/Meshes/Sofa.obj";
 
   /**
    * Constructor for ZombieHouse3d object
@@ -346,6 +353,15 @@ public class ZombieHouse3d
         zombie.setMesh(loadMeshViews(Feral_Ghoul));
       }
       root.getChildren().addAll(zombie.zombieMesh);
+    }
+
+    // setMesh for props
+
+    System.out.println("Number of Props: " + props.size());
+    for( Prop prop : props)
+    {
+      prop.setMesh(loadMeshViews(prop.getPropName()));
+      root.getChildren().addAll(prop.propMesh);
     }
 
     exitLight = new PointLight();

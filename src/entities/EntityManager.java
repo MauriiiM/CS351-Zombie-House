@@ -19,6 +19,9 @@ import sounds.SoundManager;
 import utilities.ZombieBoardRenderer;
 
 /**
+ *  09/18/16 added arraylist of props
+ *
+ *
  * @author Jeffrey McCall 
  *         Ben Matthews
  *         Atle Olson
@@ -31,6 +34,7 @@ public class EntityManager
 {
   public Player player;
   public ArrayList<Zombie> zombies;
+  public ArrayList<Prop> props;
   public SoundManager soundManager;
   public ZombieHouse3d zombieHouse;
   public Scenes scenes;
@@ -89,8 +93,6 @@ public class EntityManager
   /**
    * Collision detection for 3D zombie objects.
    * 
-   * @param zombie
-   *          The shape that represents the zombie.
    * @return True if there is a collision. False if there isn't.
    */
   public Box getWallCollision(Shape3D shape)
@@ -164,6 +166,31 @@ public class EntityManager
     return angle/Math.PI;
   }
 
+  /*
+   * Creates list of props that will be
+   *  rendered into 3D ZombieHouse
+   *
+   *
+   */
+  public void createProps(){
+
+    props = new ArrayList<Prop>();
+        /*  possible code if placing props using tiles
+        Prop newProp = new Prop(gameBoard[col][row], row, col,
+                gameBoard[col][row].xPos, gameBoard[col][row].zPos, this);
+        newProp.create3DProp(row, col, Tile.tileSize);
+        props.add(newProp);
+
+        */
+   // Prop sofaProp = new Prop("Sofa",3,0,5,this);
+   // Prop deskProp = new Prop("Desk",10,0,5,this);
+    props.add(new Prop("Sofa",3,0,5,this));
+    props.add(new Prop("Desk",3,0,5,this));
+
+  }
+
+
+
   /**
    * Creates list of all of the zombies that will spawn
    * on the board.
@@ -210,6 +237,9 @@ public class EntityManager
       zombie.startZombie();
     }
   }
+
+
+
 
   /**
    * When a zombie detects the player, the master zombie also detects the player

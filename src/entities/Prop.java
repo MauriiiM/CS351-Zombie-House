@@ -3,6 +3,8 @@ package entities;
 import javafx.scene.Node;
 import javafx.scene.transform.Rotate;
 
+import java.util.ArrayList;
+
 /**
  * Created by anruiz110 on 9/18/16.
  * @author Anacaren Ruiz
@@ -13,16 +15,23 @@ import javafx.scene.transform.Rotate;
 public class Prop extends Entity
 {
 
-    //entitymanager
+    //entityManager
     EntityManager entityManager;
     public Node[] propMesh = null;
+    public String propName;
 
-    public Prop(double xPos, double yPos, double zPos, EntityManager em){
+    public Prop(String name, double xPos, double yPos, double zPos, EntityManager em){
+        this.propName = name;
         this.xPos = xPos;
         this.yPos = yPos;
         this.zPos = zPos;
         this.entityManager = em;
     }
+
+    public String getPropName(){
+        return propName;
+    }
+
 
     /**
      * Gets zombie mesh associated with this zombie object.
@@ -36,7 +45,7 @@ public class Prop extends Entity
 
     /**
      *
-     * Sets prop mesh to  specified mesh
+     * Sets prop mesh to specified mesh
      *
      * @param propMesh
      *        Node array contains all parts of mesh

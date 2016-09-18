@@ -26,7 +26,7 @@ public class Player extends Creature
   public static final double SPRINTSPEED = Tile.tileSize/4d;
   public static final double WALKINGSPEED = Tile.tileSize/8d;
   
-  //entitymanager
+  //entityManager
   EntityManager entityManager;
   
   //camera:

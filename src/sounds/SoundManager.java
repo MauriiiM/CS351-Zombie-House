@@ -51,7 +51,7 @@ public class SoundManager
     {
       init();
     }
-    catch (MalformedURLException e)
+    catch (MalformedURLException | NullPointerException e )
     {
       e.printStackTrace();
     }
@@ -64,7 +64,7 @@ public class SoundManager
    * clip files
    * 
    */
-  private void init() throws MalformedURLException{
+  private void init() throws MalformedURLException, NullPointerException{
     String name = "";
     
     URL url;
@@ -221,7 +221,7 @@ public class SoundManager
    * @param balance - the balance to play the clip at
    */
   private void playSound(AudioClip clip, double volume, double balance){
-    if (clip.equals(null)) return;
+    if (clip == null) return;
     
     clip.play(volume, balance, 1, 0, 1);
   }

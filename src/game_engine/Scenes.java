@@ -111,7 +111,7 @@ public class Scenes
       }
     });
 
-    goTo3dGame.setText("Play 3d ZombieHouse!");
+    goTo3dGame.setText("Play 3D ZombieHouse!");
     goTo3dGame.setOnAction(new EventHandler<ActionEvent>() 
     {
       @Override
