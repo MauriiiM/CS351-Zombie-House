@@ -41,29 +41,26 @@ import sounds.SoundManager;
 /**
  * @author Atle Olson
  * @author Jeffrey McCall
- * This class will create a 3d representation of our game
- *
- * 
+ *         This class will create a 3d representation of our game
  */
 public class ZombieHouse3d
 {
   PerspectiveCamera camera;
-  public PointLight light = new PointLight();
-  public PointLight exitLight = new PointLight();
-  public AnimationTimer gameLoop;
-  boolean isWall;
   public Tile playerTile;
-  
-  boolean paused = false;
+  private PointLight light = new PointLight();
+  private PointLight exitLight = new PointLight();
+  private AnimationTimer gameLoop;
+
+  private boolean paused = false;
 
   public int boardWidth;
   public int boardHeight;
   public Tile[][] gameBoard;
   private Box[][] floorDrawingBoard;
   private Box[][] roofDrawingBoard;
-  
+
   public ArrayList<Box> exits = new ArrayList<>();
-  
+
   public Group root;
 
   // The list of walls used for collision detection.
@@ -72,29 +69,25 @@ public class ZombieHouse3d
   public int numZombies = 0;
   boolean initZombieMovement = true;
   public int tileSize = Tile.getTileSize();
-  
+
   public int difficulty;
   public Scene scene;
-  
+
   private EntityManager entityManager;
   SoundManager soundManager;
   Main main;
   Scenes scenes;
-  
+
   private String Feral_Ghoul = "Resources/Meshes/Feral_Ghoul/Feral_Ghoul.obj";
   private String Lambent_Female = "Resources/Meshes/Lambent_Female/Lambent_Female.obj";
 
   /**
    * Constructor for ZombieHouse3d object
-   * @param difficulty
-   * The difficulty setting
-   * @param soundManager
-   * Sound manager
-   * @param main
-   * Copy of Main
-   * @param scenes
-   * Scenes object
-   * 
+   *
+   * @param difficulty   The difficulty setting
+   * @param soundManager Sound manager
+   * @param main         Copy of Main
+   * @param scenes       Scenes object
    */
   public ZombieHouse3d(int difficulty, SoundManager soundManager, Main main, Scenes scenes)
   {
@@ -103,42 +96,91 @@ public class ZombieHouse3d
     this.main = main;
     this.scenes = scenes;
   }
-  
+
   /**
-   * @param input
-   * The filepath to the mesh (.obj)
-   * @return mesh
-   * The Node[] that contains the model
+   * Delete game data after game has ended. Used when going from
+   * one level to another, or restarting a level.
    */
-  public static Node[] loadMeshViews(String input)
+  public void dispose()
   {
-    ObjModelImporter importer = new ObjModelImporter();
-    importer.setOptions(ObjImportOption.NONE);
-    importer.read(input);
-    Node[] mesh = importer.getImport();
-    for(int i = 0;i<mesh.length;i++)
+    gameLoop.stop();
+    entityManager = null;
+    scene = null;
+    camera = null;
+    light = null;
+    gameBoard = null;
+    walls.clear();
+    exits.clear();
+    root.getChildren().clear();
+    entityManager = null;
+  }
+
+  /**
+   * @param gameStage The stage into which all of the attributes of the game
+   *                  are being placed and rendered.
+   * @return scene
+   * Returns the scene that is our game
+   */
+  public Scene zombieHouse3d(Stage gameStage) throws Exception
+  {
+    //Stage gameStage = new Stage();
+    // gameBoard = MapLoader.loadLevel("/Maps/testmap.txt");
+    gameBoard = ProceduralMap.generateMap(Attributes.Map_Width, Attributes.Map_Height, difficulty);
+    boardWidth = gameBoard[0].length;
+    boardHeight = gameBoard.length;
+    floorDrawingBoard = new Box[boardWidth][boardHeight];
+    roofDrawingBoard = new Box[boardWidth][boardHeight];
+
+    scene = new Scene(createContent());
+
+    scene.addEventHandler(KeyEvent.KEY_PRESSED, new KeyboardEventHandler(camera, entityManager.player, this));
+    scene.addEventHandler(KeyEvent.KEY_RELEASED, new KeyboardEventHandler(camera, entityManager.player, this));
+
+    // Initialize stage
+    gameStage.setTitle("Zombie House 3D");
+    gameStage.setResizable(false);
+    gameStage.setScene(scene);
+    gameStage.setOnCloseRequest(event ->
     {
-      mesh[i].setTranslateY(2);
-      mesh[i].setScaleX(0.4);
-      mesh[i].setScaleY(0.4);
-      mesh[i].setScaleZ(0.4);
-      mesh[i].setCache(true);
-      mesh[i].setCacheHint(CacheHint.SPEED);
-    }
-    importer.close();
-    return mesh;
+      entityManager.player.gameIsRunning.set(false);
+      entityManager.gameIsRunning.set(false);
+    });
+    Button play = new Button();
+    play.setText("Play!");
+    play.setOnAction(new EventHandler<ActionEvent>()
+    {
+      @Override
+      public void handle(ActionEvent event)
+      {
+
+      }
+    });
+
+    gameLoop = new MainGameLoop();
+    gameLoop.start();
+    return scene;
+  }
+
+  boolean getPaused(){
+    return paused;
+  }
+
+  void setPaused(boolean setPause){
+    paused = setPause;
   }
 
   /**
    * @return group
    * the Group that is used by zombieHouse3d to initialize content
    */
-  public Parent createContent() throws Exception
+  private Parent createContent() throws Exception
   {
+    boolean isWall;
+
     root = new Group();
     root.setCache(true);
     root.setCacheHint(CacheHint.SPEED);
-    
+
     // initialize entity manager
     entityManager = new EntityManager(soundManager, main, scenes);
     entityManager.setZombieHouse3d(this);
@@ -147,8 +189,7 @@ public class ZombieHouse3d
 
     // Initialize camera
     camera = new PerspectiveCamera(true);
-    camera.getTransforms().addAll(new Rotate(0, Rotate.Y_AXIS),
-        new Rotate(0, Rotate.X_AXIS), new Translate(0, -.5, 0));
+    camera.getTransforms().addAll(new Rotate(0, Rotate.Y_AXIS), new Rotate(0, Rotate.X_AXIS), new Translate(0, -.5, 0));
     camera.setFieldOfView(60);
     camera.setFarClip(15);
     camera.setRotationAxis(Rotate.Y_AXIS);
@@ -173,7 +214,7 @@ public class ZombieHouse3d
         switch (gameBoard[col][row].type)
         {
           case wall:
-            floorDrawingBoard[col][row] = new Box(1,2,1);
+            floorDrawingBoard[col][row] = new Box(1, 2, 1);
             floorDrawingBoard[col][row].setMaterial(TextureMaps.brickMaterial);
             break;
           case region1:
@@ -195,31 +236,27 @@ public class ZombieHouse3d
           case exit:
             floorDrawingBoard[col][row].setMaterial(TextureMaps.ironMaterial);
             roofDrawingBoard[col][row].setMaterial(TextureMaps.ironMaterial);
-            Box box = new Box(1,2,1);
+            Box box = new Box(1, 2, 1);
             box.setTranslateX(gameBoard[col][row].zPos);
             box.setTranslateZ(gameBoard[col][row].xPos);
             box.setMaterial(TextureMaps.glowMaterial);
             exits.add(box);
-            
+
             break;
         }
-        if (col == 0 || col == boardHeight - 1 || row == 0
-            || row == boardWidth - 1)
+        if (col == 0 || col == boardHeight - 1 || row == 0 || row == boardWidth - 1)
         {
           floorDrawingBoard[col][row].setTranslateX(row + .5);
           floorDrawingBoard[col][row].setTranslateZ(col + .5);
           roofDrawingBoard[col][row].setTranslateX(row + .5);
           roofDrawingBoard[col][row].setTranslateZ(col + .5);
-        } else
+        }
+        else
         {
-          floorDrawingBoard[col][row]
-              .setTranslateX(gameBoard[col][row].xPos);
-          floorDrawingBoard[col][row]
-              .setTranslateZ(gameBoard[col][row].zPos);
-          roofDrawingBoard[col][row]
-              .setTranslateX(gameBoard[col][row].xPos);
-          roofDrawingBoard[col][row]
-              .setTranslateZ(gameBoard[col][row].zPos);
+          floorDrawingBoard[col][row].setTranslateX(gameBoard[col][row].xPos);
+          floorDrawingBoard[col][row].setTranslateZ(gameBoard[col][row].zPos);
+          roofDrawingBoard[col][row].setTranslateX(gameBoard[col][row].xPos);
+          roofDrawingBoard[col][row].setTranslateZ(gameBoard[col][row].zPos);
         }
         if (!gameBoard[col][row].type.equals(TileType.wall))
         {
@@ -242,7 +279,8 @@ public class ZombieHouse3d
           walls.add(floorDrawingBoard[col][row]);
           entityManager.numTiles++;
           isWall = true;
-        } else
+        }
+        else
         {
           isWall = false;
         }
@@ -250,113 +288,111 @@ public class ZombieHouse3d
         // to be used in zombie pathfinding.
         if (col == 0 && row == 0)
         {
-          GraphNode newNode = new GraphNode(gameBoard[col + 1][row],
-              gameBoard[col][row + 1], gameBoard[col + 1][row + 1], row, col,
-              isWall, gameBoard[col][row]);
+          GraphNode newNode = new GraphNode(gameBoard[col + 1][row], gameBoard[col][row + 1], gameBoard[col + 1][row + 1], row, col, isWall, gameBoard[col][row]);
           TileGraph.createGraph(newNode);
         }
         if (col == 0 && row == boardWidth - 1)
         {
-          GraphNode newNode = new GraphNode(gameBoard[col + 1][row],
-              gameBoard[col][row - 1], gameBoard[col + 1][row - 1], row, col,
-              isWall, gameBoard[col][row]);
+          GraphNode newNode = new GraphNode(gameBoard[col + 1][row], gameBoard[col][row - 1], gameBoard[col + 1][row - 1], row, col, isWall, gameBoard[col][row]);
           TileGraph.createGraph(newNode);
         }
         if (col == boardHeight - 1 && row == 0)
         {
-          GraphNode newNode = new GraphNode(gameBoard[col - 1][row],
-              gameBoard[col][row + 1], gameBoard[col - 1][row + 1], row, col,
-              isWall, gameBoard[col][row]);
+          GraphNode newNode = new GraphNode(gameBoard[col - 1][row], gameBoard[col][row + 1], gameBoard[col - 1][row + 1], row, col, isWall, gameBoard[col][row]);
           TileGraph.createGraph(newNode);
         }
         if (col == boardHeight - 1 && row == boardWidth - 1)
         {
-          GraphNode newNode = new GraphNode(gameBoard[col - 1][row],
-              gameBoard[col][row - 1], gameBoard[col - 1][row - 1], row, col,
-              isWall, gameBoard[col][row]);
+          GraphNode newNode = new GraphNode(gameBoard[col - 1][row], gameBoard[col][row - 1], gameBoard[col - 1][row - 1], row, col, isWall, gameBoard[col][row]);
           TileGraph.createGraph(newNode);
         }
         if (row == 0 && col != 0 && col != boardHeight - 1)
         {
-          GraphNode newNode = new GraphNode(gameBoard[col + 1][row],
-              gameBoard[col - 1][row], gameBoard[col][row + 1],
-              gameBoard[col + 1][row + 1], gameBoard[col - 1][row + 1], row,
-              col, isWall, gameBoard[col][row]);
+          GraphNode newNode = new GraphNode(gameBoard[col + 1][row], gameBoard[col - 1][row], gameBoard[col][row + 1], gameBoard[col + 1][row + 1], gameBoard[col - 1][row + 1], row, col, isWall, gameBoard[col][row]);
           TileGraph.createGraph(newNode);
         }
         if (row == boardWidth - 1 && col != 0 && col != boardHeight - 1)
         {
-          GraphNode newNode = new GraphNode(gameBoard[col + 1][row],
-              gameBoard[col - 1][row], gameBoard[col][row - 1],
-              gameBoard[col + 1][row - 1], gameBoard[col - 1][row - 1], row,
-              col, isWall, gameBoard[col][row]);
+          GraphNode newNode = new GraphNode(gameBoard[col + 1][row], gameBoard[col - 1][row], gameBoard[col][row - 1], gameBoard[col + 1][row - 1], gameBoard[col - 1][row - 1], row, col, isWall, gameBoard[col][row]);
           TileGraph.createGraph(newNode);
         }
         if (col == 0 && row != 0 && row != boardWidth - 1)
         {
-          GraphNode newNode = new GraphNode(gameBoard[col + 1][row],
-              gameBoard[col][row + 1], gameBoard[col][row - 1],
-              gameBoard[col + 1][row + 1], gameBoard[col + 1][row - 1], row,
-              col, isWall, gameBoard[col][row]);
+          GraphNode newNode = new GraphNode(gameBoard[col + 1][row], gameBoard[col][row + 1], gameBoard[col][row - 1], gameBoard[col + 1][row + 1], gameBoard[col + 1][row - 1], row, col, isWall, gameBoard[col][row]);
           TileGraph.createGraph(newNode);
         }
         if (col == boardHeight - 1 && row != 0 && row != boardWidth - 1)
         {
-          GraphNode newNode = new GraphNode(gameBoard[col][row + 1],
-              gameBoard[col - 1][row], gameBoard[col][row - 1],
-              gameBoard[col - 1][row + 1], gameBoard[col - 1][row - 1], row,
-              col, isWall, gameBoard[col][row]);
+          GraphNode newNode = new GraphNode(gameBoard[col][row + 1], gameBoard[col - 1][row], gameBoard[col][row - 1], gameBoard[col - 1][row + 1], gameBoard[col - 1][row - 1], row, col, isWall, gameBoard[col][row]);
           TileGraph.createGraph(newNode);
         }
-        if (col >= 1 && col < boardHeight - 1 && row >= 1
-            && row < boardWidth - 1)
+        if (col >= 1 && col < boardHeight - 1 && row >= 1 && row < boardWidth - 1)
         {
-          GraphNode newNode = new GraphNode(gameBoard[col + 1][row],
-              gameBoard[col - 1][row], gameBoard[col][row + 1],
-              gameBoard[col][row - 1], gameBoard[col + 1][row + 1],
-              gameBoard[col + 1][row - 1], gameBoard[col - 1][row + 1],
-              gameBoard[col - 1][row - 1], row, col, isWall,
-              gameBoard[col][row]);
+          GraphNode newNode = new GraphNode(gameBoard[col + 1][row], gameBoard[col - 1][row], gameBoard[col][row + 1], gameBoard[col][row - 1], gameBoard[col + 1][row + 1], gameBoard[col + 1][row - 1], gameBoard[col - 1][row + 1], gameBoard[col - 1][row - 1], row, col, isWall, gameBoard[col][row]);
           TileGraph.createGraph(newNode);
         }
       }
     }
-    
+
     System.out.println("Number of Zombies: " + entityManager.zombies.size());
-    for (Zombie zombie: entityManager.zombies){
-      if (zombie.isMasterZombie){
+    for (Zombie zombie : entityManager.zombies)
+    {
+      if (zombie.isMasterZombie)
+      {
         zombie.setMesh(loadMeshViews(Lambent_Female));
-      } else {
+      }
+      else
+      {
         zombie.setMesh(loadMeshViews(Feral_Ghoul));
       }
       root.getChildren().addAll(zombie.zombieMesh);
     }
-    
+
     exitLight = new PointLight();
     exitLight.setTranslateX(exits.get(0).getTranslateX());
     exitLight.setTranslateZ(exits.get(0).getTranslateZ());
     root.getChildren().addAll(exits);
     root.getChildren().add(exitLight);
-    
+
     // Use a SubScene
-    SubScene subScene = new SubScene(root, 1280, 800, true,
-        SceneAntialiasing.BALANCED);
+    SubScene subScene = new SubScene(root, 1280, 800, true, SceneAntialiasing.BALANCED);
     subScene.setFill(Color.rgb(10, 10, 40));
     subScene.setCamera(camera);
     subScene.setCursor(Cursor.CROSSHAIR);
 
     Group group = new Group();
     group.getChildren().add(subScene);
-    group.addEventFilter(
-        MouseEvent.MOUSE_MOVED,
-        new MouseEventHandler(camera, entityManager.player)
-        );
+    group.addEventFilter(MouseEvent.MOUSE_MOVED, new MouseEventHandler(camera, entityManager.player, this));
 
     return group;
   }
+
+  /**
+   * @param input The filepath to the mesh (.obj)
+   * @return mesh
+   * The Node[] that contains the model
+   */
+  private static Node[] loadMeshViews(String input)
+  {
+    ObjModelImporter importer = new ObjModelImporter();
+    importer.setOptions(ObjImportOption.NONE);
+    importer.read(input);
+    Node[] mesh = importer.getImport();
+    for (int i = 0; i < mesh.length; i++)
+    {
+      mesh[i].setTranslateY(2);
+      mesh[i].setScaleX(0.4);
+      mesh[i].setScaleY(0.4);
+      mesh[i].setScaleZ(0.4);
+      mesh[i].setCache(true);
+      mesh[i].setCacheHint(CacheHint.SPEED);
+    }
+    importer.close();
+    return mesh;
+  }
+
   /**
    * The animation timer used in running the game.
-   *
    */
   private class MainGameLoop extends AnimationTimer
   {
@@ -366,7 +402,7 @@ public class ZombieHouse3d
      */
     public void handle(long now)
     {
-      if(!paused)
+      if (!paused)
       {
         entityManager.tick();
       }
@@ -375,71 +411,5 @@ public class ZombieHouse3d
         entityManager.player.tick();
       }
     }
-  }
-
-  /**
-   * @param gameStage
-   *        The stage into which all of the attributes of the game
-   *        are being placed and rendered.
-   * @return scene
-   *         Returns the scene that is our game
-   */
-  public Scene zombieHouse3d(Stage gameStage) throws Exception
-  {
-    //Stage gameStage = new Stage();
-    // gameBoard = MapLoader.loadLevel("/Maps/testmap.txt");
-    gameBoard = ProceduralMap.generateMap(Attributes.Map_Width, Attributes.Map_Height, difficulty);
-    boardWidth = gameBoard[0].length;
-    boardHeight = gameBoard.length;
-    floorDrawingBoard = new Box[boardWidth][boardHeight];
-    roofDrawingBoard = new Box[boardWidth][boardHeight];
-
-    scene = new Scene(createContent());
-
-    scene.addEventHandler(KeyEvent.KEY_PRESSED,
-        new KeyboardEventHandler(camera, entityManager.player, this));
-    scene.addEventHandler(KeyEvent.KEY_RELEASED,
-        new KeyboardEventHandler(camera, entityManager.player, this));
-
-    // Initialize stage
-    gameStage.setTitle("Zombie House 3D");
-    gameStage.setResizable(false);
-    gameStage.setScene(scene);
-    gameStage.setOnCloseRequest(event ->
-    {
-      entityManager.player.gameIsRunning.set(false);
-      entityManager.gameIsRunning.set(false);
-    });
-    Button play = new Button();
-    play.setText("Play!");
-    play.setOnAction(new EventHandler<ActionEvent>() 
-    {
-      @Override
-      public void handle(ActionEvent event) 
-      {
-        
-      }
-    });
-    
-    gameLoop = new MainGameLoop();
-    gameLoop.start();
-    return scene;
-  }
-  /**
-   * Delete game data after game has ended. Used when going from
-   * one level to another, or restarting a level.
-   */
-  public void dispose()
-  {
-    gameLoop.stop();
-    entityManager = null;
-    scene = null;
-    camera = null;
-    light = null;
-    gameBoard = null;
-    walls.clear();
-    exits.clear();
-    root.getChildren().clear();
-    entityManager = null;
   }
 }

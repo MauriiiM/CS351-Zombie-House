@@ -13,10 +13,8 @@ import levels.Tile;
  * This class handles the input from the keyboard that controls
  * player movement as well as some other actions.
  */
-public class KeyboardEventHandler implements EventHandler<KeyEvent>
+public class KeyboardEventHandler extends InputHandler implements EventHandler<KeyEvent>
 {
-  private ZombieHouse3d zombieHouse3d;
-  private Player player;
 /**
  * Constructor for the keyboard event handler.
  * @param camera
@@ -28,9 +26,7 @@ public class KeyboardEventHandler implements EventHandler<KeyEvent>
  */
   public KeyboardEventHandler(PerspectiveCamera camera, Player player, ZombieHouse3d zombieHouse3d)
   {
-    this.zombieHouse3d = zombieHouse3d;
-    player.camera = camera;
-    this.player = player;
+    super(camera, player,zombieHouse3d);
   }
   
   /**
@@ -51,36 +47,36 @@ public class KeyboardEventHandler implements EventHandler<KeyEvent>
       {
         player.shiftPressed.set(true);
       }
-      if(event.getCode()==KeyCode.W) 
+      if(event.getCode()==KeyCode.W && !pauseState)
       {
         player.wDown.set(true);
         player.velocity = Player.WALKINGSPEED;
       }
-      if(event.getCode()==KeyCode.S) 
+      if(event.getCode()==KeyCode.S && !pauseState)
       {
         player.sDown.set(true);
         player.velocity = -Player.WALKINGSPEED;
       }
-      if(event.getCode()==KeyCode.A) 
+      if(event.getCode()==KeyCode.A && !pauseState)
       {
         player.aDown.set(true);
         player.strafeVelocity = Player.WALKINGSPEED;
       }
-      if(event.getCode()==KeyCode.D) 
+      if(event.getCode()==KeyCode.D && !pauseState)
       {
         player.dDown.set(true);
         player.strafeVelocity = -Player.WALKINGSPEED;
       }
-      if(event.getCode()==KeyCode.F)
+      if(event.getCode()==KeyCode.F && !pauseState)
       {
         player.light.setLightOn(!player.lightOn);
         player.lightOn = !player.lightOn;
       }
-      if(event.getCode()==KeyCode.LEFT)
+      if(event.getCode()==KeyCode.LEFT && !pauseState)
       {
         player.turnLeft = true;
       }
-      if(event.getCode()==KeyCode.RIGHT)
+      if(event.getCode()==KeyCode.RIGHT && !pauseState)
       {
         player.turnRight = true;
       }
@@ -88,9 +84,10 @@ public class KeyboardEventHandler implements EventHandler<KeyEvent>
       {
         player.camera.setTranslateY(-2*Tile.tileSize);
       }
-      if(event.getCode()==KeyCode.ESCAPE)
+      if(event.getCode()==KeyCode.P)
       {
-        zombieHouse3d.paused = !zombieHouse3d.paused;
+        pauseState = !pauseState;
+        zombieHouse3d.setPaused(pauseState);
       }
     }
     else if (event.getEventType() == KeyEvent.KEY_RELEASED)

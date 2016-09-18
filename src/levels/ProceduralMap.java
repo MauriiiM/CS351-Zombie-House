@@ -11,7 +11,7 @@ import java.util.Random;
  */
 public class ProceduralMap
 {
-  public static final boolean DEBUG = false;
+  private static final boolean DEBUG = false;
   
   /**Generates a level represented as a 2d Tile array
    * of approximately the dimensions given<br><br>
