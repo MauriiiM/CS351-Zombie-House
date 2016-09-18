@@ -11,7 +11,7 @@ class InputHandler
   ZombieHouse3d zombieHouse3d;
   Player player;
   PerspectiveCamera camera;
-  boolean pauseState;
+  static boolean pauseState;
 
   InputHandler(PerspectiveCamera camera, Player player, ZombieHouse3d zombieHouse3d)
   {

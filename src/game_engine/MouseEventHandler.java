@@ -45,8 +45,6 @@ public class MouseEventHandler extends InputHandler implements EventHandler<Mous
   /**
    * Handles all of the mouse movement events.
    *
-   * @// TODO: 9/17/2016 need to make mouse listen to pauseState 
-   * 
    * @param event All mouse motion events are automatically passed into
    *              this method.
    */
