@@ -27,11 +27,10 @@ public class Tile
   public TileType type;
   public double xPos = 0;
   public double zPos = 0;
-  String typeString = "";
   public boolean isHallway = false;
   public boolean hasZombie = false;
   public boolean isWall = false;
-  private double zombieSpawn = 0.010;
+  private String typeString = "";
   private Random rand = new Random();
   public double movementCost = 1;
   public boolean wallNW = false;
@@ -203,8 +202,10 @@ public class Tile
    * 
    * @return True if a zombie will spawn on this tile. False otherwise.
    */
-  public boolean spawnChance()
+  private boolean spawnChance()
   {
+    double zombieSpawn = 0.010;
+
     double randDouble;
     if (!getType().equals("wall") && !hasZombie)
     {

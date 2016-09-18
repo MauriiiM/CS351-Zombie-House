@@ -13,9 +13,9 @@ import sounds.SoundManager;
  */
 public class Main extends Application
 {
-  public Stage gameStage = new Stage();
+  private Stage gameStage = new Stage();
   private SoundManager soundManager;
-  public Scenes scenes = new Scenes(gameStage, this);
+  private Scenes scenes = new Scenes(gameStage, this);
   
   /**
    * @param primaryStage
