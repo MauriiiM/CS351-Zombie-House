@@ -1,5 +1,8 @@
 package entities;
 
+import java.awt.geom.Point2D;
+import java.util.ArrayList;
+
 /**
  * @author Ben Matthews
  * Class that contains fields and methods
@@ -8,21 +11,22 @@ package entities;
  */
 public abstract class Creature extends Entity
 {
-  protected double stepDistance;
   public double velocity;
   public double angle;
-  
-  public double lastX;
-  public double lastZ;
-  
-  protected double distanceTraveled;
+  double stepDistance;
+
+  double lastX;
+  double lastZ;
+  private double distanceTraveled;
+
+  ArrayList<Point2D.Double> pathTaken;
   
   /**
    * Get distance that the zombie has traveled and
    * play a sound effect if the zombie is close enough 
    * to the player.
    */
-  public void updateDistance()
+  void updateDistance()
   {
     distanceTraveled += calculateDistance();
     if (distanceTraveled > stepDistance){

@@ -1,5 +1,7 @@
 package entities;
 
+import java.awt.geom.Point2D;
+import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import game_engine.Attributes;
@@ -110,6 +112,7 @@ public class Player extends Creature
     boundingCircle.setTranslateZ(camera.getTranslateZ());
     lastX = camera.getTranslateX();
     lastZ = camera.getTranslateZ();
+    pathTaken = new ArrayList<>();
   }
   /**
    * A constructor for a 2D player.
@@ -235,6 +238,8 @@ public class Player extends Creature
     light.setRotate(camera.getRotate() - 180);
     xPos = camera.getTranslateX();
     zPos = camera.getTranslateZ();
+
+//    pathTaken.add(new Point2D.Double(xPos, yPos));
   }
 
   /**
@@ -283,12 +288,12 @@ public class Player extends Creature
   }
   /**
    * Plays player foot step sounds
-   * 
    */
   @Override
   public void stepSound()
   {
     entityManager.soundManager.playSoundClip(Sound.footstep);
+    System.out.println(xPos + yPos  +" in stepSound()");
   }
 
   /**
