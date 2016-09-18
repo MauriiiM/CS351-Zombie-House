@@ -56,9 +56,9 @@ public class Player extends Creature
   public AtomicBoolean staminaOut = new AtomicBoolean(false);
   
   //other player fields:
-  public Cylinder boundingCircle = null;
-  public AtomicBoolean isDead = new AtomicBoolean(false);
-  public AtomicBoolean foundExit = new AtomicBoolean(false);
+  Cylinder boundingCircle = null;
+  AtomicBoolean isDead = new AtomicBoolean(false);
+  AtomicBoolean foundExit = new AtomicBoolean(false);
   
   //Player Movement
   public boolean turnLeft = false;
@@ -67,6 +67,7 @@ public class Player extends Creature
   private double stamina=5;
   private double regen=.2;
   private double deltaTime=0;
+
   
 
   /**
@@ -312,6 +313,7 @@ public class Player extends Creature
     light = null;
     boundingCircle = null;
   }
+
   /**
    * 
    * @author Jeffrey McCall 
