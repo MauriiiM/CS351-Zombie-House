@@ -21,6 +21,7 @@ public abstract class Creature extends Entity
 
   ArrayList<Point2D.Double> pathTaken;
   boolean enganged = false;
+  protected double health;
 
   /**
    * Get distance that the zombie has traveled and
