@@ -69,6 +69,10 @@ public class Player extends Creature
   private double regen = .2;
   private double deltaTime = 0;
 
+  private int numDeaths = 0;
+  private final int maxDeaths = 5;
+
+
 
   /**
    * A constructor for a 3D player. takes in a camera object
@@ -105,6 +109,9 @@ public class Player extends Creature
     lastX = camera.getTranslateX();
     lastZ = camera.getTranslateZ();
     pathTaken = new ArrayList<>();
+
+    //give the player an initial health of 5
+    health = 5;
   }
 
   /**
@@ -139,6 +146,13 @@ public class Player extends Creature
       xPos += (velocity * Math.cos(angle));
       yPos += (velocity * Math.sin(angle));
     }
+  }
+
+  //return the number of times the player has die
+  // this should be used to know how many clones there should be
+  public int getNumDeaths()
+  {
+    return numDeaths;
   }
 
   /**
@@ -198,8 +212,39 @@ public class Player extends Creature
 
     if (entityManager.checkPlayerCollision(boundingCircle))
     {
-      isDead.set(true);
+      //every time the zombie touches you, then you lose health
+      health -= 0.05;
+      //if the health is 0, or less than 0 then you're dead
+      if(health <= 0.0)
+      {
+        numDeaths++;
+        //if the number of times you have died is the max value of deaths, then set isDead to true
+        if(numDeaths == maxDeaths)
+        {
+          isDead.set(true);
+        }
+        else
+        {
+          //need to do
+          //should restart the level with the appropriate
+          //number of clones, numDeaths
+        }
+      }
     }
+    else
+    {
+      if(health < 5.0)
+      {
+        health += .025;
+      }
+      //do not want the health to be greater than 5.0, then if it is
+      //set it to 5.0
+      if(health > 5.0)
+      {
+        health = 5.0;
+      }
+    }
+    //System.out.println(health);
 
     //checking for exit collision
     for (Box box : entityManager.zombieHouse.exits)
