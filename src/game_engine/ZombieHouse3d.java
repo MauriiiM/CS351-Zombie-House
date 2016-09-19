@@ -46,10 +46,9 @@ import sounds.SoundManager;
  */
 public class ZombieHouse3d
 {
-  PerspectiveCamera camera;
+  private PerspectiveCamera camera;
   public Tile playerTile;
   private PointLight light = new PointLight();
-  private PointLight exitLight = new PointLight();
   private AnimationTimer gameLoop;
 
   private boolean paused = false;
@@ -62,26 +61,24 @@ public class ZombieHouse3d
 
   public ArrayList<Box> exits = new ArrayList<>();
 
-  public Group root;
+  private Group root;
 
   // The list of walls used for collision detection.
   public ArrayList<Box> walls = new ArrayList<>();
 
   // list of props
-  public ArrayList<Prop> props = new ArrayList<>();
+  private ArrayList<Prop> props = new ArrayList<>();
 
-  //private static int zombieCounter = 0;
-  public int numZombies = 0;
   boolean initZombieMovement = true;
   public int tileSize = Tile.getTileSize();
 
-  public int difficulty;
+  int difficulty;
   public Scene scene;
 
   private EntityManager entityManager;
-  SoundManager soundManager;
-  Main main;
-  Scenes scenes;
+  private SoundManager soundManager;
+  private Main main;
+  private Scenes scenes;
 
   private String Feral_Ghoul = "Resources/Meshes/Feral_Ghoul/Feral_Ghoul.obj";
   private String Lambent_Female = "Resources/Meshes/Lambent_Female/Lambent_Female.obj";
@@ -96,7 +93,7 @@ public class ZombieHouse3d
    * @param main         Copy of Main
    * @param scenes       Scenes object
    */
-  public ZombieHouse3d(int difficulty, SoundManager soundManager, Main main, Scenes scenes)
+  ZombieHouse3d(int difficulty, SoundManager soundManager, Main main, Scenes scenes)
   {
     this.difficulty = difficulty;
     this.soundManager = soundManager;
@@ -128,7 +125,7 @@ public class ZombieHouse3d
    * @return scene
    * Returns the scene that is our game
    */
-  public Scene zombieHouse3d(Stage gameStage) throws Exception
+  Scene zombieHouse3d(Stage gameStage) throws Exception
   {
     //Stage gameStage = new Stage();
     // gameBoard = MapLoader.loadLevel("/Maps/testmap.txt");
@@ -183,6 +180,8 @@ public class ZombieHouse3d
   private Parent createContent() throws Exception
   {
     boolean isWall;
+    int numZombies = 0;
+    PointLight exitLight;
 
     root = new Group();
     root.setCache(true);

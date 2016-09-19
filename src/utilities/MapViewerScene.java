@@ -38,7 +38,6 @@ public class MapViewerScene
   
   public Scene mapViewerScene(Stage primaryStage, ZombieHouse3d zombieHouseObject)
   {
-    
     map = ProceduralMap.generateMap(Attributes.Map_Height, Attributes.Map_Width, 1);
     
     root = new Group();
