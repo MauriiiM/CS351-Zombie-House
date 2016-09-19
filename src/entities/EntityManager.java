@@ -127,6 +127,7 @@ public class EntityManager
         {
           //need to blow up the zombie
           System.out.println("killed zombie");
+          zombies.remove(zombie);
         }
         return true;
       }
