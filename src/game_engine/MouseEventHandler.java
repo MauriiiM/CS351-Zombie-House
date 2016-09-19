@@ -57,9 +57,9 @@ public class MouseEventHandler extends InputHandler implements EventHandler<Mous
 
     if (!gameIsPaused)
     {
-      if( event.isPrimaryButtonDown())
+      if(event.isPrimaryButtonDown() && !gameIsPaused)
       {
-        //player.attack()
+        player.attack();
       }
       if (x > lastX)
       {
