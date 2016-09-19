@@ -73,6 +73,7 @@ public class Zombie extends Creature
   double lastX;
   double lastZ;
 
+
   /**
    * Constructor that sets whether this zombie is a random walk zombie or a line
    * walk zombie. Also sets the values for the location of initial spawning
@@ -97,7 +98,20 @@ public class Zombie extends Creature
     this.zPos = zPos;
     boundingCircle = new Cylinder(.5, 1);
     pathTaken = new ArrayList<>();
+    health = 3; // initialize the zombie health, they will not heal
   }
+
+  public void setHealth()
+  {
+    health-= .25;
+  }
+
+  public double getHealth()
+  {
+    return health;
+  }
+
+
 
   /**
    * Creates a circle object that represents a zombie drawn on a 2D board. It is

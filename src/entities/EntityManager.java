@@ -122,6 +122,12 @@ public class EntityManager
       if (player.getBoundsInParent()
           .intersects(zombie.zombieCylinder.getBoundsInParent()))
       {
+        zombie.setHealth();
+        if(zombie.getHealth() <= 0)
+        {
+          //need to blow up the zombie
+          System.out.println("killed zombie");
+        }
         return true;
       }
     }

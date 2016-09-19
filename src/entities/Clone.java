@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 /**
  * @author Javier Zazueta
- * Created by javier on 9/15/2016.
  */
 public class Clone extends Creature
 {

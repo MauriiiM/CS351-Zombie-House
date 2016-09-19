@@ -214,6 +214,8 @@ public class Player extends Creature
     {
       //every time the zombie touches you, then you lose health
       health -= 0.05;
+      //need to lower the health of the zombie
+
       //if the health is 0, or less than 0 then you're dead
       if(health <= 0.0)
       {
