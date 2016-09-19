@@ -17,20 +17,19 @@ import sounds.Sound;
 import utilities.ZombieBoardRenderer;
 
 /**
- * @author Atle Olson 
+ * @author Atle Olson
  *         Jeffrey McCall
- * Player object for the game. All methods having
- * to do with the player object are in this class.
- * 
+ *         Player object for the game. All methods having
+ *         to do with the player object are in this class.
  */
 public class Player extends Creature
 {
-  public static final double SPRINTSPEED = Tile.tileSize/4d;
-  public static final double WALKINGSPEED = Tile.tileSize/8d;
-  
+  public static final double SPRINTSPEED = Tile.tileSize / 4d;
+  public static final double WALKINGSPEED = Tile.tileSize / 8d;
+
   //entityManager
   EntityManager entityManager;
-  
+
   //camera:
   public PerspectiveCamera camera;
   public PointLight light;
@@ -40,14 +39,14 @@ public class Player extends Creature
   //
   public double strafeVelocity;
   int counter = 0;
-  
+
   //position and orientation:
   double newX = 0;
   double newZ = 0;
   double offSetX = 0;
   double offSetZ = 0;
   public double radius = .25;
-  
+
   //atomic booleans:
   public AtomicBoolean shiftPressed = new AtomicBoolean(false);
   public AtomicBoolean wDown = new AtomicBoolean(false);
@@ -56,38 +55,31 @@ public class Player extends Creature
   public AtomicBoolean sDown = new AtomicBoolean(false);
   public AtomicBoolean gameIsRunning = new AtomicBoolean(true);
   public AtomicBoolean staminaOut = new AtomicBoolean(false);
-  
+
   //other player fields:
   Cylinder boundingCircle = null;
   AtomicBoolean isDead = new AtomicBoolean(false);
   AtomicBoolean foundExit = new AtomicBoolean(false);
-  
+
   //Player Movement
   public boolean turnLeft = false;
   public boolean turnRight = false;
 
-  private double stamina=5;
-  private double regen=.2;
-  private double deltaTime=0;
+  private double stamina = 5;
+  private double regen = .2;
+  private double deltaTime = 0;
 
-  
 
   /**
    * A constructor for a 3D player. takes in a camera object
-   * 
-   * @param x
-   *        x coordinate of player
-   * @param y
-   *        y coordinate of player
-   * @param z
-   *        z coordinate of player
-   * @param camera
-   *        camera object used for player sight
-   * @param entityManager
-   *        entityManager object which updates many of the player fields as
-   *        the game runs
-   * @param light
-   *        The light that emanates from the player
+   *
+   * @param x             x coordinate of player
+   * @param y             y coordinate of player
+   * @param z             z coordinate of player
+   * @param camera        camera object used for player sight
+   * @param entityManager entityManager object which updates many of the player fields as
+   *                      the game runs
+   * @param light         The light that emanates from the player
    */
   public Player(double x, double y, double z, PerspectiveCamera camera, EntityManager entityManager, PointLight light)
   {
@@ -106,7 +98,7 @@ public class Player extends Creature
     this.light = light;
     light.setRotationAxis(Rotate.Y_AXIS);
     boundingCircle = new Cylinder(radius, 1);
-    PlayerStamina staminaCounter=new PlayerStamina();
+    PlayerStamina staminaCounter = new PlayerStamina();
     staminaCounter.start();
     boundingCircle.setTranslateX(camera.getTranslateX());
     boundingCircle.setTranslateZ(camera.getTranslateZ());
@@ -114,12 +106,12 @@ public class Player extends Creature
     lastZ = camera.getTranslateZ();
     pathTaken = new ArrayList<>();
   }
+
   /**
    * A constructor for a 2D player.
-   * @param x
-   *        x coordinate of the player
-   * @param y
-   *        y coordinate of the player
+   *
+   * @param x x coordinate of the player
+   * @param y y coordinate of the player
    */
   public Player(double x, double y)
   {
@@ -136,19 +128,19 @@ public class Player extends Creature
   public void tick2d()
   {
     if (xPos + (velocity * Math.cos(angle)) > 0
-        && yPos + (velocity * Math.sin(angle)) > 0
-        && xPos
+            && yPos + (velocity * Math.sin(angle)) > 0
+            && xPos
             + (velocity * Math.cos(angle)) < ZombieBoardRenderer.boardWidth
-                * ZombieBoardRenderer.cellSize
-        && yPos
+            * ZombieBoardRenderer.cellSize
+            && yPos
             + (velocity * Math.sin(angle)) < ZombieBoardRenderer.boardWidth
-                * ZombieBoardRenderer.cellSize)
+            * ZombieBoardRenderer.cellSize)
     {
       xPos += (velocity * Math.cos(angle));
       yPos += (velocity * Math.sin(angle));
     }
   }
-  
+
   /**
    * Updates the player values when called from an animation timer
    * Implemented in 3 dimensions
@@ -158,80 +150,82 @@ public class Player extends Creature
     counter++;
     Cylinder tempX = new Cylinder(boundingCircle.getRadius(), boundingCircle.getHeight());
     Cylinder tempZ = new Cylinder(boundingCircle.getRadius(), boundingCircle.getHeight());
-    
+
     double movementX = boundingCircle.getTranslateX();
     double movementZ = boundingCircle.getTranslateZ();
-    
+
     movementX += (velocity * Math.sin(angle * (Math.PI / 180)));
     movementX += (strafeVelocity * Math.sin(angle * (Math.PI / 180) - Math.PI / 2));
     movementZ += (velocity * Math.cos(angle * (Math.PI / 180)));
     movementZ += (strafeVelocity * Math.cos(angle * (Math.PI / 180) - Math.PI / 2));
-    
-    
+
+
     tempX.setTranslateX(movementX);
     tempX.setTranslateZ(boundingCircle.getTranslateZ());
-    
+
     tempZ.setTranslateX(boundingCircle.getTranslateX());
     tempZ.setTranslateZ(movementZ);
-    
+
     Box collisionX = entityManager.getWallCollision(tempX);
     Box collisionZ = entityManager.getWallCollision(tempZ);
-    
-    if(turnLeft)
+
+    if (turnLeft)
     {
       this.angle -= Attributes.Player_Rotate_sensitivity;
       this.camera.setRotate(this.angle);
     }
-    if(turnRight)
+    if (turnRight)
     {
       this.angle += Attributes.Player_Rotate_sensitivity;
       this.camera.setRotate(this.angle);
     }
-    
+
     lastX = camera.getTranslateX();
     lastZ = camera.getTranslateZ();
-    
+
     if (collisionX == null)
     {
       camera.setTranslateX(movementX);
-    } 
+    }
     if (collisionZ == null)
     {
       camera.setTranslateZ(movementZ);
     }
-    
-    
+
+
     boundingCircle.setTranslateX(camera.getTranslateX());
     boundingCircle.setTranslateZ(camera.getTranslateZ());
-    
-    if(entityManager.checkPlayerCollision(boundingCircle))
+
+    if (entityManager.checkPlayerCollision(boundingCircle))
     {
       isDead.set(true);
     }
-    
+
     //checking for exit collision
-    for (Box box: entityManager.zombieHouse.exits){
-      if (box.getBoundsInParent().intersects(boundingCircle.getBoundsInParent())){
+    for (Box box : entityManager.zombieHouse.exits)
+    {
+      if (box.getBoundsInParent().intersects(boundingCircle.getBoundsInParent()))
+      {
         foundExit.set(true);
         System.out.println("exit");
       }
     }
-    
-    if(shiftPressed.get() && !staminaOut.get())
+
+    if (shiftPressed.get() && !staminaOut.get())
     {
-      if(wDown.get())velocity=SPRINTSPEED;
-      if(sDown.get())velocity=-SPRINTSPEED;
-      if(aDown.get())strafeVelocity=SPRINTSPEED;
-      if(dDown.get())strafeVelocity=-SPRINTSPEED;
+      if (wDown.get()) velocity = SPRINTSPEED;
+      if (sDown.get()) velocity = -SPRINTSPEED;
+      if (aDown.get()) strafeVelocity = SPRINTSPEED;
+      if (dDown.get()) strafeVelocity = -SPRINTSPEED;
     }
-    if(staminaOut.get())
+    if (staminaOut.get())
     {
-      if(wDown.get())velocity=WALKINGSPEED;
-      if(sDown.get())velocity=-WALKINGSPEED;
-      if(aDown.get())strafeVelocity=WALKINGSPEED;
-      if(dDown.get())strafeVelocity=-WALKINGSPEED;
+      if (wDown.get()) velocity = WALKINGSPEED;
+      if (sDown.get()) velocity = -WALKINGSPEED;
+      if (aDown.get()) strafeVelocity = WALKINGSPEED;
+      if (dDown.get()) strafeVelocity = -WALKINGSPEED;
     }
-    
+
     updateDistance();
     light.setTranslateX(camera.getTranslateX());
     light.setTranslateZ(camera.getTranslateZ());
@@ -245,9 +239,9 @@ public class Player extends Creature
   /**
    * Get the current GraphNode object that represents the tile that the player
    * is standing on.
-   * 
+   *
    * @return The GraphNode that represents the tile that the player is standing
-   *         on.
+   * on.
    */
   public GraphNode getCurrentNode()
   {
@@ -268,9 +262,9 @@ public class Player extends Creature
    * Get the current GraphNode object that represents the tile that the player
    * is standing on. This is the same as the previous method except that it is
    * called for the 2D board, not the 3D one.
-   * 
+   *
    * @return The GraphNode that represents the tile that the player is standing
-   *         on.
+   * on.
    */
   public GraphNode getCurrent2dNode()
   {
@@ -286,6 +280,7 @@ public class Player extends Creature
     }
     return currentNode;
   }
+
   /**
    * Plays player foot step sounds
    */
@@ -293,11 +288,12 @@ public class Player extends Creature
   public void stepSound()
   {
     entityManager.soundManager.playSoundClip(Sound.footstep);
-    System.out.println(xPos + yPos  +" in stepSound()");
+    System.out.println(xPos + yPos + " in stepSound()");
   }
 
   /**
    * Calculates Distance for camera
+   *
    * @return The distance between lastX/Z and Camera.getTranslateX/Z
    */
   @Override
@@ -305,12 +301,11 @@ public class Player extends Creature
   {
     double xDist = camera.getTranslateX() - lastX;
     double zDist = camera.getTranslateZ() - lastZ;
-    return Math.sqrt((xDist*xDist)+(zDist*zDist));
+    return Math.sqrt((xDist * xDist) + (zDist * zDist));
   }
-  
+
   /**
    * Clears Data from previous Game
-   * 
    */
   public void dispose()
   {
@@ -320,13 +315,11 @@ public class Player extends Creature
   }
 
   /**
-   * 
-   * @author Jeffrey McCall 
-   * This class keeps track of player stamina. While the player
-   * is running, the stamina is decremented until it reaches 0. At that time,
-   * the player can't run until the stamina regenerates. This class takes care
-   * of decrementing and regenerating stamina.
-   *
+   * @author Jeffrey McCall
+   *         This class keeps track of player stamina. While the player
+   *         is running, the stamina is decremented until it reaches 0. At that time,
+   *         the player can't run until the stamina regenerates. This class takes care
+   *         of decrementing and regenerating stamina.
    */
   private class PlayerStamina extends Thread
   {
@@ -334,37 +327,38 @@ public class Player extends Creature
      * Once every second, decrement stamina if shift is pressed.
      * If stamina reaches 0, regenerate stamina at a constant rate
      * once every second until stamina reaches max of 5. Exit thread if
-     * program is closed. 
+     * program is closed.
      */
     @Override
     public void run()
     {
-      while (gameIsRunning.get() == true)
+      while (gameIsRunning.get())
       {
         try
         {
           sleep(1000);
-        } catch (InterruptedException e)
+        }
+        catch (InterruptedException e)
         {
           e.printStackTrace();
         }
-        if(shiftPressed.get() && !staminaOut.get())
+        if (shiftPressed.get() && !staminaOut.get())
         {
           stamina--;
-          if(stamina==0)
-          {
-            staminaOut.set(true);
-          }
-        }else if(!shiftPressed.get())
+          if (stamina == 0) staminaOut.set(true);
+
+        }
+        else if (!shiftPressed.get())
         {
           deltaTime++;
-          if(((deltaTime*regen)+stamina)<=5)
+          if (((deltaTime * regen) + stamina) <= 5)
           {
-            stamina+=deltaTime*regen;
-          }else
+            stamina += deltaTime * regen;
+          }
+          else
           {
-            stamina=5;
-            deltaTime=0;
+            stamina = 5;
+            deltaTime = 0;
             staminaOut.set(false);
           }
         }

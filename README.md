@@ -15,10 +15,10 @@ Entry Point: Main.java
   * W, A, S, D: Player Movement
   * Mouse on screen: rotates camera
   * Left and Right arrow keys: rotates camera
-  * Space:     peek above the map
+  * Space: peek above the map
   * F: toggle player lighting
   * P: pause game
-
+  * ESC: lock/unlock mouse
 ---
 
 ## Program Architecture:
