@@ -20,5 +20,6 @@ class InputHandler
     this.camera = player.camera = camera;
     this.player = player;
     gameIsPaused = zombieHouse3d.getPaused();
+    mouseIsLocked = true;
   }
 }

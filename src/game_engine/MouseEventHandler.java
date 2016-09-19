@@ -1,5 +1,6 @@
 package game_engine;
 
+import com.sun.glass.ui.Robot;
 import entities.Player;
 /**
  * @author Jeffrey McCall
@@ -51,7 +52,7 @@ public class MouseEventHandler extends InputHandler implements EventHandler<Mous
   @Override
   public void handle(MouseEvent event)
   {
-    double rotationSpeed = Math.PI / 2;
+    double rotationSpeed = Math.PI / 1.3;
     double x = event.getX();
 
     if (!gameIsPaused)
@@ -76,11 +77,14 @@ public class MouseEventHandler extends InputHandler implements EventHandler<Mous
       }
       lastX = x;
     }
-//    if(mouseIsLocked) moveMouse();
+    if(mouseIsLocked) moveMouse();
   }
 
-  private void moveMouse(int x, int y)
+  private void moveMouse()
   {
-
+    Robot robot = com.sun.glass.ui.Application.GetApplication().createRobot();
+    robot.mouseMove(1280, 800);
+    robot.mousePress(0);
+    robot.mouseRelease(1);
   }
 }
