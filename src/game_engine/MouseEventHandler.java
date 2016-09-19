@@ -37,7 +37,7 @@ public class MouseEventHandler extends InputHandler implements EventHandler<Mous
    *
    * @param camera A PerspectiveCamera object must be passed in.
    */
-  public MouseEventHandler(PerspectiveCamera camera, Player player, ZombieHouse3d zombieHouse3d)
+  MouseEventHandler(PerspectiveCamera camera, Player player, ZombieHouse3d zombieHouse3d)
   {
     super(camera, player, zombieHouse3d);
   }
@@ -54,7 +54,7 @@ public class MouseEventHandler extends InputHandler implements EventHandler<Mous
     double rotationSpeed = Math.PI / 2;
     double x = event.getX();
 
-    if (!pauseState)
+    if (!gameIsPaused)
     {
       if (x > lastX)
       {
@@ -76,5 +76,11 @@ public class MouseEventHandler extends InputHandler implements EventHandler<Mous
       }
       lastX = x;
     }
+//    if(mouseIsLocked) moveMouse();
+  }
+
+  private void moveMouse(int x, int y)
+  {
+
   }
 }

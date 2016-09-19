@@ -47,36 +47,36 @@ public class KeyboardEventHandler extends InputHandler implements EventHandler<K
       {
         player.shiftPressed.set(true);
       }
-      if(event.getCode()==KeyCode.W && !pauseState)
+      if(event.getCode()==KeyCode.W && !gameIsPaused)
       {
         player.wDown.set(true);
         player.velocity = Player.WALKINGSPEED;
       }
-      if(event.getCode()==KeyCode.S && !pauseState)
+      if(event.getCode()==KeyCode.S && !gameIsPaused)
       {
         player.sDown.set(true);
         player.velocity = -Player.WALKINGSPEED;
       }
-      if(event.getCode()==KeyCode.A && !pauseState)
+      if(event.getCode()==KeyCode.A && !gameIsPaused)
       {
         player.aDown.set(true);
         player.strafeVelocity = Player.WALKINGSPEED;
       }
-      if(event.getCode()==KeyCode.D && !pauseState)
+      if(event.getCode()==KeyCode.D && !gameIsPaused)
       {
         player.dDown.set(true);
         player.strafeVelocity = -Player.WALKINGSPEED;
       }
-      if(event.getCode()==KeyCode.F && !pauseState)
+      if(event.getCode()==KeyCode.F && !gameIsPaused)
       {
         player.light.setLightOn(!player.lightOn);
         player.lightOn = !player.lightOn;
       }
-      if(event.getCode()==KeyCode.LEFT && !pauseState)
+      if(event.getCode()==KeyCode.LEFT && !gameIsPaused)
       {
         player.turnLeft = true;
       }
-      if(event.getCode()==KeyCode.RIGHT && !pauseState)
+      if(event.getCode()==KeyCode.RIGHT && !gameIsPaused)
       {
         player.turnRight = true;
       }
@@ -86,8 +86,12 @@ public class KeyboardEventHandler extends InputHandler implements EventHandler<K
       }
       if(event.getCode()==KeyCode.P)
       {
-        pauseState = !pauseState;
-        zombieHouse3d.setPaused(pauseState);
+        gameIsPaused = !gameIsPaused;
+        zombieHouse3d.setPaused(gameIsPaused);
+      }
+      if(event.getCode() == KeyCode.ESCAPE)
+      {
+        mouseIsLocked = !mouseIsLocked;
       }
     }
     else if (event.getEventType() == KeyEvent.KEY_RELEASED)
