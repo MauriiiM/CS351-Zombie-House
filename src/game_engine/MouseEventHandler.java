@@ -57,6 +57,10 @@ public class MouseEventHandler extends InputHandler implements EventHandler<Mous
 
     if (!gameIsPaused)
     {
+      if( event.isPrimaryButtonDown())
+      {
+        //player.attack()
+      }
       if (x > lastX)
       {
         arrayCounter -= rotationSpeed;
