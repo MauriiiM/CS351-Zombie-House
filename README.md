@@ -17,7 +17,7 @@ Entry Point: Main.java
   * Left and Right arrow keys: rotates camera
   * Space:     peek above the map
   * F: toggle player lighting
-  8 ESC: pause game
+  * P: pause game
 
 ---
 
