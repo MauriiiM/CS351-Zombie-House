@@ -155,6 +155,19 @@ public class Zombie extends Creature
     }
   }
 
+  /*
+   * @author Anacaren Ruiz
+   * @TODO -- Create circle object to represent where props are located in 2D game map
+   *
+   */
+  public void create2DProp(int row, int col, ArrayList<Prop> props, int cellSize)
+  {
+    Circle prop = null;
+
+
+  }
+
+
   /**
    * Creates a cylinder that is placed around the zombie mesh. This is
    * used for collision detection. It is given
