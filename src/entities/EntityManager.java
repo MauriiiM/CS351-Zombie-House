@@ -266,6 +266,7 @@ public class EntityManager
       if (zombie.isMasterZombie)
       {
         zombie.masterZombieChasePlayer.set(true);
+        zombie.setMasterHealth();
       }
     }
   }

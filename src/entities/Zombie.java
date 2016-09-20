@@ -101,6 +101,12 @@ public class Zombie extends Creature
     boundingCircle = new Cylinder(.5, 1);
     pathTaken = new ArrayList<>();
     health = 3; // initialize the zombie health, they will not heal
+
+  }
+
+  public void setMasterHealth()
+  {
+    health = 10;
   }
 
   public void setHealth()
