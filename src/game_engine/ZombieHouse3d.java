@@ -421,10 +421,10 @@ public class ZombieHouse3d
       {
         entityManager.tick();
       }
-      else
-      {
-        entityManager.player.tick();
-      }
+//      else
+//      {
+//        entityManager.player.tick();
+//      }
     }
   }
 }

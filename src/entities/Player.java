@@ -75,7 +75,6 @@ public class Player extends Creature
   private double healthRegen = .025; //how fast the player heals when not taking damage
 
 
-
   /**
    * A constructor for a 3D player. takes in a camera object
    *
@@ -158,7 +157,7 @@ public class Player extends Creature
   public void stepSound()
   {
     entityManager.soundManager.playSoundClip(Sound.footstep);
-    System.out.println(xPos + yPos + " in stepSound()");
+//    System.out.println(xPos + yPos + " in stepSound()");
   }
 
   /**
@@ -167,14 +166,7 @@ public class Player extends Creature
    */
   public void tick2d()
   {
-    if (xPos + (velocity * Math.cos(angle)) > 0
-            && yPos + (velocity * Math.sin(angle)) > 0
-            && xPos
-            + (velocity * Math.cos(angle)) < ZombieBoardRenderer.boardWidth
-            * ZombieBoardRenderer.cellSize
-            && yPos
-            + (velocity * Math.sin(angle)) < ZombieBoardRenderer.boardWidth
-            * ZombieBoardRenderer.cellSize)
+    if (xPos + (velocity * Math.cos(angle)) > 0 && yPos + (velocity * Math.sin(angle)) > 0 && xPos + (velocity * Math.cos(angle)) < ZombieBoardRenderer.boardWidth * ZombieBoardRenderer.cellSize && yPos + (velocity * Math.sin(angle)) < ZombieBoardRenderer.boardWidth * ZombieBoardRenderer.cellSize)
     {
       xPos += (velocity * Math.cos(angle));
       yPos += (velocity * Math.sin(angle));
@@ -250,11 +242,11 @@ public class Player extends Creature
       //need to lower the health of the zombie
 
       //if the health is 0, or less than 0 then you're dead
-      if(health <= 0.0)
+      if (health <= 0.0)
       {
         numDeaths++;
         //if the number of times you have died is the max value of deaths, then set isDead to true
-        if(numDeaths == maxDeaths)
+        if (numDeaths == maxDeaths)
         {
           isDead.set(true);
         }
@@ -268,13 +260,13 @@ public class Player extends Creature
     }
     else
     {
-      if(health < 5.0)
+      if (health < 5.0)
       {
         health += healthRegen;
       }
       //do not want the health to be greater than 5.0, then if it is
       //set it to 5.0
-      if(health > 5.0)
+      if (health > 5.0)
       {
         health = 5.0;
       }
@@ -313,7 +305,11 @@ public class Player extends Creature
     xPos = camera.getTranslateX();
     zPos = camera.getTranslateZ();
 
-//    pathTaken.add(new Point2D.Double(xPos, yPos));
+    //adds EVERY step taken to path. There'll be many repeats because it records how long player stays there
+    pathTaken.add(new Point2D.Double(xPos, zPos));
+    System.out.println("x= " + xPos + ",\t z= " + zPos + " in tick()");
+
+
   }
 
   /**
