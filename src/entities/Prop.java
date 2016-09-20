@@ -1,6 +1,7 @@
 package entities;
 
 import javafx.scene.Node;
+import javafx.scene.shape.Circle;
 import javafx.scene.transform.Rotate;
 
 import java.util.ArrayList;
@@ -58,6 +59,18 @@ public class Prop extends Entity
         {
             propMesh[i].setRotationAxis(Rotate.Y_AXIS);
         }
+    }
+
+    /*
+    * @author Anacaren Ruiz
+    * @TODO -- Create circle object to represent where props are located in 2D game map
+    *
+    */
+    public void create2DProp(int row, int col, ArrayList<Prop> props, int cellSize)
+    {
+        Circle prop = null;
+
+
     }
 
     /**
