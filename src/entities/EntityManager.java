@@ -122,6 +122,12 @@ public class EntityManager
       if (player.getBoundsInParent()
           .intersects(zombie.zombieCylinder.getBoundsInParent()))
       {
+        //this should spawn a zombie if it is already going after a clone and you hurt them
+//        if(zombie.isEngaged())
+//        {
+//          zombies.add(new Zombie(gameBoard[zombie.col][zombie.row], zombie.row, zombie.col,
+//              gameBoard[zombie.col][zombie.row].xPos, gameBoard[zombie.col][zombie.row].zPos, this));
+//        }
         zombie.setHealth();
         if(zombie.getHealth() <= 0)
         {
@@ -129,6 +135,7 @@ public class EntityManager
           System.out.println("killed zombie");
           zombies.remove(zombie);
         }
+        zombie.setEngaged();
         return true;
       }
     }

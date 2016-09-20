@@ -20,7 +20,7 @@ public abstract class Creature extends Entity
   private double distanceTraveled;
 
   ArrayList<Point2D.Double> pathTaken;
-  boolean enganged = false;
+  //boolean engaged = false;
   protected double health;
 
   /**

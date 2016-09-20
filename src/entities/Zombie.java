@@ -73,6 +73,8 @@ public class Zombie extends Creature
   double lastX;
   double lastZ;
 
+  boolean engaged = false;
+
 
   /**
    * Constructor that sets whether this zombie is a random walk zombie or a line
@@ -111,6 +113,15 @@ public class Zombie extends Creature
     return health;
   }
 
+  public boolean isEngaged()
+  {
+    return engaged;
+  }
+
+  public void setEngaged()
+  {
+    engaged = true;
+  }
 
 
   /**

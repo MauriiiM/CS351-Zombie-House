@@ -71,6 +71,8 @@ public class Player extends Creature
 
   private int numDeaths = 0;
   private final int maxDeaths = 5;
+  private double damage = .05; //the damage taken by the payer when hit by a zombie
+  private double healthRegen = .025; //how fast the player heals when not taking damage
 
 
 
@@ -213,7 +215,7 @@ public class Player extends Creature
     if (entityManager.checkPlayerCollision(boundingCircle))
     {
       //every time the zombie touches you, then you lose health
-      health -= 0.05;
+      health -= damage;
       //need to lower the health of the zombie
 
       //if the health is 0, or less than 0 then you're dead
@@ -237,7 +239,7 @@ public class Player extends Creature
     {
       if(health < 5.0)
       {
-        health += .025;
+        health += healthRegen;
       }
       //do not want the health to be greater than 5.0, then if it is
       //set it to 5.0
