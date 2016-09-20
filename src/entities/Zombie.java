@@ -34,16 +34,16 @@ public class Zombie extends Creature
 {
   private EntityManager entityManager;
 
-  public boolean randomWalk = false;
+  boolean randomWalk = false;
   Random rand = new Random();
-  public double zombieWalkingSpeed = .5 / 60;
-  public double masterZombieSpeed = .05;
-  public double masterZombie2dSpeed = .3;
+  double zombieWalkingSpeed = .5 / 60;
+  double masterZombieSpeed = .05;
+  double masterZombie2dSpeed = .3;
+  double zombieSmell = 15.0;
+  double twoDSpeed = (.5 / 60) * ZombieBoardRenderer.cellSize;
+  private int twoDSize = 3;
   public boolean isMasterZombie = false;
-  private double zombieSmell = 15.0;
   public Circle zombieCirc = null;
-  public double twoDSpeed = (.5 / 60) * ZombieBoardRenderer.cellSize;
-  int twoDSize = 3;
   public boolean twoDBoard = false;
 
   /*
@@ -51,38 +51,36 @@ public class Zombie extends Creature
    * in EntityManager that governs the decision rate of each zombie.
    */
   public AtomicBoolean gameIsRunning = new AtomicBoolean(true);
-  public AtomicBoolean collisionDetected = new AtomicBoolean(false);
-  public AtomicBoolean angleAdjusted = new AtomicBoolean(false);
-  public AtomicBoolean collisionJustDetected = new AtomicBoolean(false);
+  private AtomicBoolean collisionDetected = new AtomicBoolean(false);
+  AtomicBoolean angleAdjusted = new AtomicBoolean(false);
+  private AtomicBoolean collisionJustDetected = new AtomicBoolean(false);
   public AtomicBoolean playerDetected = new AtomicBoolean(false);
   public AtomicBoolean goingAfterPlayer = new AtomicBoolean(false);
-  public AtomicBoolean findNewPath = new AtomicBoolean(false);
-  public AtomicBoolean masterZombieChasePlayer = new AtomicBoolean(false);
-  Tile tile;
-  public int col;
-  public int row;
+  AtomicBoolean findNewPath = new AtomicBoolean(false);
+  AtomicBoolean masterZombieChasePlayer = new AtomicBoolean(false);
+  private Tile tile;
+  private int col;
+  private int row;
   private double prevAngle = 0;
-  public Cylinder zombieCylinder = null;
+  Cylinder zombieCylinder = null;
   public Cylinder zombie = null;
   public Node[] zombieMesh = null;
-  public Rectangle collisionBox;
-  public CalculatePath calcPath = new CalculatePath();
-  public static Cylinder boundingCircle = null;
-  double lastAngle = 0;
+  private Rectangle collisionBox;
+  private CalculatePath calcPath = new CalculatePath();
+  private static Cylinder boundingCircle = null;
+  private double lastAngle = 0;
   private Heading zombieHeading;
-  double lastX;
-  double lastZ;
+  private double lastX;
+  private double lastZ;
 
-  boolean engaged = false;
-
+  private boolean engaged = false;
 
   /**
    * Constructor that sets whether this zombie is a random walk zombie or a line
    * walk zombie. Also sets the values for the location of initial spawning
    * point of the zombie.
    */
-  public Zombie(Tile tile, int row, int col, double xPos, double zPos,
-                EntityManager entityManager)
+  Zombie(Tile tile, int row, int col, double xPos, double zPos, EntityManager entityManager)
   {
     stepDistance = 1;
 
@@ -101,22 +99,35 @@ public class Zombie extends Creature
     boundingCircle = new Cylinder(.5, 1);
     pathTaken = new ArrayList<>();
     health = 3; // initialize the zombie health, they will not heal
-
   }
 
-  public void setMasterHealth()
+  void setMasterHealth()
   {
     health = 10;
   }
 
-  public void setHealth()
-  {
-    health-= .25;
-  }
-
-  public double getHealth()
+  double getHealth()
   {
     return health;
+  }
+
+  void setHealth()
+  {
+    health -= .25;
+  }
+
+  boolean getEngaged()
+  {
+    return engaged;
+  }
+
+  /**
+   * @todo setEnganged(!getEngaged()) when damged, not setEngaged(true) because can be returned to false if that zombie killed player.
+   * @param newEngaged
+   */
+  void setEngaged(boolean newEngaged)
+  {
+    engaged = newEngaged;
   }
 
   public boolean isEngaged()
@@ -124,11 +135,10 @@ public class Zombie extends Creature
     return engaged;
   }
 
-  public void setEngaged()
+  void setEngaged()
   {
     engaged = true;
   }
-
 
   /**
    * Creates a circle object that represents a zombie drawn on a 2D board. It is
@@ -140,17 +150,14 @@ public class Zombie extends Creature
    * @param zombies       The list of Zombie objects.
    * @param cellSize      The size of cells on the game map.
    */
-  public void twoDZombie(int zombieCounter, int row, int col,
-                         ArrayList<Zombie> zombies, int cellSize)
+  public void twoDZombie(int zombieCounter, int row, int col, ArrayList<Zombie> zombies, int cellSize)
   {
     Circle zombie = null;
-    if (zombies.get(zombieCounter).col == col
-            && zombies.get(zombieCounter).row == row)
+    if (zombies.get(zombieCounter).col == col && zombies.get(zombieCounter).row == row)
     {
       double xPos = zombies.get(zombieCounter).xPos;
       double yPos = zombies.get(zombieCounter).zPos;
-      zombie = new Circle((xPos * cellSize), (yPos * cellSize), twoDSize,
-              Color.GREENYELLOW);
+      zombie = new Circle((xPos * cellSize), (yPos * cellSize), twoDSize, Color.GREENYELLOW);
       zombieCirc = zombie;
     }
   }
@@ -164,7 +171,7 @@ public class Zombie extends Creature
    * @param col      The column of the 3D game map.
    * @param cellSize The size of cells on the game map.
    */
-  public void create3DZombie(int row, int col, int cellSize)
+  void create3DZombie(int row, int col, int cellSize)
   {
     Cylinder cylinder = null;
     cylinder = new Cylinder(.2, 1);
@@ -179,20 +186,13 @@ public class Zombie extends Creature
    * current angle value. It is not called when the zombie is stopped against a
    * wall or other obstacle.
    */
-  public void moveTwoDZombie(double angle, double zombieWalkingSpeed,
-                             Circle zombieCirc)
+  private void moveTwoDZombie(double angle, double zombieWalkingSpeed, Circle zombieCirc)
   {
     double cosTransform = Math.cos(angle * (Math.PI / 180));
     double sinTransform = Math.sin(angle * (Math.PI / 180));
-    double movementAmountY = zombieCirc.getCenterY()
-            + (zombieWalkingSpeed * (cosTransform));
-    double movementAmountX = zombieCirc.getCenterX()
-            + (zombieWalkingSpeed * (sinTransform));
-    if (movementAmountX > 0 && movementAmountY > 0
-            && movementAmountX < ZombieBoardRenderer.boardWidth
-            * ZombieBoardRenderer.cellSize
-            && movementAmountY < ZombieBoardRenderer.boardWidth
-            * ZombieBoardRenderer.cellSize)
+    double movementAmountY = zombieCirc.getCenterY() + (zombieWalkingSpeed * (cosTransform));
+    double movementAmountX = zombieCirc.getCenterX() + (zombieWalkingSpeed * (sinTransform));
+    if (movementAmountX > 0 && movementAmountY > 0 && movementAmountX < ZombieBoardRenderer.boardWidth * ZombieBoardRenderer.cellSize && movementAmountY < ZombieBoardRenderer.boardWidth * ZombieBoardRenderer.cellSize)
     {
       zombieCirc.setCenterY(movementAmountY);
       zombieCirc.setCenterX(movementAmountX);
@@ -203,21 +203,16 @@ public class Zombie extends Creature
    * Moves the zombie forward in a direction determined by the current angle in
    * a 3D environment.
    */
-  public void moveThreeDZombie(double angle, double zombieWalkingSpeed,
-                               Cylinder zombieCylinder)
+  private void moveThreeDZombie(double angle, double zombieWalkingSpeed, Cylinder zombieCylinder)
   {
     lastX = zombieCylinder.getTranslateX();
     lastZ = zombieCylinder.getTranslateZ();
 
     double cosTransform = Math.cos(angle * (Math.PI / 180));
     double sinTransform = Math.sin(angle * (Math.PI / 180));
-    double movementAmountZ = zombieCylinder.getTranslateZ()
-            + (zombieWalkingSpeed * (cosTransform));
-    double movementAmountX = zombieCylinder.getTranslateX()
-            + (zombieWalkingSpeed * (sinTransform));
-    if (movementAmountX > 0 && movementAmountZ > 0
-            && movementAmountX < entityManager.zombieHouse.boardWidth
-            && movementAmountZ < entityManager.zombieHouse.boardHeight)
+    double movementAmountZ = zombieCylinder.getTranslateZ() + (zombieWalkingSpeed * (cosTransform));
+    double movementAmountX = zombieCylinder.getTranslateX() + (zombieWalkingSpeed * (sinTransform));
+    if (movementAmountX > 0 && movementAmountZ > 0 && movementAmountX < entityManager.zombieHouse.boardWidth && movementAmountZ < entityManager.zombieHouse.boardHeight)
     {
       zombieCylinder.setTranslateZ(movementAmountZ);
       zombieCylinder.setTranslateX(movementAmountX);
@@ -274,7 +269,7 @@ public class Zombie extends Creature
   /**
    * Stops the zombie on the 3D game map when it has hit an obstacle.
    */
-  public void stopThreeDZombie()
+  private void stopThreeDZombie()
   {
     zombieCylinder.setTranslateZ(zombieCylinder.getTranslateZ());
     zombieCylinder.setTranslateX(zombieCylinder.getTranslateX());
@@ -287,7 +282,7 @@ public class Zombie extends Creature
    * reverse direction, and then a random angle is selected for the zombie to
    * travel in.
    */
-  public void adjustAngle()
+  private void adjustAngle()
   {
     prevAngle = angle;
     angle = prevAngle - 180;
@@ -299,7 +294,7 @@ public class Zombie extends Creature
    * flags off so that the timer will call the code that moves the zombie
    * forward.
    */
-  public void makeDecision()
+  void makeDecision()
   {
     pickRandomAngle();
     angleAdjusted.set(false);
@@ -313,7 +308,7 @@ public class Zombie extends Creature
    * choose that one again, but pick a new one. If the zombie detects the player,
    * select the angle towards the player to travel in.
    */
-  public void pickRandomAngle()
+  private void pickRandomAngle()
   {
     if (!goingAfterPlayer.get())
     {
@@ -349,7 +344,7 @@ public class Zombie extends Creature
    * When the zombie has detected the player and is moving toward the player,
    * this method is called to move the zombie in the appropriate direction.
    */
-  public void moveTowardPlayer(double zombieWalkingSpeed)
+  private void moveTowardPlayer(double zombieWalkingSpeed)
   {
     if (zombieHeading != null)
     {
@@ -367,7 +362,7 @@ public class Zombie extends Creature
    * This method does the same thing as the moveTowardPlayer() method, but it
    * does it specifically for the zombie on the 2d board.
    */
-  public void moveTowardPlayerTwoD(double zombieWalkingSpeed)
+  private void moveTowardPlayerTwoD(double zombieWalkingSpeed)
   {
     if (zombieHeading != null)
     {
@@ -388,7 +383,7 @@ public class Zombie extends Creature
    * @param tile1 The starting position of the zombie.
    * @param tile2 The next position on the path towards the player.
    */
-  public void calculateHeadings(Tile tile1, Tile tile2)
+  private void calculateHeadings(Tile tile1, Tile tile2)
   {
     Heading newHeading = new Heading(tile1, tile2);
     zombieHeading = newHeading;
@@ -438,8 +433,7 @@ public class Zombie extends Creature
   @Override
   public void tick()
   {
-    if (entityManager.getWallCollision(zombieCylinder) != null
-            && !angleAdjusted.get())
+    if (entityManager.getWallCollision(zombieCylinder) != null && !angleAdjusted.get())
     {
       if (!collisionJustDetected.get())
       {
@@ -456,9 +450,7 @@ public class Zombie extends Creature
           }
           double currentX = zombieCylinder.getTranslateX();
           double currentZ = zombieCylinder.getTranslateZ();
-          checkForCornerTile(
-                  entityManager.zombieHouse.gameBoard[(int) Math.floor(currentZ)][(int) Math
-                          .floor(currentX)]);
+          checkForCornerTile(entityManager.zombieHouse.gameBoard[(int) Math.floor(currentZ)][(int) Math.floor(currentX)]);
         }
         else
         {
@@ -596,12 +588,9 @@ public class Zombie extends Creature
           {
             moveTwoDZombie(angle, twoDSpeed, zombieCirc);
           }
-          double currentXVal = zombieCirc.getCenterX()
-                  / ZombieBoardRenderer.cellSize;
-          double currentZVal = zombieCirc.getCenterY()
-                  / ZombieBoardRenderer.cellSize;
-          checkForCornerTile(
-                  ZombieBoardRenderer.gameBoard[(int) currentZVal][(int) currentXVal]);
+          double currentXVal = zombieCirc.getCenterX() / ZombieBoardRenderer.cellSize;
+          double currentZVal = zombieCirc.getCenterY() / ZombieBoardRenderer.cellSize;
+          checkForCornerTile(ZombieBoardRenderer.gameBoard[(int) currentZVal][(int) currentXVal]);
         }
         else
         {
@@ -661,8 +650,7 @@ public class Zombie extends Creature
         currentX++;
       }
     }
-    if (!collisionDetected.get() && Math.abs(angle) > 90
-            && Math.abs(angle) < 180)
+    if (!collisionDetected.get() && Math.abs(angle) > 90 && Math.abs(angle) < 180)
     {
       if (currentX < (Math.floor(currentX) + .5))
       {
@@ -684,8 +672,7 @@ public class Zombie extends Creature
         currentY--;
       }
     }
-    if (!collisionDetected.get() && Math.abs(angle) < 360
-            && Math.abs(angle) > 270)
+    if (!collisionDetected.get() && Math.abs(angle) < 360 && Math.abs(angle) > 270)
     {
       if (currentX > (Math.floor(currentX) + .5))
       {
@@ -696,8 +683,7 @@ public class Zombie extends Creature
         currentY--;
       }
     }
-    if (!collisionDetected.get() && Math.abs(angle) > 180
-            && Math.abs(angle) < 270)
+    if (!collisionDetected.get() && Math.abs(angle) > 180 && Math.abs(angle) < 270)
     {
       if (currentX > (Math.floor(currentX) + .5))
       {
@@ -746,8 +732,7 @@ public class Zombie extends Creature
         calcPath.twoD = true;
       }
       Tile playerTile = playerNode.nodeTile;
-      if (calcPath.findDistance(zombieTile, playerTile) <= 20 ||
-              (isMasterZombie && masterZombieChasePlayer.get()))
+      if (calcPath.findDistance(zombieTile, playerTile) <= 20 || (isMasterZombie && masterZombieChasePlayer.get()))
       {
         if (!zombieTile.isWall)
         {
@@ -767,8 +752,7 @@ public class Zombie extends Creature
           calcPath.removePath();
         }
       }
-      if (calcPath.distanceToPlayer <= zombieSmell
-              || (isMasterZombie && masterZombieChasePlayer.get()))
+      if (calcPath.distanceToPlayer <= zombieSmell || (isMasterZombie && masterZombieChasePlayer.get()))
       {
         goingAfterPlayer.set(true);
       }
@@ -791,8 +775,7 @@ public class Zombie extends Creature
   {
     if (twoDBoard)
     {
-      if (currentTile.wallNE || currentTile.wallNW || currentTile.wallSW
-              || currentTile.wallSE)
+      if (currentTile.wallNE || currentTile.wallNW || currentTile.wallSW || currentTile.wallSE)
       {
         zombieCirc.setCenterX(currentTile.xPos * ZombieBoardRenderer.cellSize);
         zombieCirc.setCenterY(currentTile.zPos * ZombieBoardRenderer.cellSize);
@@ -800,8 +783,7 @@ public class Zombie extends Creature
     }
     else
     {
-      if (currentTile.wallNE || currentTile.wallNW || currentTile.wallSW
-              || currentTile.wallSE)
+      if (currentTile.wallNE || currentTile.wallNW || currentTile.wallSW || currentTile.wallSE)
       {
         zombieCylinder.setTranslateZ(currentTile.zPos);
         zombieCylinder.setTranslateX(currentTile.xPos);
@@ -820,12 +802,10 @@ public class Zombie extends Creature
     {
       double balance = entityManager.calculateSoundBalance(this);
 
-      entityManager.soundManager.playSoundClip(Sound.shuffle, distance,
-              balance);
+      entityManager.soundManager.playSoundClip(Sound.shuffle, distance, balance);
       if (Math.random() < .03)
       {
-        entityManager.soundManager.playSoundClip(Sound.groan, distance,
-                balance);
+        entityManager.soundManager.playSoundClip(Sound.groan, distance, balance);
       }
     }
   }
@@ -847,7 +827,7 @@ public class Zombie extends Creature
    * Gets rid of values from the last game before we start a
    * new one.
    */
-  public void dispose()
+  void dispose()
   {
     zombieCylinder = null;
     zombie = null;
@@ -860,11 +840,10 @@ public class Zombie extends Creature
    * @author Jeffrey McCall This class is used for zombie pathfinding to find
    *         the shortest distance from the zombie to the player.
    */
-  public class CalculatePath
+  private class CalculatePath
   {
     Comparator<GraphNode> comparator = new NodeComparator();
-    PriorityQueue<GraphNode> priorityQueue = new PriorityQueue<GraphNode>(1,
-            comparator);
+    PriorityQueue<GraphNode> priorityQueue = new PriorityQueue<GraphNode>(1, comparator);
     LinkedHashMap<Tile, Tile> cameFrom = new LinkedHashMap<>();
     LinkedHashMap<Tile, Double> costSoFar = new LinkedHashMap<>();
     double newCost;
@@ -912,9 +891,7 @@ public class Zombie extends Creature
             if (costSoFar.get(current) != null)
             {
               newCost = costSoFar.get(current) + neighbor.movementCost;
-              if ((!costSoFar.containsKey(neighbor)
-                      || newCost < costSoFar.get(neighbor))
-                      && !checkNeighbors(current, neighbor, currentNode))
+              if ((!costSoFar.containsKey(neighbor) || newCost < costSoFar.get(neighbor)) && !checkNeighbors(current, neighbor, currentNode))
               {
                 costSoFar.put(neighbor, newCost);
                 priority = newCost + findDistance(neighbor, to);
@@ -951,59 +928,50 @@ public class Zombie extends Creature
      * @return True if the neighbor is a diagonal tile and the current tile is
      * against a wall. False otherwise.
      */
-    private boolean checkNeighbors(Tile current, Tile neighbor,
-                                   GraphNode currentNode)
+    private boolean checkNeighbors(Tile current, Tile neighbor, GraphNode currentNode)
     {
       if (!twoD)
       {
         if (currentNode.wallToRight)
         {
-          if (neighbor.equals(
-                  entityManager.zombieHouse.gameBoard[current.col - 1][current.row - 1]))
+          if (neighbor.equals(entityManager.zombieHouse.gameBoard[current.col - 1][current.row - 1]))
           {
             return true;
           }
-          if (neighbor.equals(
-                  entityManager.zombieHouse.gameBoard[current.col + 1][current.row - 1]))
+          if (neighbor.equals(entityManager.zombieHouse.gameBoard[current.col + 1][current.row - 1]))
           {
             return true;
           }
         }
         if (currentNode.wallToLeft)
         {
-          if (neighbor.equals(
-                  entityManager.zombieHouse.gameBoard[current.col - 1][current.row + 1]))
+          if (neighbor.equals(entityManager.zombieHouse.gameBoard[current.col - 1][current.row + 1]))
           {
             return true;
           }
-          if (neighbor.equals(
-                  entityManager.zombieHouse.gameBoard[current.col + 1][current.row + 1]))
+          if (neighbor.equals(entityManager.zombieHouse.gameBoard[current.col + 1][current.row + 1]))
           {
             return true;
           }
         }
         if (currentNode.wallOnBottom)
         {
-          if (neighbor.equals(
-                  entityManager.zombieHouse.gameBoard[current.col + 1][current.row - 1]))
+          if (neighbor.equals(entityManager.zombieHouse.gameBoard[current.col + 1][current.row - 1]))
           {
             return true;
           }
-          if (neighbor.equals(
-                  entityManager.zombieHouse.gameBoard[current.col + 1][current.row + 1]))
+          if (neighbor.equals(entityManager.zombieHouse.gameBoard[current.col + 1][current.row + 1]))
           {
             return true;
           }
         }
         if (currentNode.wallOnTop)
         {
-          if (neighbor.equals(
-                  entityManager.zombieHouse.gameBoard[current.col - 1][current.row + 1]))
+          if (neighbor.equals(entityManager.zombieHouse.gameBoard[current.col - 1][current.row + 1]))
           {
             return true;
           }
-          if (neighbor.equals(
-                  entityManager.zombieHouse.gameBoard[current.col - 1][current.row - 1]))
+          if (neighbor.equals(entityManager.zombieHouse.gameBoard[current.col - 1][current.row - 1]))
           {
             return true;
           }
@@ -1013,52 +981,44 @@ public class Zombie extends Creature
       {
         if (currentNode.wallToRight)
         {
-          if (neighbor.equals(
-                  ZombieBoardRenderer.gameBoard[current.col - 1][current.row + 1]))
+          if (neighbor.equals(ZombieBoardRenderer.gameBoard[current.col - 1][current.row + 1]))
           {
             return true;
           }
-          if (neighbor.equals(
-                  ZombieBoardRenderer.gameBoard[current.col + 1][current.row + 1]))
+          if (neighbor.equals(ZombieBoardRenderer.gameBoard[current.col + 1][current.row + 1]))
           {
             return true;
           }
         }
         if (currentNode.wallToLeft)
         {
-          if (neighbor.equals(
-                  ZombieBoardRenderer.gameBoard[current.col - 1][current.row - 1]))
+          if (neighbor.equals(ZombieBoardRenderer.gameBoard[current.col - 1][current.row - 1]))
           {
             return true;
           }
-          if (neighbor.equals(
-                  ZombieBoardRenderer.gameBoard[current.col + 1][current.row - 1]))
+          if (neighbor.equals(ZombieBoardRenderer.gameBoard[current.col + 1][current.row - 1]))
           {
             return true;
           }
         }
         if (currentNode.wallOnBottom)
         {
-          if (neighbor.equals(
-                  ZombieBoardRenderer.gameBoard[current.col + 1][current.row - 1]))
+          if (neighbor.equals(ZombieBoardRenderer.gameBoard[current.col + 1][current.row - 1]))
           {
             return true;
           }
-          if (neighbor.equals(
-                  ZombieBoardRenderer.gameBoard[current.col + 1][current.row + 1]))
+          if (neighbor.equals(ZombieBoardRenderer.gameBoard[current.col + 1][current.row + 1]))
           {
             return true;
           }
         }
         if (currentNode.wallOnTop)
         {
-          if (neighbor.equals(
-                  ZombieBoardRenderer.gameBoard[current.col - 1][current.row + 1]))
+          if (neighbor.equals(ZombieBoardRenderer.gameBoard[current.col - 1][current.row + 1]))
           {
             return true;
           }
-          if (neighbor.equals(
-                  ZombieBoardRenderer.gameBoard[current.col - 1][current.row - 1]))
+          if (neighbor.equals(ZombieBoardRenderer.gameBoard[current.col - 1][current.row - 1]))
           {
             return true;
           }
@@ -1114,8 +1074,7 @@ public class Zombie extends Creature
       }
       for (Tile n : path)
       {
-        Circle pathCircle = new Circle(n.xPos * ZombieBoardRenderer.cellSize,
-                n.zPos * ZombieBoardRenderer.cellSize, 2, Color.WHITE);
+        Circle pathCircle = new Circle(n.xPos * ZombieBoardRenderer.cellSize, n.zPos * ZombieBoardRenderer.cellSize, 2, Color.WHITE);
         circles.add(pathCircle);
       }
       if (lastPathSize != 0)
@@ -1148,8 +1107,7 @@ public class Zombie extends Creature
      */
     public int findDistance(Tile tile1, Tile tile2)
     {
-      return (int) (Math.abs(tile1.xPos - tile2.xPos)
-              + Math.abs(tile1.zPos - tile2.zPos));
+      return (int) (Math.abs(tile1.xPos - tile2.xPos) + Math.abs(tile1.zPos - tile2.zPos));
     }
   }
 }

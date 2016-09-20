@@ -6,11 +6,11 @@ import java.util.ArrayList;
 /**
  * @author Javier Zazueta
  */
-public class Clone extends Creature
+public class PlayerGhost extends Creature
 {
   protected ArrayList<Point2D.Double> path;
 
-  public Clone(ArrayList<Point2D.Double> path)
+  public PlayerGhost(ArrayList<Point2D.Double> path)
   {
     this.path = path;
   }
