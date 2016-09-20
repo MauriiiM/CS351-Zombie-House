@@ -131,6 +131,37 @@ public class Player extends Creature
   }
 
   /**
+   * Called when LMB is clicked and used to attack Zombies
+   */
+  public void attack()
+  {
+
+  }
+
+  /**
+   * Calculates Distance for camera
+   *
+   * @return The distance between lastX/Z and Camera.getTranslateX/Z
+   */
+  @Override
+  public double calculateDistance()
+  {
+    double xDist = camera.getTranslateX() - lastX;
+    double zDist = camera.getTranslateZ() - lastZ;
+    return Math.sqrt((xDist * xDist) + (zDist * zDist));
+  }
+
+  /**
+   * Plays player foot step sounds
+   */
+  @Override
+  public void stepSound()
+  {
+    entityManager.soundManager.playSoundClip(Sound.footstep);
+    System.out.println(xPos + yPos + " in stepSound()");
+  }
+
+  /**
    * Updates the player values when called from an animation timer
    * Implemented in 2 dimensions
    */
@@ -286,13 +317,23 @@ public class Player extends Creature
   }
 
   /**
+   * Clears Data from previous Game
+   */
+  void dispose()
+  {
+    camera = null;
+    light = null;
+    boundingCircle = null;
+  }
+
+  /**
    * Get the current GraphNode object that represents the tile that the player
    * is standing on.
    *
    * @return The GraphNode that represents the tile that the player is standing
    * on.
    */
-  public GraphNode getCurrentNode()
+  GraphNode getCurrentNode()
   {
     GraphNode currentNode = null;
     Tile currentTile = null;
@@ -315,7 +356,7 @@ public class Player extends Creature
    * @return The GraphNode that represents the tile that the player is standing
    * on.
    */
-  public GraphNode getCurrent2dNode()
+  GraphNode getCurrent2dNode()
   {
     GraphNode currentNode = null;
     Tile currentTile = null;
@@ -328,39 +369,6 @@ public class Player extends Creature
       return currentNode;
     }
     return currentNode;
-  }
-
-  /**
-   * Plays player foot step sounds
-   */
-  @Override
-  public void stepSound()
-  {
-    entityManager.soundManager.playSoundClip(Sound.footstep);
-    System.out.println(xPos + yPos + " in stepSound()");
-  }
-
-  /**
-   * Calculates Distance for camera
-   *
-   * @return The distance between lastX/Z and Camera.getTranslateX/Z
-   */
-  @Override
-  public double calculateDistance()
-  {
-    double xDist = camera.getTranslateX() - lastX;
-    double zDist = camera.getTranslateZ() - lastZ;
-    return Math.sqrt((xDist * xDist) + (zDist * zDist));
-  }
-
-  /**
-   * Clears Data from previous Game
-   */
-  public void dispose()
-  {
-    camera = null;
-    light = null;
-    boundingCircle = null;
   }
 
   /**
