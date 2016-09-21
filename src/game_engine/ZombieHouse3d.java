@@ -82,8 +82,8 @@ public class ZombieHouse3d
 
   private String Feral_Ghoul = "Resources/Meshes/Feral_Ghoul/Feral_Ghoul.obj";
   private String Lambent_Female = "Resources/Meshes/Lambent_Female/Lambent_Female.obj";
-  private String Desk = "Resources/Meshes/Desk.obj";
-  private String Sofa = "Resources/Meshes/Sofa.obj";
+  private String Desk = "Resources/Meshes/Desk/Desk.obj";
+  private String Sofa = "Resources/Meshes/Sofa/Sofa.obj";
 
   /**
    * Constructor for ZombieHouse3d object

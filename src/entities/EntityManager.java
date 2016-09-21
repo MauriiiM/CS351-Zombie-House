@@ -186,8 +186,8 @@ public class EntityManager
         props.add(newProp);
 
         */
-    props.add(new Prop("Sofa", 5, 0, 5, this));
-    props.add(new Prop("Desk", 5, 0, 5, this));
+//    props.add(new Prop("Sofa", 5, 0, 5, this));
+//    props.add(new Prop("Desk", 5, 0, 5, this));
 
   }
 
