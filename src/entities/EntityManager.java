@@ -60,6 +60,7 @@ public class EntityManager
     this.scenes = scenes;
     this.main = main;
     zombies = new ArrayList<>();
+    props = new ArrayList<>();
     zombieDecision = new ZombieDecision();
     zombieDecision.setDaemon(true);
     zombieDecision.start();
@@ -178,7 +179,6 @@ public class EntityManager
   public void createProps()
   {
 
-    props = new ArrayList<Prop>();
         /*  possible code if placing props using tiles
         Prop newProp = new Prop(gameBoard[col][row], row, col,
                 gameBoard[col][row].xPos, gameBoard[col][row].zPos, this);
@@ -186,10 +186,8 @@ public class EntityManager
         props.add(newProp);
 
         */
-    // Prop sofaProp = new Prop("Sofa",3,0,5,this);
-    // Prop deskProp = new Prop("Desk",10,0,5,this);
-    props.add(new Prop("Sofa", 3, 0, 5, this));
-    props.add(new Prop("Desk", 3, 0, 5, this));
+    props.add(new Prop("Sofa", 5, 0, 5, this));
+    props.add(new Prop("Desk", 5, 0, 5, this));
 
   }
 

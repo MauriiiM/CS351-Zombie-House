@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import entities.EntityManager;
 import entities.Player;
+import entities.Prop;
 import entities.Zombie;
 import game_engine.Attributes;
 import game_engine.Scenes;
@@ -46,7 +47,9 @@ public class ZombieBoardRenderer
 
   public static Tile[][] gameBoard;
   private static int zombieCounter = 0;
+  private static int propCounter = 0;
   static int numZombies = 0;
+  static int numProps = 0;
   public static int boardWidth;
   public static int boardHeight;
   private static int windowWidth;
@@ -96,8 +99,10 @@ public class ZombieBoardRenderer
     boardHeight = gameBoard.length;
     windowWidth = boardWidth * cellSize;
     windowHeight = boardHeight * cellSize;
+    entityManager.createProps();
     entityManager.createZombies(gameBoard, boardHeight, boardWidth);
     numZombies = entityManager.zombies.size();
+    numProps = entityManager.props.size();
     primaryStage.setTitle("2D Zombie House");
 
     root = new Group();
@@ -266,6 +271,20 @@ public class ZombieBoardRenderer
               gameBoard[col][row]);
           TileGraph.createGraph(newNode);
         }
+        /* add props to 2D board - make visible */
+        if (propCounter < numProps)
+        {
+          entityManager.props.get(propCounter).create2DProp(row, col,
+                  entityManager.props, cellSize);
+          if (entityManager.props.get(propCounter).propCirc != null)
+          {
+            root.getChildren().add(entityManager.props.get(propCounter).propCirc);
+            propCounter++;
+          }
+        }
+
+
+        /* add zombies to 2D board - make visible */
         if (zombieCounter < numZombies)
         {
           entityManager.zombies.get(zombieCounter).twoDZombie(zombieCounter, row, col,

@@ -66,7 +66,7 @@ public class ZombieHouse3d
   // The list of walls used for collision detection.
   public ArrayList<Box> walls = new ArrayList<>();
 
-  // list of props
+  // list of props used to decorate zombie house
   private ArrayList<Prop> props = new ArrayList<>();
 
   boolean initZombieMovement = true;
@@ -190,6 +190,7 @@ public class ZombieHouse3d
     // initialize entity manager
     entityManager = new EntityManager(soundManager, main, scenes);
     entityManager.setZombieHouse3d(this);
+    entityManager.createProps();
     entityManager.createZombies(gameBoard, boardHeight, boardWidth);
     numZombies = entityManager.zombies.size();
 
@@ -355,9 +356,9 @@ public class ZombieHouse3d
     }
 
     // setMesh for props
-
     System.out.println("Number of Props: " + props.size());
-    for( Prop prop : props)
+
+    for( Prop prop : entityManager.props)
     {
       prop.setMesh(loadMeshViews(prop.getPropName()));
       root.getChildren().addAll(prop.propMesh);

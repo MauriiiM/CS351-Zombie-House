@@ -1,6 +1,7 @@
 package entities;
 
 import javafx.scene.Node;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.transform.Rotate;
 
@@ -18,8 +19,12 @@ public class Prop extends Entity
 
     //entityManager
     EntityManager entityManager;
+    private int twoDSize = 3;
+    public Circle propCirc = null;
+    public boolean twoDBoard = false;
     public Node[] propMesh = null;
     public String propName;
+
 
     public Prop(String name, double xPos, double yPos, double zPos, EntityManager em){
         this.propName = name;
@@ -35,9 +40,9 @@ public class Prop extends Entity
 
 
     /**
-     * Gets zombie mesh associated with this zombie object.
+     * Gets prop mesh associated with this prop object.
      * @return
-     *      The zombie mesh.
+     *      The prop mesh.
      */
     public Node[] getMesh()
     {
@@ -61,31 +66,42 @@ public class Prop extends Entity
         }
     }
 
-    /*
+    /**
     * @author Anacaren Ruiz
-    * @TODO -- Create circle object to represent where props are located in 2D game map
-    *
+    * Create circle object to represent where props are located in 2D game map
+    * Given initial x and y coords to spawn poin on game map
+    * @param row           The row of the 2D game map.
+    * @param col           The column of the 2D game map.
+    * @param props         The list of Prop objects.
+    * @param cellSize      The size of cells on the game map.
     */
     public void create2DProp(int row, int col, ArrayList<Prop> props, int cellSize)
     {
         Circle prop = null;
-
-
+        for ( Prop p: props )
+        {
+            double xPos = p.xPos;
+            double yPos = p.zPos;
+            prop = new Circle((xPos * cellSize), (yPos * cellSize), twoDSize, Color.PURPLE);
+            propCirc = prop;
+        }
     }
+
+
 
     /**
-     * NOTE: might not need this method since props should
-     * be the constant & stagnant every game
-     *
-     * Gets rid of values from the last game before we start a
-     * new one.
-     *
-     */
-    public void dispose()
-    {
-        propMesh = null;
+ * NOTE: might not need this method since props should
+ * be the constant & stagnant every game
+ *
+ * Gets rid of values from the last game before we start a
+ * new one.
+ *
+ */
+public void dispose()
+{
+    propMesh = null;
 
-    }
+}
 
     public void tick()
     {
