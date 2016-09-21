@@ -19,7 +19,7 @@ public abstract class Creature extends Entity
   double lastZ;
   private double distanceTraveled;
 
-  ArrayList<Point2D.Double> pathTaken;
+  ArrayList<CreaturePathInfo> pathTaken;
   //boolean engaged = false;
   protected double health;
 

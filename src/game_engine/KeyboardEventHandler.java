@@ -71,6 +71,11 @@ public class KeyboardEventHandler extends InputHandler implements EventHandler<K
         player.light.setLightOn(!player.lightOn);
         player.lightOn = !player.lightOn;
       }
+      if (event.getCode() == KeyCode.UP && !gameIsPaused)
+      {
+        player.camera.setTranslateY(-2 * Tile.tileSize);
+//        player.camera.setRotate(90);
+      }
       if (event.getCode() == KeyCode.LEFT && !gameIsPaused)
       {
         player.turnLeft = true;
@@ -79,9 +84,9 @@ public class KeyboardEventHandler extends InputHandler implements EventHandler<K
       {
         player.turnRight = true;
       }
-      if (event.getCode() == KeyCode.SPACE)
+      if (event.getCode() == KeyCode.SPACE && !gameIsPaused)
       {
-        player.camera.setTranslateY(-2 * Tile.tileSize);
+        player.attack();
       }
       if (event.getCode() == KeyCode.P)
       {
@@ -119,10 +124,14 @@ public class KeyboardEventHandler extends InputHandler implements EventHandler<K
       {
         player.shiftPressed.set(false);
       }
-      if (event.getCode() == KeyCode.SPACE)
+      if (event.getCode() == KeyCode.UP)
       {
         player.camera.setTranslateY(0);
       }
+//      if (event.getCode() == KeyCode.SPACE)
+//      {
+//        player.camera.setTranslateY(0);
+//      }
       if (event.getCode() == KeyCode.RIGHT)
       {
         player.turnRight = false;

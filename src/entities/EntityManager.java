@@ -120,14 +120,15 @@ public class EntityManager
 //          zombies.add(new Zombie(gameBoard[zombie.col][zombie.row], zombie.row, zombie.col,
 //              gameBoard[zombie.col][zombie.row].xPos, gameBoard[zombie.col][zombie.row].zPos, this));
 //        }
-        zombie.setHealth();
+        zombie.takeHealth();
         if (zombie.getHealth() <= 0)
         {
           //need to blow up the zombie
           System.out.println("killed zombie");
+          zombie.setDead(true);
+          //zombieHouse.removeZombie(zombie);
           zombies.remove(zombie);
         }
-        zombie.setEngaged();
         return true;
       }
     }

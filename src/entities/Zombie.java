@@ -74,6 +74,7 @@ public class Zombie extends Creature
   private double lastZ;
 
   private boolean engaged = false;
+  private boolean dead = false;
 
   /**
    * Constructor that sets whether this zombie is a random walk zombie or a line
@@ -101,6 +102,17 @@ public class Zombie extends Creature
     health = 3; // initialize the zombie health, they will not heal
   }
 
+
+  public boolean isDead()
+  {
+    return dead;
+  }
+
+  public void setDead(boolean dead)
+  {
+    this.dead = dead;
+  }
+
   void setMasterHealth()
   {
     health = 10;
@@ -111,7 +123,7 @@ public class Zombie extends Creature
     return health;
   }
 
-  void setHealth()
+  void takeHealth()
   {
     health -= .25;
   }
