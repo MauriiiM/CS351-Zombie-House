@@ -6,11 +6,11 @@ package entities;
  */
 public class CreaturePathInfo
 {
-  private double x, z, angle;
+  private float x, z, angle;
   //stores t/f value if player attack at that instance as a byte because so many of these are being store so we need as little memory as possible
   private byte didAttack;
 
-  public CreaturePathInfo(double x, double z, double angle, byte didAttack)
+  public CreaturePathInfo(float x, float z, float angle, byte didAttack)
   {
     this.x = x;
     this.z = z;
@@ -18,32 +18,32 @@ public class CreaturePathInfo
     this.didAttack = didAttack;
   }
 
-  public double getX()
+  public float getX()
   {
     return x;
   }
 
-  public void setX(double x)
+  public void setX(float x)
   {
     this.x = x;
   }
 
-  public double getZ()
+  public float getZ()
   {
     return z;
   }
 
-  public void setZ(double z)
+  public void setZ(float z)
   {
     this.z = z;
   }
 
-  public double getAngle()
+  public float getAngle()
   {
     return angle;
   }
 
-  public void setAngle(double angle)
+  public void setAngle(float angle)
   {
     this.angle = angle;
   }

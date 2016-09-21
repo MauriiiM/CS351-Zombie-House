@@ -307,7 +307,7 @@ public class Player extends Creature
     zPos = camera.getTranslateZ();
 
     //adds EVERY step taken to path. There'll be many repeats because it records how long player stays there
-    pathTaken.add(new CreaturePathInfo(xPos, zPos, angle, didAttack));
+    pathTaken.add(new CreaturePathInfo((float)xPos, (float)zPos, (float)angle, didAttack));
     if(didAttack == 1) didAttack = 0;
     System.out.println("x= " + xPos + ",\t z= " + zPos + " in tick()");
 

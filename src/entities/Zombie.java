@@ -75,6 +75,7 @@ public class Zombie extends Creature
 
   private boolean engaged = false;
   private boolean dead = false;
+  private byte didAttack = 0;
 
   /**
    * Constructor that sets whether this zombie is a random walk zombie or a line
@@ -134,8 +135,8 @@ public class Zombie extends Creature
   }
 
   /**
-   * @todo setEnganged(!getEngaged()) when damged, not setEngaged(true) because can be returned to false if that zombie killed player.
    * @param newEngaged
+   * @todo setEnganged(!getEngaged()) when damged, not setEngaged(true) because can be returned to false if that zombie killed player.
    */
   void setEngaged(boolean newEngaged)
   {
@@ -173,8 +174,6 @@ public class Zombie extends Creature
       zombieCirc = zombie;
     }
   }
-
-
 
 
   /**
@@ -580,6 +579,8 @@ public class Zombie extends Creature
     Tile currentTile = entityManager.zombieHouse.gameBoard[(int) currentZ][(int) currentX];
     findPathToPlayer(currentTile);
     updateDistance();
+    //adds EVERY step taken to path. There'll be many repeats because it records how long player stays there
+    pathTaken.add(new CreaturePathInfo((float) xPos, (float) zPos, (float) angle, didAttack));
   }
 
   /**
