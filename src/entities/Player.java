@@ -71,7 +71,7 @@ public class Player extends Creature
 
   private int numDeaths = 0;
   private final int maxDeaths = 5;
-  private double damage = .05; //the damage taken by the payer when hit by a zombie
+  private double damage = .25; //the damage taken by the payer when hit by a zombie
   private double healthRegen = .025; //how fast the player heals when not taking damage
   private byte didAttack = 0;
 
@@ -113,7 +113,7 @@ public class Player extends Creature
     pathTaken = new ArrayList<>();
 
     //give the player an initial health of 5
-    health = 5;
+    health = 1;
   }
 
   /**
