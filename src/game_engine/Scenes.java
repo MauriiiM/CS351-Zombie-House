@@ -64,9 +64,9 @@ public class Scenes implements EventHandler
   public Scene mainMenu, threeDGame, twoDGame, gameOver, loading, win, settings, nextLevel, mapScene;
 
   /**
-   * @todo possibly remove all listeners to override method
    * @param primaryStage primary stage
    * @param main         Constructor for a scenes object
+   * @todo possibly remove all listeners to override method
    */
   public Scenes(Stage primaryStage, Main main)
   {
@@ -128,7 +128,6 @@ public class Scenes implements EventHandler
         {
           e.printStackTrace();
         }
-
       }
     });
 
@@ -394,9 +393,7 @@ public class Scenes implements EventHandler
     startRoot.setStyle("-fx-background-image: url(\"/Images/background2.jpg\");-fx-background-size: 1280, 800;-fx-background-repeat: " + "no-repeat;");
     startRoot.setPrefSize(winW, winH);
     VBox buttonVBox = new VBox();
-    buttonVBox.getChildren().addAll(goTo3dGame, goTo2dGame, goToMapViewer, goToGameOver, goToWin,
-
-            goToSettings);
+    buttonVBox.getChildren().addAll(goTo3dGame, goTo2dGame, goToMapViewer, goToGameOver, goToWin, goToSettings);
     buttonVBox.setSpacing(5);//vertical spacing in between buttons
     buttonVBox.setPadding(new Insets(5, 5, 5, 5));
     startRoot.setCenter(buttonVBox);
@@ -500,6 +497,31 @@ public class Scenes implements EventHandler
   @Override
   public void handle(Event event)
   {
+    Object source = event.getSource();
 
+    if (source == goTo3dGame)
+    {
+      System.out.println("TEST");
+    }
+    else if (source == goTo2dGame)
+    {
+      System.out.println("TEST");
+    }
+    else if (source == goToMapViewer)
+    {
+      System.out.println("TEST");
+    }
+    else if (source == goToGameOver)
+    {
+      System.out.println("TEST");
+    }
+    else if (source == goToWin)
+    {
+      System.out.println("TEST");
+    }
+    else if (source == goToSettings)
+    {
+      System.out.println("TEST");
+    }
   }
 }
