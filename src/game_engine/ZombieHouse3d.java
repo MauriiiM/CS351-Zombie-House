@@ -47,7 +47,7 @@ import sounds.SoundManager;
 public class ZombieHouse3d
 {
   private PerspectiveCamera camera;
-  public Tile playerTile;
+  private Tile playerTile;
   private PointLight light = new PointLight();
   private AnimationTimer gameLoop;
 
@@ -119,6 +119,11 @@ public class ZombieHouse3d
     entityManager = null;
   }
 
+  public void restart()
+  {
+
+  }
+
   /**
    * @param gameStage The stage into which all of the attributes of the game
    *                  are being placed and rendered.
@@ -165,11 +170,13 @@ public class ZombieHouse3d
     return scene;
   }
 
-  boolean getPaused(){
+  boolean getPaused()
+  {
     return paused;
   }
 
-  void setPaused(boolean setPause){
+  void setPaused(boolean setPause)
+  {
     paused = setPause;
   }
 
@@ -358,7 +365,7 @@ public class ZombieHouse3d
     // setMesh for props
     System.out.println("Number of Props: " + props.size());
 
-    for( Prop prop : entityManager.props)
+    for (Prop prop : entityManager.props)
     {
       prop.setMesh(loadMeshViews(prop.getPropName()));
       root.getChildren().addAll(prop.propMesh);

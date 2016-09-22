@@ -138,7 +138,8 @@ public class Scenes implements EventHandler
       public void handle(ActionEvent event)
       {
         playButtonSound();
-        createNewGameBoard(0);
+        createNewGameBoard(difficulty); //@// TODO: 9/22/16 REMOVE THIS FROM AND RESTART SAME GAME BOARD
+//        restartGameBoard(difficulty);
         soundManager.playTrack(0);
 
         try
@@ -208,7 +209,7 @@ public class Scenes implements EventHandler
         playButtonSound();
         try
         {
-          main.assignStage(mapObject.mapViewerScene(primaryStage, threeDGameObject));
+          main.assignStage(mapObject.mapViewerScene(primaryStage));
           MapViewerScene.root.getChildren().add(returnButton);
         }
         catch (Exception e)
@@ -484,6 +485,11 @@ public class Scenes implements EventHandler
   private void createNewGameBoard(int difficulty)
   {
     threeDGameObject = new ZombieHouse3d(difficulty, soundManager, main, this);
+  }
+
+  private void restartGameBoard(int difficulty)
+  {
+//    threeDGameObject.restart();
   }
 
   /**
