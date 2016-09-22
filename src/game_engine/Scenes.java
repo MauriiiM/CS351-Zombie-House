@@ -4,6 +4,7 @@ import gui.Main;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -23,7 +24,7 @@ import utilities.ZombieBoardRenderer;
  * @author Atle Olson
  *         A place to stage Scenes and switch them out
  */
-public class Scenes
+public class Scenes implements EventHandler
 {
   private SoundManager soundManager;
   private Main main;
@@ -55,15 +56,16 @@ public class Scenes
   Slider mapHeight = new Slider(0, 100, 50);
   Slider rotateSensitivity = new Slider(0, 20, 5);
 
-  public ZombieHouse3d threeDGameObject = new ZombieHouse3d(0, soundManager, main, this);
+  private ZombieHouse3d threeDGameObject = new ZombieHouse3d(0, soundManager, main, this);
   private ZombieBoardRenderer twoDGameObject;
   private MapViewerScene mapObject = new MapViewerScene();
-  public int difficulty = 0;
+  private int difficulty = 0;
   public BorderPane startRoot, threeDGameRoot, twoDGameRoot, settingsRoot, gameOverRoot, loadRoot, winRoot;
   public Scene mainMenu, threeDGame, twoDGame, gameOver, loading, win, settings, nextLevel, mapScene;
 
   /**
-   * @param primaryStage
+   * @todo possibly remove all listeners to override method
+   * @param primaryStage primary stage
    * @param main         Constructor for a scenes object
    */
   public Scenes(Stage primaryStage, Main main)
@@ -389,18 +391,13 @@ public class Scenes
 
     //Main menu Scene
     startRoot = new BorderPane();
-    startRoot.setStyle("-fx-background-image: url(\"/Images/background.png\");-fx-background-size: 1280, 800;-fx-background-repeat: no-repeat;");
+    startRoot.setStyle("-fx-background-image: url(\"/Images/background2.jpg\");-fx-background-size: 1280, 800;-fx-background-repeat: " + "no-repeat;");
     startRoot.setPrefSize(winW, winH);
     VBox buttonVBox = new VBox();
-    buttonVBox.getChildren().addAll(
-            goTo3dGame,
-            goTo2dGame,
-            goToMapViewer,
-            goToGameOver,
-            goToWin,
-            goToSettings
-    );
-    buttonVBox.setSpacing(5);
+    buttonVBox.getChildren().addAll(goTo3dGame, goTo2dGame, goToMapViewer, goToGameOver, goToWin,
+
+            goToSettings);
+    buttonVBox.setSpacing(5);//vertical spacing in between buttons
     buttonVBox.setPadding(new Insets(5, 5, 5, 5));
     startRoot.setCenter(buttonVBox);
 
@@ -439,28 +436,7 @@ public class Scenes
     settingsRoot.setCenter(new Label("Settings!"));
 
     VBox sliders = new VBox();
-    sliders.getChildren().addAll(
-            new Label("Player Hearing:"),
-            playerHearing,
-            new Label("Player Walking Speed"),
-            playerWalkingSpeed,
-            new Label("Player Sprint Speed"),
-            playerSprintSpeed,
-            new Label("Player Stamina"),
-            playerStamina,
-            new Label("Player Regen"),
-            playerRegen,
-            new Label("Zombie Smell"),
-            zombieSmell,
-            new Label("Max Zombies"),
-            maxZombies,
-            new Label("Map Width"),
-            mapWidth,
-            new Label("Map Height"),
-            mapHeight,
-            new Label("Rotate Sensitivity"),
-            rotateSensitivity
-    );
+    sliders.getChildren().addAll(new Label("Player Hearing:"), playerHearing, new Label("Player Walking Speed"), playerWalkingSpeed, new Label("Player Sprint Speed"), playerSprintSpeed, new Label("Player Stamina"), playerStamina, new Label("Player Regen"), playerRegen, new Label("Zombie Smell"), zombieSmell, new Label("Max Zombies"), maxZombies, new Label("Map Width"), mapWidth, new Label("Map Height"), mapHeight, new Label("Rotate Sensitivity"), rotateSensitivity);
     sliders.setSpacing(5);
     sliders.setPadding(new Insets(10, 20, 10, 20));
     settingsRoot.setLeft(sliders);
@@ -519,5 +495,11 @@ public class Scenes
   private void create2DGameBoard()
   {
     twoDGameObject = new ZombieBoardRenderer(main, this);
+  }
+
+  @Override
+  public void handle(Event event)
+  {
+
   }
 }

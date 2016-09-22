@@ -7,68 +7,63 @@ import javafx.stage.Stage;
 import sounds.SoundManager;
 
 /**
- * @author Atle Olson 
- * Main launch point for the program
- * 
+ * @author Atle Olson
+ *         Main launch point for the program
  */
 public class Main extends Application
 {
-  private Stage gameStage = new Stage();
+  private Stage primaryStage = new Stage();
   private SoundManager soundManager;
-  private Scenes scenes = new Scenes(gameStage, this);
-  
+  private Scenes scenes = new Scenes(primaryStage, this);
+
   /**
-   * @param primaryStage
-   * 
-   * Start function to launch program
-   */  
+   * @param primaryStage Start function to launch program
+   */
   @Override
   public void start(Stage primaryStage) throws Exception
   {
     soundManager = new SoundManager();
     scenes.setSoundManager(soundManager);
     soundManager.playTrack(0);
-    gameStage = primaryStage;
-    gameStage.setTitle("Zombie House By: Atle, Ben, and Jeffrey");
-    gameStage.setScene(scenes.mainMenu);
-    gameStage.show();
-    
+    this.primaryStage = primaryStage;
+    primaryStage.setTitle("Zombie House By: (Anacaren, Javier, & Mauricio) and (Atle, Ben, & Jeffrey)");
+    primaryStage.setScene(scenes.mainMenu);
+    primaryStage.show();
+
     primaryStage.setOnCloseRequest(e -> System.exit(0));
   }
-  
+
   /**
-   * @param scene
-   * 
-   * Sets the stages' scene equal to scene
-   */  
+   * @param scene Sets the stages' scene equal to scene
+   */
   public void assignStage(Scene scene)
   {
-    gameStage.setScene(scene);
+    primaryStage.setScene(scene);
   }
-  
+
   /**
    * Gets the current stage
-   * 
-   * @return gameStage
-   */  
+   *
+   * @return primaryStage
+   */
   public Stage retrieveStage()
   {
-    return gameStage;
+    return primaryStage;
   }
-  
+
   /**
    * Gets the current scene
-   * 
-   * @return gameStage.getScene()
-   */  
+   *
+   * @return primaryStage.getScene()
+   */
   public Scene retrieveScene()
   {
-    return gameStage.getScene();
+    return primaryStage.getScene();
   }
-  
+
   /**
    * main, launches our program
-   */  
+   */
   public static void main(String[] args)
   {
     launch(args);

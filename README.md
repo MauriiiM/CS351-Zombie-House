@@ -154,7 +154,9 @@ All sound clips used for this project were either created using FL-studio (music
 ## Sources:
 
 ##### Texture sources:
-* www.planetminecraft.com/texture_pack/stcms-resourcepack-128x-parallax-amp-normal-mapping/
+* https://planetminecraft.com/texture_pack/stcms-resourcepack-128x-parallax-amp-normal-mapping/
+* https://wall.alphacoders.com/big.php?i=45893
+* https://wall.alphacoders.com/big.php?i=54846
 
 ##### 3D Model sources:
 * Master zombie Model - http://tf3dm.com/3d-model/lambent-female-38649.html
