@@ -70,10 +70,14 @@ public class Player extends Creature
   private double deltaTime = 0;
 
   private int numDeaths = 0;
-  private final int maxDeaths = 5;
-  private double damage = .25; //the damage taken by the payer when hit by a zombie
-  private double healthRegen = .025; //how fast the player heals when not taking damage
+  private final int maxDeaths = 1;
+  private final int maxHealth = 500; //the max health of the player
+  private int damage = 15; //the damage taken by the player when hit by a zombie
+  private int healthRegen = 5; //how fast the player heals when not taking damage(after two seconds)
   private byte didAttack = 0;
+
+  private boolean gotHit;
+  private int healTime = 0;
 
 
   /**
@@ -113,7 +117,7 @@ public class Player extends Creature
     pathTaken = new ArrayList<>();
 
     //give the player an initial health of 5
-    health = 1;
+    health = maxHealth;
   }
 
   /**
@@ -240,10 +244,12 @@ public class Player extends Creature
     {
       //every time the zombie touches you, then you lose health
       health -= damage;
-      //need to lower the health of the zombie
+      //set gotHit to true and healTime back to zero because you only heal after two seconds of not getting hit
+      gotHit = true;
+      healTime = 0;
 
       //if the health is 0, or less than 0 then you're dead
-      if (health <= 0.0)
+      if (health <= 0)
       {
         numDeaths++;
         //if the number of times you have died is the max value of deaths, then set isDead to true
@@ -251,28 +257,28 @@ public class Player extends Creature
         {
           isDead.set(true);
         }
-        else
-        {
-          //need to do
-          //should restart the level with the appropriate
-          //number of clones, numDeaths
-        }
       }
     }
     else
     {
-      if (health < 5.0)
+      if(gotHit == true)
+      {
+        healTime++;
+      }
+      if (health < maxHealth && healTime >= 120)
       {
         health += healthRegen;
       }
-      //do not want the health to be greater than 5.0, then if it is
-      //set it to 5.0
-      if (health > 5.0)
+      //do not want the health to be greater than the maxHealth, then if it is
+      //set it to maxHealth
+      if (health > maxHealth)
       {
         health = 5.0;
+        healTime = 0;
+        gotHit = false;
       }
     }
-    //System.out.println(health);
+    //System.out.println(health + "    in tick()");
 
     //checking for exit collision
     for (Box box : entityManager.zombieHouse.exits)
@@ -309,7 +315,7 @@ public class Player extends Creature
     //adds EVERY step taken to path. There'll be many repeats because it records how long player stays there
     pathTaken.add(new CreaturePathInfo((float)xPos, (float)zPos, (float)angle, didAttack));
     if(didAttack == 1) didAttack = 0;
-    System.out.println("x= " + xPos + ",\t z= " + zPos + " in tick()");
+    //System.out.println("x= " + xPos + ",\t z= " + zPos + " in tick()");
 
 
   }
