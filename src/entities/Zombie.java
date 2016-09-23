@@ -464,7 +464,7 @@ public class Zombie extends Creature
           }
           double currentX = zombieCylinder.getTranslateX();
           double currentZ = zombieCylinder.getTranslateZ();
-          checkForCornerTile(entityManager.zombieHouse.gameBoard[(int) Math.floor(currentZ)][(int) Math.floor(currentX)]);
+          checkForCornerTile(entityManager.zombieHouse.getGameBoard()[(int) Math.floor(currentZ)][(int) Math.floor(currentX)]);
         }
         else
         {
@@ -568,15 +568,15 @@ public class Zombie extends Creature
         currentZ++;
       }
     }
-    if (currentX >= entityManager.zombieHouse.gameBoard.length)
+    if (currentX >= entityManager.zombieHouse.getGameBoard().length)
     {
       currentX--;
     }
-    if (currentZ >= entityManager.zombieHouse.gameBoard.length)
+    if (currentZ >= entityManager.zombieHouse.getGameBoard().length)
     {
       currentZ--;
     }
-    Tile currentTile = entityManager.zombieHouse.gameBoard[(int) currentZ][(int) currentX];
+    Tile currentTile = entityManager.zombieHouse.getGameBoard()[(int) currentZ][(int) currentX];
     findPathToPlayer(currentTile);
     updateDistance();
     //adds EVERY step taken to path. There'll be many repeats because it records how long player stays there
@@ -950,44 +950,44 @@ public class Zombie extends Creature
       {
         if (currentNode.wallToRight)
         {
-          if (neighbor.equals(entityManager.zombieHouse.gameBoard[current.col - 1][current.row - 1]))
+          if (neighbor.equals(entityManager.zombieHouse.getGameBoard()[current.col - 1][current.row - 1]))
           {
             return true;
           }
-          if (neighbor.equals(entityManager.zombieHouse.gameBoard[current.col + 1][current.row - 1]))
+          if (neighbor.equals(entityManager.zombieHouse.getGameBoard()[current.col + 1][current.row - 1]))
           {
             return true;
           }
         }
         if (currentNode.wallToLeft)
         {
-          if (neighbor.equals(entityManager.zombieHouse.gameBoard[current.col - 1][current.row + 1]))
+          if (neighbor.equals(entityManager.zombieHouse.getGameBoard()[current.col - 1][current.row + 1]))
           {
             return true;
           }
-          if (neighbor.equals(entityManager.zombieHouse.gameBoard[current.col + 1][current.row + 1]))
+          if (neighbor.equals(entityManager.zombieHouse.getGameBoard()[current.col + 1][current.row + 1]))
           {
             return true;
           }
         }
         if (currentNode.wallOnBottom)
         {
-          if (neighbor.equals(entityManager.zombieHouse.gameBoard[current.col + 1][current.row - 1]))
+          if (neighbor.equals(entityManager.zombieHouse.getGameBoard()[current.col + 1][current.row - 1]))
           {
             return true;
           }
-          if (neighbor.equals(entityManager.zombieHouse.gameBoard[current.col + 1][current.row + 1]))
+          if (neighbor.equals(entityManager.zombieHouse.getGameBoard()[current.col + 1][current.row + 1]))
           {
             return true;
           }
         }
         if (currentNode.wallOnTop)
         {
-          if (neighbor.equals(entityManager.zombieHouse.gameBoard[current.col - 1][current.row + 1]))
+          if (neighbor.equals(entityManager.zombieHouse.getGameBoard()[current.col - 1][current.row + 1]))
           {
             return true;
           }
-          if (neighbor.equals(entityManager.zombieHouse.gameBoard[current.col - 1][current.row - 1]))
+          if (neighbor.equals(entityManager.zombieHouse.getGameBoard()[current.col - 1][current.row - 1]))
           {
             return true;
           }

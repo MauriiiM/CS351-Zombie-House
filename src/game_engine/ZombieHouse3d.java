@@ -55,7 +55,7 @@ public class ZombieHouse3d
 
   public int boardWidth;
   public int boardHeight;
-  public Tile[][] gameBoard;
+  private Tile[][] gameBoard;
   private Box[][] floorDrawingBoard;
   private Box[][] roofDrawingBoard;
 
@@ -130,11 +130,11 @@ public class ZombieHouse3d
    * @return scene
    * Returns the scene that is our game
    */
-  Scene zombieHouse3d(Stage gameStage) throws Exception
+  Scene zombieHouse3d(Stage gameStage, Tile[][] gameBoard) throws Exception
   {
     //Stage gameStage = new Stage();
     // gameBoard = MapLoader.loadLevel("/Maps/testmap.txt");
-    gameBoard = ProceduralMap.generateMap(Attributes.Map_Width, Attributes.Map_Height, difficulty);
+    this.gameBoard = gameBoard;
     boardWidth = gameBoard[0].length;
     boardHeight = gameBoard.length;
     floorDrawingBoard = new Box[boardWidth][boardHeight];
@@ -170,9 +170,19 @@ public class ZombieHouse3d
     return scene;
   }
 
+  public Tile[][] getGameBoard()
+  {
+    return gameBoard;
+  }
+
   boolean getPaused()
   {
     return paused;
+  }
+
+  Tile[][] createNewGameBoard()
+  {
+    return ProceduralMap.generateMap(Attributes.Map_Width, Attributes.Map_Height, difficulty);
   }
 
   void setPaused(boolean setPause)

@@ -15,6 +15,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import levels.Tile;
 import sounds.Sound;
 import sounds.SoundManager;
 import utilities.MapViewerScene;
@@ -62,6 +63,8 @@ public class Scenes implements EventHandler
   private int difficulty = 0;
   public BorderPane startRoot, threeDGameRoot, twoDGameRoot, settingsRoot, gameOverRoot, loadRoot, winRoot;
   public Scene mainMenu, threeDGame, twoDGame, gameOver, loading, win, settings, nextLevel, mapScene;
+
+  Tile[][] gameBoard;
 
   /**
    * @param primaryStage primary stage
@@ -121,7 +124,8 @@ public class Scenes implements EventHandler
 
         try
         {
-          main.assignStage(threeDGameObject.zombieHouse3d(primaryStage));
+          gameBoard = threeDGameObject.createNewGameBoard();
+          main.assignStage(threeDGameObject.zombieHouse3d(primaryStage, gameBoard));
           //ZombieHouse3d.parent.getChildren().add(returnButton);
         }
         catch (Exception e)
@@ -144,7 +148,7 @@ public class Scenes implements EventHandler
 
         try
         {
-          main.assignStage(threeDGameObject.zombieHouse3d(primaryStage));
+          main.assignStage(threeDGameObject.zombieHouse3d(primaryStage, gameBoard));
           //ZombieHouse3d.parent.getChildren().add(returnButton);
         }
         catch (Exception e)
@@ -168,7 +172,7 @@ public class Scenes implements EventHandler
         try
         {
 
-          main.assignStage(threeDGameObject.zombieHouse3d(primaryStage));
+          main.assignStage(threeDGameObject.zombieHouse3d(primaryStage, gameBoard));
           //ZombieHouse3d.parent.getChildren().add(returnButton);
         }
         catch (Exception e)

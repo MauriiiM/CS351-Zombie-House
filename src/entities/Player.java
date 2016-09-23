@@ -337,7 +337,7 @@ public class Player extends Creature
     Tile currentTile = null;
     double currentX = boundingCircle.getTranslateX();
     double currentZ = boundingCircle.getTranslateZ();
-    currentTile = entityManager.zombieHouse.gameBoard[(int) currentZ][(int) currentX];
+    currentTile = entityManager.zombieHouse.getGameBoard()[(int) currentZ][(int) currentX];
     if (TileGraph.tileGraph.containsKey(currentTile))
     {
       currentNode = TileGraph.tileGraph.get(currentTile);
