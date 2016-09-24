@@ -8,6 +8,7 @@ import java.util.Random;
  *         Ben Matthews
  * This class defines the Tile object that will be used
  * to represent tiles displayed in the zombie house game.
+ * @TODO Anacaren - check if tile is a corner for possible object placement
  */
 public class Tile
 {
@@ -15,6 +16,7 @@ public class Tile
   public enum TileType
   {
     wall, region1, region2, region3, region4, exit
+
   }
 
   public static int tileSize = 1;
@@ -29,7 +31,9 @@ public class Tile
   public double zPos = 0;
   public boolean isHallway = false;
   public boolean hasZombie = false;
+  public boolean hasObject = false; // a tile occupied by an object (i.e. furniture)
   public boolean isWall = false;
+  //public boolean isCorner = false; // a tile is in the corner of a room for object placement purposes
   private String typeString = "";
   private Random rand = new Random();
   public double movementCost = 1;
@@ -47,6 +51,7 @@ public class Tile
    * 3 - region3<br>
    * 4 - region4<br>
    * 5 - exit<br>
+   *
    * <br>
    * 
    * @param type
@@ -55,6 +60,7 @@ public class Tile
    *          - The column of the tile on the map.
    * @param row
    *          - The row of the tile on the map.
+   *
    */
   public Tile(TileType type, int col, int row, boolean isHallway)
   {
@@ -62,6 +68,7 @@ public class Tile
     this.type = type;
     setType(type);
     hasZombie = spawnChance();
+    //hasObject = spawnChance();
     this.row = row;
     this.col = col;
     xPos = (int) row + .5;
@@ -97,6 +104,7 @@ public class Tile
     this.type = tileType;
     setType(tileType);
     hasZombie = spawnChance();
+    //hasObject = spawnChance()
     this.row = row;
     this.col = col;
     xPos = (int) row + .5;
@@ -118,16 +126,12 @@ public class Tile
       movementCost = Double.POSITIVE_INFINITY;
       typeString = "wall";
     }
-    if (type.equals(TileType.region1))
-      typeString = "red tile";
-    if (type.equals(TileType.region2))
-      typeString = "orange tile";
-    if (type.equals(TileType.region3))
-      typeString = "yellow tile";
-    if (type.equals(TileType.region4))
-      typeString = "green tile";
-    if (type.equals(TileType.exit))
-      typeString = "exit";
+    if (type.equals(TileType.region1)) typeString = "red tile";
+    if (type.equals(TileType.region2)) typeString = "orange tile";
+    if (type.equals(TileType.region3)) typeString = "yellow tile";
+    if (type.equals(TileType.region4)) typeString = "green tile";
+    if (type.equals(TileType.exit))    typeString = "exit";
+    //if (type.equals(TileType.object)) typeString = "gray tile";
   }
 
   /**
@@ -165,8 +169,8 @@ public class Tile
   }
 
   /**
-   * Gets the type of the tile. Used to check if the tile is a wall or not.
-   * 
+   * Gets the type of the tile.
+   * -- Used to check if the tile is a wall or not.
    * @return The type of the tile.
    */
   public String getType()
@@ -186,6 +190,16 @@ public class Tile
     isHallway = hallway;
   }
 
+/*
+  /*
+   * @author Anacaren
+   * Sets whether tile has object or not
+   *
+  public void setObject(boolean hasObject)
+  {
+    this.hasObject = hasObject;
+  }
+*/
   /**
    * returns the type 0-6 of the tile where 0 is a wall tile and 1-6 are colors
    * of floor tile: r,o,y,g,b,v respectively
@@ -199,14 +213,17 @@ public class Tile
 
   /**
    * Calculates the chance of this tile spawning a zombie.
-   * 
    * @return True if a zombie will spawn on this tile. False otherwise.
+   * @TODO make spawnChance for object as well
+   * -- if tile is wall/corner/tile with nothing around it then spawn chance of having object
    */
   private boolean spawnChance()
   {
     double zombieSpawn = 0.010;
-
+   // double objectSpawn = 0.005;
     double randDouble;
+
+
     if (!getType().equals("wall") && !hasZombie)
     {
       randDouble = rand.nextDouble();
@@ -215,6 +232,19 @@ public class Tile
         return true;
       }
     }
+/*
+   @author Anacaren
+    // Tiles where you can spawn objects
+    // -- Tiles with noZombies and noObject already in them
+    //   -- Wall Tile in the center
+    //   -- Floor Tile corners in rooms
+    //   -- Floor Tile with empty tiles surrounding it
+   if ( ( getType().equals("wall") || getType().equals("corner") ) && ( !hasZombie && !hasObject ))
+   {
+     randDouble = rand.nextDouble();
+     if( randDouble >= 0 && randDouble < objectSpawn) return true;
+   }
+*/
     return false;
   }
 
