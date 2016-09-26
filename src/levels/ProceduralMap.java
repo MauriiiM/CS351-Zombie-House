@@ -1,5 +1,6 @@
 package levels;
 
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -31,11 +32,11 @@ public class ProceduralMap
    */
   public static Tile[][] generateMap(int rows, int cols, int difficulty)
   {
-    rows /= 4;
+    rows /= 4;  // divide by 4 for regions
     cols /= 4;
 
-    Tile[][] map = new Tile[rows * 4 + 1][cols * 4 + 1];
-    Rectangle[][] basicMap = new Rectangle[rows][cols];
+    Tile[][] map = new Tile[rows * 4 + 1][cols * 4 + 1]; //creates tile grid + extra border for collision
+    Rectangle[][] basicMap = new Rectangle[rows][cols]; //creates region grid
 
     //initialize
     for (int i = 0; i < rows; i++)
@@ -145,6 +146,61 @@ public class ProceduralMap
     return regions;
   }
 
+  /*
+  /**
+   * @author Anacaren
+   * Method sets 1 Object in each of the rooms within a given region
+   * Iterate through ArrayList of Rectangles that represent the rooms
+   * Check if room hasObject already or not
+   * If no objects present in room then spawn Object in 1 of 4 corners in room
+   *
+   *
+  private static void setObject( Tile[][] map, ArrayList<Rectangle> rooms)
+  {
+    int row, col;
+    for( Rectangle room : rooms)
+    {
+      if( !room.hasObject )
+      {
+        Random random = new Random();
+        int rand = random.nextInt(4);
+        //choose 1 of 4 corners in room to place object
+        // check if corner does not have zombie as well for collision purposes
+        // if no zombie then add object
+        // set boolean hasObject to true
+        if( rand == 0)
+        {
+          // NW Corner
+          row = room.x;
+          col = room.y;
+          if( !map[row][col].hasZombie ) { map[row][col].hasObject =  room.hasObject = true; }
+        }
+        if( rand == 1)
+        {
+          // NE Corner
+          row = room.width;
+          col = room.y;
+          if( !map[row][col].hasZombie ) { map[row][col].hasObject = room.hasObject =  true; }
+        }
+        if( rand == 2)
+        {
+          // SW corner
+          row = room.x;
+          col = room.height;
+          if( !map[row][col].hasZombie ) { map[row][col].hasObject = room.hasObject = true; }
+        }
+        if( rand == 3)
+        {
+          // SE corner
+          row = room.width;
+          col = room.height;
+          if( !map[row][col].hasZombie ) { map[row][col].hasObject = room.hasObject = true; }
+        }
+      }
+
+    }
+  }
+*/
 
   /**
    * this method gets the rectangles that will fill a given region of the map
@@ -723,6 +779,15 @@ public class ProceduralMap
         map[row + 1][col + 1] = new Tile(5, col + 1, row + 1, false);
       }
     }
+   /*
+    //object placement
+    // iterate through regions
+    // use helper method setObject in rooms found in each region
+    for (int i = 1; i < regions.size(); i++)
+    {
+      setObject(map, regions.get(i));
+    }
+    */
   }
 
   /**
@@ -803,6 +868,7 @@ public class ProceduralMap
     public int height;
     public int region = 0;
     public boolean isRoom = true;
+    public boolean hasObject = false; // default empty room
 
     public ArrayList<Rectangle> neighbors = new ArrayList<>(); //represents adjacency
     public ArrayList<Rectangle> paths = new ArrayList<>(); //represents openings
@@ -833,6 +899,8 @@ public class ProceduralMap
       this.width = width;
       this.height = height;
     }
+
+
 
     /**
      * returns the dimensions of this rectangle as a string
