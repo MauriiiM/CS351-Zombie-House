@@ -9,6 +9,7 @@ import graphing.GraphNode;
 import graphing.TileGraph;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.PointLight;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Box;
 import javafx.scene.shape.Cylinder;
 import javafx.scene.transform.Rotate;
@@ -76,7 +77,7 @@ public class Player extends Creature
   private int healthRegen = 5; //how fast the player heals when not taking damage(after two seconds)
   private byte didAttack = 0;
 
-  private boolean gotHit;
+  private boolean gotHit = false;
   private int healTime = 0;
 
 
@@ -248,6 +249,8 @@ public class Player extends Creature
       gotHit = true;
       healTime = 0;
 
+      light.setColor(Color.rgb((int)((maxHealth+health)/4), (int)(100-(health/5)), (int)(100-(health/5))));
+
       //if the health is 0, or less than 0 then you're dead
       if (health <= 0)
       {
@@ -259,23 +262,24 @@ public class Player extends Creature
         }
       }
     }
-    else
+    //the zombie is not touching you, and so you need to heal
+    else if (gotHit == true)
     {
-      if(gotHit == true)
-      {
-        healTime++;
-      }
+      healTime++;
+
       if (health < maxHealth && healTime >= 120)
       {
         health += healthRegen;
+        light.setColor(Color.rgb((int)((maxHealth+health)/4), (int)(100-(health/5)), (int)(100-(health/5))));
       }
       //do not want the health to be greater than the maxHealth, then if it is
       //set it to maxHealth
-      if (health > maxHealth)
+      if (health >= maxHealth)
       {
-        health = 5.0;
+        health = maxHealth;
         healTime = 0;
         gotHit = false;
+        light.setColor(Color.WHITE);
       }
     }
     //System.out.println(health + "    in tick()");
