@@ -31,8 +31,8 @@ public class KeyboardEventHandler extends InputHandler implements EventHandler<K
   /**
    * Handles all key press events. If W is pressed, the player moves
    * forward. If S is pressed player moves backwards. A and D move the
-   * player from side to side. F turns light on and off. Left and right
-   * movement keys move the camera either left or right. Space moves the
+   * player from side to side. Space allows the player to attack. F turns light on and off. Left and right
+   * movement keys move the camera either left or right. Up arrow moves the
    * player above the map. The Esc key pauses the game.
    *
    * @param event The key press event.
@@ -100,6 +100,10 @@ public class KeyboardEventHandler extends InputHandler implements EventHandler<K
     }
     else if (event.getEventType() == KeyEvent.KEY_RELEASED)
     {
+      if(event.getCode() == KeyCode.SPACE)
+      {
+        player.notAttack();
+      }
       if (event.getCode() == KeyCode.W)
       {
         player.wDown.set(false);

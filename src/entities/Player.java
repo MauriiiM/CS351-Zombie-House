@@ -143,6 +143,11 @@ public class Player extends Creature
     didAttack = 1;
   }
 
+  public void notAttack()
+  {
+    didAttack = 0;
+  }
+
   /**
    * Calculates Distance for camera
    *
@@ -164,6 +169,13 @@ public class Player extends Creature
   {
     entityManager.soundManager.playSoundClip(Sound.footstep);
 //    System.out.println(xPos + yPos + " in stepSound()");
+  }
+
+  public boolean getDidAttack()
+  {
+    if(didAttack == 1)
+      return true;
+    return false;
   }
 
   /**
@@ -318,7 +330,7 @@ public class Player extends Creature
 
     //adds EVERY step taken to path. There'll be many repeats because it records how long player stays there
     pathTaken.add(new CreaturePathInfo((float)xPos, (float)zPos, (float)angle, didAttack));
-    if(didAttack == 1) didAttack = 0;
+    if(didAttack == 1) notAttack();
     //System.out.println("x= " + xPos + ",\t z= " + zPos + " in tick()");
 
 
