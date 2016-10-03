@@ -25,10 +25,11 @@ import utilities.ZombieBoardRenderer;
  * @author Atle Olson
  *         A place to stage Scenes and switch them out
  */
-public class Scenes implements EventHandler
+public class Scenes implements EventHandler<ActionEvent>
 {
   private SoundManager soundManager;
   private Main main;
+  private Stage primaryStage;
 
   private int winW = 1280;
   private int winH = 800;
@@ -66,77 +67,6 @@ public class Scenes implements EventHandler
 
   Tile[][] gameBoard;
 
-
-  public Main getMain()
-  {
-    return main;
-  }
-
-  public ZombieHouse3d getThreeDGameObject()
-  {
-    return threeDGameObject;
-  }
-
-  public Button getReturnButton()
-  {
-    return returnButton;
-  }
-
-  public Button getReturnButtonDeath()
-  {
-    return returnButtonDeath;
-  }
-
-  public Button getGoTo3dGame()
-  {
-    return goTo3dGame;
-  }
-
-  public Button getGoTo3dGameDeath()
-  {
-    return goTo3dGameDeath;
-  }
-
-  public Button getGoTo3dGameNextLevel()
-  {
-    return goTo3dGameNextLevel;
-  }
-
-  public Button getGoTo2dGame()
-  {
-    return goTo2dGame;
-  }
-
-  public Button getGoToMapViewer()
-  {
-    return goToMapViewer;
-  }
-
-  public Button getGoToMainMenu()
-  {
-    return goToMainMenu;
-  }
-
-  public Button getGoToEndScreen()
-  {
-    return goToEndScreen;
-  }
-
-  public Button getGoToGameOver()
-  {
-    return goToGameOver;
-  }
-
-  public Button getGoToWin()
-  {
-    return goToWin;
-  }
-
-  public Button getGoToSettings()
-  {
-    return goToSettings;
-  }
-
   /**
    * @param primaryStage primary stage
    * @param main         Constructor for a scenes object
@@ -144,210 +74,39 @@ public class Scenes implements EventHandler
    */
   public Scenes(Stage primaryStage, Main main)
   {
+
     this.main = main;
+    this.primaryStage = primaryStage;
 
     returnButton.setText("Back to main menu.");
-    returnButton.setOnAction(new EventHandler<ActionEvent>()
-    {
-      @Override
-      public void handle(ActionEvent event)
-      {
-        playButtonSound();
-        soundManager.playTrack(0);
-        try
-        {
-          main.assignStage(mainMenu);
-        }
-        catch (Exception e)
-        {
-          e.printStackTrace();
-        }
-      }
-    });
+    returnButton.setOnAction(this);
 
     returnButtonDeath.setText("Back to main menu.");
-    returnButtonDeath.setOnAction(new EventHandler<ActionEvent>()
-    {
-      @Override
-      public void handle(ActionEvent event)
-      {
-        playButtonSound();
-        soundManager.playTrack(0);
-        try
-        {
-          main.assignStage(mainMenu);
-        }
-        catch (Exception e)
-        {
-          e.printStackTrace();
-        }
-      }
-    });
+    returnButtonDeath.setOnAction(this);
 
     goTo3dGame.setText("Play 3D ZombieHouse!");
-    goTo3dGame.setOnAction(new EventHandler<ActionEvent>()
-    {
-      @Override
-      public void handle(ActionEvent event)
-      {
-        playButtonSound();
-        try
-        {
-          gameBoard = threeDGameObject.createNewGameBoard();
-          main.assignStage(threeDGameObject.zombieHouse3d(primaryStage, gameBoard));
-          //ZombieHouse3d.parent.getChildren().add(returnButton);
-        }
-        catch (Exception e)
-        {
-          e.printStackTrace();
-        }
-      }
-    });
+    goTo3dGame.setOnAction(this);
 
     goTo3dGameDeath.setText("Try Again?");
-    goTo3dGameDeath.setOnAction(new EventHandler<ActionEvent>()
-    {
-      @Override
-      public void handle(ActionEvent event)
-      {
-        playButtonSound();
-        soundManager.playTrack(0);
-
-        try
-        {
-          main.assignStage(threeDGameObject.zombieHouse3d(primaryStage, gameBoard));
-          //ZombieHouse3d.parent.getChildren().add(returnButton);
-        }
-        catch (Exception e)
-        {
-          e.printStackTrace();
-        }
-
-      }
-    });
+    goTo3dGameDeath.setOnAction(this);
 
     goTo3dGameNextLevel.setText("Next Level!!");
-    goTo3dGameNextLevel.setOnAction(new EventHandler<ActionEvent>()
-    {
-      @Override
-      public void handle(ActionEvent event)
-      {
-        playButtonSound();
-        soundManager.playTrack(0);
-        difficulty++;
-        try
-        {
-          gameBoard = threeDGameObject.createNewGameBoard();
-          main.assignStage(threeDGameObject.zombieHouse3d(primaryStage, gameBoard));
-          //ZombieHouse3d.parent.getChildren().add(returnButton);
-        }
-        catch (Exception e)
-        {
-          e.printStackTrace();
-        }
-      }
-    });
+    goTo3dGameNextLevel.setOnAction(this);
 
     goTo2dGame.setText("Play 2d ZombieHouse!");
-    goTo2dGame.setOnAction(new EventHandler<ActionEvent>()
-    {
-      @Override
-      public void handle(ActionEvent event)
-      {
-        playButtonSound();
-        create2DGameBoard();
-        try
-        {
-          main.assignStage(twoDGameObject.zombieHouse2d(primaryStage));
-          ZombieBoardRenderer.root.getChildren().add(returnButton);
-        }
-        catch (Exception e)
-        {
-          e.printStackTrace();
-        }
-
-      }
-    });
+    goTo2dGame.setOnAction(this);
 
     goToMapViewer.setText("Map Viewer");
-    goToMapViewer.setOnAction(new EventHandler<ActionEvent>()
-    {
-      @Override
-      public void handle(ActionEvent event)
-      {
-        playButtonSound();
-        try
-        {
-          main.assignStage(mapObject.mapViewerScene(primaryStage));
-          MapViewerScene.root.getChildren().add(returnButton);
-        }
-        catch (Exception e)
-        {
-          e.printStackTrace();
-        }
-
-      }
-    });
+    goToMapViewer.setOnAction(this);
 
     goToGameOver.setText("Game Over!");
-    goToGameOver.setOnAction(new EventHandler<ActionEvent>()
-    {
-      @Override
-      public void handle(ActionEvent event)
-      {
-        playButtonSound();
-        try
-        {
-          gameOverRoot.setTop(returnButton);
-          main.assignStage(gameOver);
-        }
-        catch (Exception e)
-        {
-          e.printStackTrace();
-        }
-
-      }
-    });
+    goToGameOver.setOnAction(this);
 
     goToWin.setText("Win Screen");
-    goToWin.setOnAction(new EventHandler<ActionEvent>()
-    {
-      @Override
-      public void handle(ActionEvent event)
-      {
-        playButtonSound();
-        try
-        {
-          winRoot.setTop(returnButton);
-          main.assignStage(win);
-        }
-        catch (Exception e)
-        {
-          e.printStackTrace();
-        }
-
-      }
-    });
+    goToWin.setOnAction(this);
 
     goToSettings.setText("Settings");
-    goToSettings.setOnAction(new EventHandler<ActionEvent>()
-    {
-      @Override
-      public void handle(ActionEvent event)
-      {
-        playButtonSound();
-        try
-        {
-          settingsRoot.setTop(returnButton);
-          main.assignStage(settings);
-        }
-        catch (Exception e)
-        {
-          e.printStackTrace();
-        }
-
-      }
-    });
+    goToSettings.setOnAction(this);
 
     playerHearing.setShowTickMarks(true);
     playerHearing.setShowTickLabels(true);
@@ -520,7 +279,7 @@ public class Scenes implements EventHandler
   /**
    * Plays a sound when you click buttons
    */
-  public void playButtonSound()
+  private void playButtonSound()
   {
     soundManager.playSoundClip(Sound.button);
   }
@@ -570,33 +329,133 @@ public class Scenes implements EventHandler
   }
 
   @Override
-  public void handle(Event event)
+  public void handle(ActionEvent event)
   {
     Object source = event.getSource();
 
     if (source == goTo3dGame)
     {
-      System.out.println("TEST");
+      playButtonSound();
+      try
+      {
+        gameBoard = threeDGameObject.createNewGameBoard();
+        main.assignStage(threeDGameObject.zombieHouse3d(primaryStage, gameBoard));
+        //ZombieHouse3d.parent.getChildren().add(returnButton);
+      }
+      catch (Exception e)
+      {
+        e.printStackTrace();
+      }
+    }
+    else if (source == goTo3dGameDeath)
+    {
+      playButtonSound();
+      soundManager.playTrack(0);
+
+      try
+      {
+        main.assignStage(threeDGameObject.zombieHouse3d(primaryStage, gameBoard));
+        //ZombieHouse3d.parent.getChildren().add(returnButton);
+      }
+      catch (Exception e)
+      {
+        e.printStackTrace();
+      }
+    }
+    else if (source == goTo3dGameNextLevel)
+    {
+      playButtonSound();
+      soundManager.playTrack(0);
+      difficulty++;
+      try
+      {
+        gameBoard = threeDGameObject.createNewGameBoard();
+        main.assignStage(threeDGameObject.zombieHouse3d(primaryStage, gameBoard));
+        //ZombieHouse3d.parent.getChildren().add(returnButton);
+      }
+      catch (Exception e)
+      {
+        e.printStackTrace();
+      }
+    }
+    else if (source == returnButton || source == returnButtonDeath)
+    {
+      playButtonSound();
+      soundManager.playTrack(0);
+      try
+      {
+        main.assignStage(mainMenu);
+      }
+      catch (Exception e)
+      {
+        e.printStackTrace();
+      }
     }
     else if (source == goTo2dGame)
     {
-      System.out.println("TEST");
+      playButtonSound();
+      create2DGameBoard();
+      try
+      {
+        main.assignStage(twoDGameObject.zombieHouse2d(primaryStage));
+        ZombieBoardRenderer.root.getChildren().add(returnButton);
+      }
+      catch (Exception e)
+      {
+        e.printStackTrace();
+      }
     }
     else if (source == goToMapViewer)
     {
-      System.out.println("TEST");
+      playButtonSound();
+      try
+      {
+        main.assignStage(mapObject.mapViewerScene(primaryStage));
+        MapViewerScene.root.getChildren().add(returnButton);
+      }
+      catch (Exception e)
+      {
+        e.printStackTrace();
+      }
     }
     else if (source == goToGameOver)
     {
-      System.out.println("TEST");
+      playButtonSound();
+      try
+      {
+        gameOverRoot.setTop(returnButton);
+        main.assignStage(gameOver);
+      }
+      catch (Exception e)
+      {
+        e.printStackTrace();
+      }
     }
     else if (source == goToWin)
     {
-      System.out.println("TEST");
+      playButtonSound();
+      try
+      {
+        winRoot.setTop(returnButton);
+        main.assignStage(win);
+      }
+      catch (Exception e)
+      {
+        e.printStackTrace();
+      }
     }
     else if (source == goToSettings)
     {
-      System.out.println("TEST");
+      playButtonSound();
+      try
+      {
+        settingsRoot.setTop(returnButton);
+        main.assignStage(settings);
+      }
+      catch (Exception e)
+      {
+        e.printStackTrace();
+      }
     }
   }
 }
