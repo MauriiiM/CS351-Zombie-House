@@ -27,6 +27,9 @@ public class Player extends Creature
 {
   public static final double SPRINTSPEED = Tile.tileSize / 4d;
   public static final double WALKINGSPEED = Tile.tileSize / 8d;
+  private static final double START_X = 3;
+  private static final double START_Y = 0;
+  private static final double START_Z = 3;
 
   //entityManager
   EntityManager entityManager;
@@ -70,8 +73,8 @@ public class Player extends Creature
   private double regen = .2;
   private double deltaTime = 0;
 
-  private int numDeaths = 0;
-  private final int maxDeaths = 1;
+  public int lives = 4; //for GUI displaying purposes
+  private int numDeaths = 0; // for indexing creaturePathInfo array purposes
   private final int maxHealth = 500; //the max health of the player
   private int damage = 15; //the damage taken by the player when hit by a zombie
   private int healthRegen = 5; //how fast the player heals when not taking damage(after two seconds)
@@ -84,28 +87,25 @@ public class Player extends Creature
   /**
    * A constructor for a 3D player. takes in a camera object
    *
-   * @param x             x coordinate of player
-   * @param y             y coordinate of player
-   * @param z             z coordinate of player
    * @param camera        camera object used for player sight
    * @param entityManager entityManager object which updates many of the player fields as
    *                      the game runs
    * @param light         The light that emanates from the player
    */
-  public Player(double x, double y, double z, PerspectiveCamera camera, EntityManager entityManager, PointLight light)
+  public Player(PerspectiveCamera camera, EntityManager entityManager, PointLight light)
   {
     stepDistance = 3;
     this.entityManager = entityManager;
-    this.xPos = x;
-    this.yPos = y;
-    this.zPos = z;
+    this.xPos = START_X;
+    this.yPos = START_Y;
+    this.zPos = START_Z;
     this.velocity = 0;
     this.angle = 0;
     this.strafeVelocity = 0;
     camera.setRotate(this.angle);
     this.camera = camera;
-    camera.setTranslateX(x);
-    camera.setTranslateZ(z);
+    camera.setTranslateX(START_X);
+    camera.setTranslateZ(START_Z);
     this.light = light;
     light.setRotationAxis(Rotate.Y_AXIS);
     boundingCircle = new Cylinder(radius, 1);
@@ -267,16 +267,11 @@ public class Player extends Creature
       //if the health is 0, or less than 0 then you're dead
       if (health <= 0)
       {
-        numDeaths++;
-        //if the number of times you have died is the max value of deaths, then set isDead to true
-        if (numDeaths == maxDeaths)
-        {
-          isDead.set(true);
-        }
+        isDead.set(true);
       }
     }
     //the zombie is not touching you, and so you need to heal
-    else if (gotHit == true)
+    else if (gotHit)
     {
       healTime++;
 
@@ -345,6 +340,19 @@ public class Player extends Creature
     camera = null;
     light = null;
     boundingCircle = null;
+  }
+  
+  void reset()
+  {
+    xPos = START_X;
+    yPos = START_Y;
+    zPos = START_Z;
+    camera.setTranslateX(START_X);
+    camera.setTranslateZ(START_Z);
+    boundingCircle.setTranslateX(START_X);
+    boundingCircle.setTranslateZ(START_Z);
+    lives--;
+    numDeaths++;
   }
 
   /**

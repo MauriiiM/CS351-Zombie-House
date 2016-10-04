@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 /**
  * @author Javier Zazueta
+ * @author Mauricio Monsivais
  */
 public class PlayerGhost extends Creature
 {

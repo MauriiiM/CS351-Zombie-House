@@ -47,8 +47,8 @@ public class EntityManager
   /**
    * Constructor for EntityManager.
    *
-   *  @param scenes       The various screens that are seen throughout playing the game, such as
-   *                     the main menu, the settings menu, the win screen, etc.
+   * @param scenes The various screens that are seen throughout playing the game, such as
+   *               the main menu, the settings menu, the win screen, etc.
    */
   public EntityManager(Scenes scenes)
   {
@@ -170,7 +170,7 @@ public class EntityManager
 
   /**
    * Creates list of props that will be
-   *  rendered into 3D ZombieHouse
+   * rendered into 3D ZombieHouse
    */
   public void createProps()
   {
@@ -416,8 +416,15 @@ public class EntityManager
   {
     gameIsRunning.set(false);
 
-    player.dispose();
-    player = null;
+    if (player.getNumDeaths() < 4)
+    {
+      player.reset();
+    }
+    else
+    {
+      player.dispose();
+      player = null;
+    }
 
     for (Zombie zombie : zombies)
     {

@@ -201,7 +201,7 @@ public class ZombieHouse3d
     camera.setRotationAxis(Rotate.Y_AXIS);
 
     // Initialize player
-    entityManager.player = new Player(3, 0, 3, camera, entityManager, light);
+    entityManager.player = new Player(camera, entityManager, light);
     entityManager.player.camera = camera;
 
     // Lighting
