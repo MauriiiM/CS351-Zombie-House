@@ -76,7 +76,6 @@ public class ZombieHouse3d
   public Scene scene;
 
   private EntityManager entityManager;
-  private Main main;
   private Scenes scenes;
 
   private String Feral_Ghoul = "Resources/Meshes/Feral_Ghoul/Feral_Ghoul.obj";
@@ -88,13 +87,11 @@ public class ZombieHouse3d
    * Constructor for ZombieHouse3d object
    *
    * @param difficulty   The difficulty setting
-   * @param main         Copy of Main
    * @param scenes       Scenes object
    */
-  ZombieHouse3d(int difficulty, Main main, Scenes scenes)
+  ZombieHouse3d(int difficulty, Scenes scenes)
   {
     this.difficulty = difficulty;
-    this.main = main;
     this.scenes = scenes;
   }
 
@@ -201,8 +198,8 @@ public class ZombieHouse3d
     camera.setRotationAxis(Rotate.Y_AXIS);
 
     // Initialize player
+//    if()
     entityManager.player = new Player(camera, entityManager, light);
-    entityManager.player.camera = camera;
 
     // Lighting
     root.getChildren().add(entityManager.player.light);
@@ -421,10 +418,6 @@ public class ZombieHouse3d
       {
         entityManager.tick();
       }
-//      else
-//      {
-//        entityManager.player.tick();
-//      }
     }
   }
 }

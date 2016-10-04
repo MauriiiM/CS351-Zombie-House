@@ -59,7 +59,7 @@ public class Scenes implements EventHandler<ActionEvent>
   Slider mapHeight = new Slider(0, 100, 50);
   Slider rotateSensitivity = new Slider(0, 20, 5);
 
-  private ZombieHouse3d threeDGameObject = new ZombieHouse3d(0, main, this);
+  private ZombieHouse3d threeDGameObject = new ZombieHouse3d(0, this);
   private ZombieBoardRenderer twoDGameObject;
   private MapViewerScene mapObject = new MapViewerScene();
   private int difficulty = 0;
@@ -220,7 +220,7 @@ public class Scenes implements EventHandler<ActionEvent>
 
     //Main menu Scene
     startRoot = new BorderPane();
-    startRoot.setStyle("-fx-background-image: url(\"/Images/background2.jpg\");-fx-background-size: 1280, 800;-fx-background-repeat: " + "no-repeat;");
+    startRoot.setStyle("-fx-background-image: url(/Images/background2.jpg);-fx-background-size: 1280, 800;-fx-background-repeat: " + "no-repeat;");
     startRoot.setPrefSize(winW, winH);
     VBox buttonVBox = new VBox();
     buttonVBox.getChildren().addAll(goTo3dGame, goTo2dGame, goToMapViewer, goToGameOver, goToWin, goToSettings);
@@ -238,7 +238,6 @@ public class Scenes implements EventHandler<ActionEvent>
 
     //Game over Scene
     gameOverRoot = new BorderPane();
-    startRoot.setStyle("-fx-background-image: url(\"/Images/background2.jpg\");-fx-background-size: 1280, 800;-fx-background-repeat: " + "no-repeat;");
     gameOverRoot.setPrefSize(winW, winH);
     gameOverRoot.setCenter(new Label("A ZOMBIE KILLED YOU!"));
     HBox hBoxGameOver = new HBox();
