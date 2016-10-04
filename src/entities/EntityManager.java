@@ -47,18 +47,14 @@ public class EntityManager
   /**
    * Constructor for EntityManager.
    *
-   * @param soundManager The SoundManager class being used to manage all of the sounds
-   *                     of the game.
-   * @param main         The Main class that is running the program and is the entry point
-   *                     for starting and playing the game.
-   * @param scenes       The various screens that are seen throughout playing the game, such as
+   *  @param scenes       The various screens that are seen throughout playing the game, such as
    *                     the main menu, the settings menu, the win screen, etc.
    */
-  public EntityManager(SoundManager soundManager, Main main, Scenes scenes)
+  public EntityManager(Scenes scenes)
   {
-    this.soundManager = soundManager;
     this.scenes = scenes;
-    this.main = main;
+    main = scenes.getMain();
+    soundManager = scenes.getSoundManager();
     zombies = new ArrayList<>();
     props = new ArrayList<>();
     zombieDecision = new ZombieDecision();
@@ -285,15 +281,14 @@ public class EntityManager
 
     if (player.isDead.get())
     {
-      soundManager.stopTrack();
-      soundManager.playSoundClip(Sound.death);
-      zombieHouse.dispose();/**@todo this will need to be replaced with a reload() or such*/
+//      soundManager.stopTrack();
+//      soundManager.playSoundClip(Sound.death);
+      zombieHouse.dispose();
       dispose();
       HBox hBox = new HBox();
       hBox.getChildren().addAll(scenes.returnButton, scenes.goTo3dGameDeath);
       scenes.gameOverRoot.setTop(hBox);
       main.assignStage(scenes.gameOver);
-
     }
 
     if (player != null && player.foundExit.get())

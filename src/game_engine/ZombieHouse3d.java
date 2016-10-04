@@ -76,7 +76,6 @@ public class ZombieHouse3d
   public Scene scene;
 
   private EntityManager entityManager;
-  private SoundManager soundManager;
   private Main main;
   private Scenes scenes;
 
@@ -89,14 +88,12 @@ public class ZombieHouse3d
    * Constructor for ZombieHouse3d object
    *
    * @param difficulty   The difficulty setting
-   * @param soundManager Sound manager
    * @param main         Copy of Main
    * @param scenes       Scenes object
    */
-  ZombieHouse3d(int difficulty, SoundManager soundManager, Main main, Scenes scenes)
+  ZombieHouse3d(int difficulty, Main main, Scenes scenes)
   {
     this.difficulty = difficulty;
-    this.soundManager = soundManager;
     this.main = main;
     this.scenes = scenes;
   }
@@ -117,11 +114,6 @@ public class ZombieHouse3d
     exits.clear();
     root.getChildren().clear();
     entityManager = null;
-  }
-
-  public void restart()
-  {
-
   }
 
   /**
@@ -153,16 +145,6 @@ public class ZombieHouse3d
     {
       entityManager.player.gameIsRunning.set(false);
       entityManager.gameIsRunning.set(false);
-    });
-    Button play = new Button();
-    play.setText("Play!");
-    play.setOnAction(new EventHandler<ActionEvent>()
-    {
-      @Override
-      public void handle(ActionEvent event)
-      {
-
-      }
     });
 
     gameLoop = new MainGameLoop();
@@ -205,7 +187,7 @@ public class ZombieHouse3d
     root.setCacheHint(CacheHint.SPEED);
 
     // initialize entity manager
-    entityManager = new EntityManager(soundManager, main, scenes);
+    entityManager = new EntityManager(scenes);
     entityManager.setZombieHouse3d(this);
     entityManager.createProps();
     entityManager.createZombies(gameBoard, boardHeight, boardWidth);

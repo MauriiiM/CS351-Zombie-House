@@ -13,19 +13,28 @@ import sounds.SoundManager;
 public class Main extends Application
 {
   private Stage primaryStage = new Stage();
-  private SoundManager soundManager;
+  private SoundManager soundManager = new SoundManager();
   private Scenes scenes = new Scenes(primaryStage, this);
+
+  public Scenes getScenes()
+  {
+    return scenes;
+  }
+
+  public SoundManager getSoundManager()
+  {
+    return soundManager;
+  }
 
   /**
    * @param primaryStage Start function to launch program
    */
   @Override
-  public void start(Stage primaryStage) throws Exception
+  public void start(Stage primaryStage)
   {
-    soundManager = new SoundManager();
+    this.primaryStage = primaryStage;
     scenes.setSoundManager(soundManager);
     soundManager.playTrack(0);
-    this.primaryStage = primaryStage;
     primaryStage.setTitle("Zombie House By: (Anacaren, Javier, & Mauricio) and (Atle, Ben, & Jeffrey)");
     primaryStage.setScene(scenes.mainMenu);
     primaryStage.show();
@@ -39,26 +48,6 @@ public class Main extends Application
   public void assignStage(Scene scene)
   {
     primaryStage.setScene(scene);
-  }
-
-  /**
-   * Gets the current stage
-   *
-   * @return primaryStage
-   */
-  public Stage retrieveStage()
-  {
-    return primaryStage;
-  }
-
-  /**
-   * Gets the current scene
-   *
-   * @return primaryStage.getScene()
-   */
-  public Scene retrieveScene()
-  {
-    return primaryStage.getScene();
   }
 
   /**

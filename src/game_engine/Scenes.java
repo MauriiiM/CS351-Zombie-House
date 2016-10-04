@@ -15,6 +15,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import levels.Map;
 import levels.Tile;
 import sounds.Sound;
 import sounds.SoundManager;
@@ -58,19 +59,19 @@ public class Scenes implements EventHandler<ActionEvent>
   Slider mapHeight = new Slider(0, 100, 50);
   Slider rotateSensitivity = new Slider(0, 20, 5);
 
-  private ZombieHouse3d threeDGameObject = new ZombieHouse3d(0, soundManager, main, this);
+  private ZombieHouse3d threeDGameObject = new ZombieHouse3d(0, main, this);
   private ZombieBoardRenderer twoDGameObject;
   private MapViewerScene mapObject = new MapViewerScene();
   private int difficulty = 0;
   public BorderPane startRoot, threeDGameRoot, twoDGameRoot, settingsRoot, gameOverRoot, loadRoot, winRoot;
   public Scene mainMenu, threeDGame, twoDGame, gameOver, loading, win, settings, nextLevel, mapScene;
 
+  Map map;
   Tile[][] gameBoard;
 
   /**
    * @param primaryStage primary stage
    * @param main         Constructor for a scenes object
-   * @todo possibly remove all listeners to override method
    */
   public Scenes(Stage primaryStage, Main main)
   {
@@ -237,6 +238,7 @@ public class Scenes implements EventHandler<ActionEvent>
 
     //Game over Scene
     gameOverRoot = new BorderPane();
+    startRoot.setStyle("-fx-background-image: url(\"/Images/background2.jpg\");-fx-background-size: 1280, 800;-fx-background-repeat: " + "no-repeat;");
     gameOverRoot.setPrefSize(winW, winH);
     gameOverRoot.setCenter(new Label("A ZOMBIE KILLED YOU!"));
     HBox hBoxGameOver = new HBox();
@@ -299,25 +301,22 @@ public class Scenes implements EventHandler<ActionEvent>
     }
   }
 
+  public Main getMain()
+  {
+    return main;
+  }
+
+  public SoundManager getSoundManager()
+  {
+    return soundManager;
+  }
+
   /**
    * @param soundManager Setter for the sound manager
    */
   public void setSoundManager(SoundManager soundManager)
   {
     this.soundManager = soundManager;
-  }
-
-  /**
-   * Creates a new game board
-   */
-  private void createNewGameBoard(int difficulty)
-  {
-    threeDGameObject = new ZombieHouse3d(difficulty, soundManager, main, this);
-  }
-
-  private void restartGameBoard(int difficulty)
-  {
-//    threeDGameObject.restart();
   }
 
   /**
@@ -336,9 +335,10 @@ public class Scenes implements EventHandler<ActionEvent>
     if (source == goTo3dGame)
     {
       playButtonSound();
+      map = new Map(difficulty);
       try
       {
-        gameBoard = threeDGameObject.createNewGameBoard();
+        gameBoard = map.getGameBoard();
         main.assignStage(threeDGameObject.zombieHouse3d(primaryStage, gameBoard));
         //ZombieHouse3d.parent.getChildren().add(returnButton);
       }
@@ -351,7 +351,6 @@ public class Scenes implements EventHandler<ActionEvent>
     {
       playButtonSound();
       soundManager.playTrack(0);
-
       try
       {
         main.assignStage(threeDGameObject.zombieHouse3d(primaryStage, gameBoard));
@@ -367,9 +366,10 @@ public class Scenes implements EventHandler<ActionEvent>
       playButtonSound();
       soundManager.playTrack(0);
       difficulty++;
+      map = new Map(difficulty);
       try
       {
-        gameBoard = threeDGameObject.createNewGameBoard();
+        gameBoard = map.getGameBoard();
         main.assignStage(threeDGameObject.zombieHouse3d(primaryStage, gameBoard));
         //ZombieHouse3d.parent.getChildren().add(returnButton);
       }
