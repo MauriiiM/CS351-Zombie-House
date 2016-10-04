@@ -140,6 +140,7 @@ public class Player extends Creature
    */
   public void attack()
   {
+    System.out.println("Attack");
     didAttack = 1;
   }
 
