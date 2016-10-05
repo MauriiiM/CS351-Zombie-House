@@ -419,6 +419,7 @@ public class EntityManager
     if (player.getNumDeaths() < 4)
     {
       player.reset();
+      System.out.println("player reset");
     }
     else
     {

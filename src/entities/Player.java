@@ -29,7 +29,7 @@ public class Player extends Creature
   public static final double WALKINGSPEED = Tile.tileSize / 8d;
   private static final double START_X = 3;
   private static final double START_Y = 0;
-  private static final double START_Z = 3;
+  private static final double START_Z = 2;
 
   //entityManager
   EntityManager entityManager;
@@ -174,8 +174,10 @@ public class Player extends Creature
 
   public boolean getDidAttack()
   {
-    if(didAttack == 1)
+    if (didAttack == 1)
+    {
       return true;
+    }
     return false;
   }
 
@@ -262,7 +264,7 @@ public class Player extends Creature
       gotHit = true;
       healTime = 0;
 
-      light.setColor(Color.rgb((int)((maxHealth+health)/4), (int)((health/50)+10), (int)((health/5)+10)));
+      light.setColor(Color.rgb((int) ((maxHealth + health) / 4), (int) ((health / 50) + 10), (int) ((health / 5) + 10)));
 
       //if the health is 0, or less than 0 then you're dead
       if (health <= 0)
@@ -278,16 +280,13 @@ public class Player extends Creature
       if (health < maxHealth && healTime >= 120)
       {
         health += healthRegen;
-        light.setColor(Color.rgb((int)((maxHealth+health)/4), (int)(100-(health/5)), (int)(100-(health/5))));
+        light.setColor(Color.rgb((int) ((maxHealth + health) / 4), (int) (100 - (health / 5)), (int) (100 - (health / 5))));
       }
       //do not want the health to be greater than the maxHealth, then if it is
       //set it to maxHealth
       if (health >= maxHealth)
       {
-        health = maxHealth;
-        healTime = 0;
-        gotHit = false;
-        light.setColor(Color.WHITE);
+        fullHealth();
       }
     }
     //System.out.println(health + "    in tick()");
@@ -325,8 +324,8 @@ public class Player extends Creature
     zPos = camera.getTranslateZ();
 
     //adds EVERY step taken to path. There'll be many repeats because it records how long player stays there
-    pathTaken.add(new CreaturePathInfo((float)xPos, (float)zPos, (float)angle, didAttack));
-    if(didAttack == 1) notAttack();
+    pathTaken.add(new CreaturePathInfo((float) xPos, (float) zPos, (float) angle, didAttack));
+    if (didAttack == 1) notAttack();
     //System.out.println("x= " + xPos + ",\t z= " + zPos + " in tick()");
 
 
@@ -341,7 +340,7 @@ public class Player extends Creature
     light = null;
     boundingCircle = null;
   }
-  
+
   void reset()
   {
     xPos = START_X;
@@ -353,6 +352,7 @@ public class Player extends Creature
     boundingCircle.setTranslateZ(START_Z);
     lives--;
     numDeaths++;
+    fullHealth();
   }
 
   /**
@@ -398,6 +398,14 @@ public class Player extends Creature
       return currentNode;
     }
     return currentNode;
+  }
+
+  private void fullHealth()
+  {
+    health = maxHealth;
+    healTime = 0;
+    gotHit = false;
+    light.setColor(Color.WHITE);
   }
 
   /**

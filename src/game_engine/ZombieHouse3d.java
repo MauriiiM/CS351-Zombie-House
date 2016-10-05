@@ -86,8 +86,8 @@ public class ZombieHouse3d
   /**
    * Constructor for ZombieHouse3d object
    *
-   * @param difficulty   The difficulty setting
-   * @param scenes       Scenes object
+   * @param difficulty The difficulty setting
+   * @param scenes     Scenes object
    */
   ZombieHouse3d(int difficulty, Scenes scenes)
   {
@@ -98,14 +98,15 @@ public class ZombieHouse3d
   /**
    * Delete game data after game has ended. Used when going from
    * one level to another, or restarting a level.
+   * @todo instead of disposing when same map, reset everything
    */
   public void dispose()
   {
     gameLoop.stop();
     entityManager = null;
-    scene = null;
-    camera = null;
-    light = null;
+//    scene = null;
+//    camera = null;
+//    light = null;
     gameBoard = null;
     walls.clear();
     exits.clear();
@@ -198,8 +199,10 @@ public class ZombieHouse3d
     camera.setRotationAxis(Rotate.Y_AXIS);
 
     // Initialize player
-//    if()
-    entityManager.player = new Player(camera, entityManager, light);
+    if (entityManager.player == null)
+    {
+      entityManager.player = new Player(camera, entityManager, light);
+    }
 
     // Lighting
     root.getChildren().add(entityManager.player.light);
