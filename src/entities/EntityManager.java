@@ -281,9 +281,9 @@ public class EntityManager
 
     if (player.isDead.get())
     {
-//      soundManager.stopTrack();
-//      soundManager.playSoundClip(Sound.death);
-      zombieHouse.dispose();
+      System.out.println("EntityManager DISPOSE AFTER 5 DEATHS");
+      soundManager.stopTrack();
+      soundManager.playSoundClip(Sound.death);
       dispose();
       HBox hBox = new HBox();
       hBox.getChildren().addAll(scenes.returnButton, scenes.goTo3dGameDeath);
@@ -295,7 +295,6 @@ public class EntityManager
     {
       soundManager.stopTrack();
       soundManager.playSoundClip(Sound.achieve);
-      zombieHouse.dispose();
       dispose();
       HBox hBox = new HBox();
       scenes.updateWinScreen();
@@ -412,25 +411,16 @@ public class EntityManager
   /**
    * Clears game data
    */
-  public void dispose()
+  private void dispose()
   {
-    gameIsRunning.set(false);
-
-    if (player.getNumDeaths() < 4)
-    {
-      player.reset();
-      System.out.println("player reset");
-    }
-    else
-    {
-      player.dispose();
-      player = null;
-    }
-
     for (Zombie zombie : zombies)
     {
       zombie.dispose();
     }
     zombies.clear();
+    gameIsRunning.set(false);
+    player.dispose();
+    player = null;
+    zombieHouse.dispose();
   }
 }

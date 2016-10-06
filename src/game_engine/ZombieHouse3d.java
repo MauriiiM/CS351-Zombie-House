@@ -102,6 +102,8 @@ public class ZombieHouse3d
    */
   public void dispose()
   {
+    System.out.println("zombieHouse3D DISPOSE AFTER 5 DEATHS");
+
     gameLoop.stop();
     entityManager = null;
 //    scene = null;
