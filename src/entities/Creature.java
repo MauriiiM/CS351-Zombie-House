@@ -21,7 +21,7 @@ public abstract class Creature extends Entity
 
   ArrayList<CreaturePathInfo> pathTaken;
   //boolean engaged = false;
-  protected double health;
+  protected int health;
 
   /**
    * Get distance that the zombie has traveled and
@@ -38,10 +38,6 @@ public abstract class Creature extends Entity
     }
   }
 
-  /**
-   * Plays sound effects for player and zombies.
-   */
-  public abstract void stepSound();
 
   /**
    * For zombie and player, calculates distance between the last
@@ -51,4 +47,10 @@ public abstract class Creature extends Entity
    * deltaZ.
    */
   public abstract double calculateDistance();
+
+  /**
+   * Plays sound effects for player and zombies.
+   */
+  public abstract void stepSound();
+
 }

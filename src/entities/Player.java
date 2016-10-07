@@ -25,11 +25,12 @@ import utilities.ZombieBoardRenderer;
  */
 public class Player extends Creature
 {
-  public static final double SPRINTSPEED = Tile.tileSize / 4d;
-  public static final double WALKINGSPEED = Tile.tileSize / 8d;
+  public static final double SPRINT_SPEED = Tile.tileSize / 4d;
+  public static final double WALKING_SPEED = Tile.tileSize / 8d;
   private static final double START_X = 3;
   private static final double START_Y = 0;
   private static final double START_Z = 2;
+  private static final int MAX_HEALTH = 500;
 
   //entityManager
   EntityManager entityManager;
@@ -75,7 +76,6 @@ public class Player extends Creature
 
   public int lives = 4; //for GUI displaying purposes
   private int numDeaths = 0; // for indexing creaturePathInfo array purposes
-  private final int maxHealth = 500; //the max health of the player
   private int damage = 15; //the damage taken by the player when hit by a zombie
   private int healthRegen = 5; //how fast the player heals when not taking damage(after two seconds)
   private byte didAttack = 0;
@@ -118,7 +118,7 @@ public class Player extends Creature
     pathTaken = new ArrayList<>();
 
     //give the player an initial health of 5
-    health = maxHealth;
+    health = MAX_HEALTH;
   }
 
   /**
@@ -264,7 +264,7 @@ public class Player extends Creature
       gotHit = true;
       healTime = 0;
 
-      light.setColor(Color.rgb((int) ((maxHealth + health) / 4), (int) ((health / 50) + 10), (int) ((health / 5) + 10)));
+      light.setColor(Color.rgb((int) ((MAX_HEALTH + health) / 4), (int) ((health / 50) + 10), (int) ((health / 5) + 10)));
 
       //if the health is 0, or less than 0 then you're dead
       if (health <= 0)
@@ -277,14 +277,14 @@ public class Player extends Creature
     {
       healTime++;
 
-      if (health < maxHealth && healTime >= 120)
+      if (health < MAX_HEALTH && healTime >= 120)
       {
         health += healthRegen;
-        light.setColor(Color.rgb((int) ((maxHealth + health) / 4), (int) (100 - (health / 5)), (int) (100 - (health / 5))));
+        light.setColor(Color.rgb((int) ((MAX_HEALTH + health) / 4), (int) (100 - (health / 5)), (int) (100 - (health / 5))));
       }
-      //do not want the health to be greater than the maxHealth, then if it is
-      //set it to maxHealth
-      if (health >= maxHealth)
+      //do not want the health to be greater than the MAX_HEALTH, then if it is
+      //set it to MAX_HEALTH
+      if (health >= MAX_HEALTH)
       {
         fullHealth();
       }
@@ -303,17 +303,17 @@ public class Player extends Creature
 
     if (shiftPressed.get() && !staminaOut.get())
     {
-      if (wDown.get()) velocity = SPRINTSPEED;
-      if (sDown.get()) velocity = -SPRINTSPEED;
-      if (aDown.get()) strafeVelocity = SPRINTSPEED;
-      if (dDown.get()) strafeVelocity = -SPRINTSPEED;
+      if (wDown.get()) velocity = SPRINT_SPEED;
+      if (sDown.get()) velocity = -SPRINT_SPEED;
+      if (aDown.get()) strafeVelocity = SPRINT_SPEED;
+      if (dDown.get()) strafeVelocity = -SPRINT_SPEED;
     }
     if (staminaOut.get())
     {
-      if (wDown.get()) velocity = WALKINGSPEED;
-      if (sDown.get()) velocity = -WALKINGSPEED;
-      if (aDown.get()) strafeVelocity = WALKINGSPEED;
-      if (dDown.get()) strafeVelocity = -WALKINGSPEED;
+      if (wDown.get()) velocity = WALKING_SPEED;
+      if (sDown.get()) velocity = -WALKING_SPEED;
+      if (aDown.get()) strafeVelocity = WALKING_SPEED;
+      if (dDown.get()) strafeVelocity = -WALKING_SPEED;
     }
 
     updateDistance();
@@ -402,7 +402,7 @@ public class Player extends Creature
 
   private void fullHealth()
   {
-    health = maxHealth;
+    health = MAX_HEALTH;
     healTime = 0;
     gotHit = false;
     light.setColor(Color.WHITE);

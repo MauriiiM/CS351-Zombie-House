@@ -96,10 +96,13 @@ public class ZombieHouse3d
   /**
    * Delete game data after game has ended. Used when going from
    * one level to another, or restarting a level.
+   *
    * @todo instead of disposing when same map, reset everything
    */
   public void dispose()
   {
+    System.out.println("zombieHouse3D DISPOSE AFTER 5 DEATHS");
+
     gameLoop.stop();
     entityManager = null;
 //    scene = null;

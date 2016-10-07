@@ -30,7 +30,11 @@ import utilities.ZombieBoardRenderer;
  */
 public class EntityManager
 {
+  //creatures
   public Player player;
+  private Zombie masterZombie;
+  private PlayerGhost ghost;
+
   public ArrayList<Zombie> zombies;
   public Chainsaw chainsaw = new Chainsaw();
   public ArrayList<Prop> props;
@@ -40,7 +44,6 @@ public class EntityManager
   public Main main;
   public boolean masterZombieSpawn = false;
   public AtomicBoolean gameIsRunning = new AtomicBoolean(true);
-  Zombie masterZombie;
 
   private MasterZombieDecision masterDecision;
   private ZombieDecision zombieDecision;
@@ -282,9 +285,9 @@ public class EntityManager
 
     if (player.isDead.get())
     {
-//      soundManager.stopTrack();
-//      soundManager.playSoundClip(Sound.death);
-      zombieHouse.dispose();
+      soundManager.stopTrack();
+      soundManager.playSoundClip(Sound.death);
+//      reset();
       dispose();
       HBox hBox = new HBox();
       hBox.getChildren().addAll(scenes.returnButton, scenes.goTo3dGameDeath);
@@ -296,7 +299,6 @@ public class EntityManager
     {
       soundManager.stopTrack();
       soundManager.playSoundClip(Sound.achieve);
-      zombieHouse.dispose();
       dispose();
       HBox hBox = new HBox();
       scenes.updateWinScreen();
@@ -410,28 +412,30 @@ public class EntityManager
     this.zombieHouse = zombieHouse;
   }
 
+  private void reset()
+  {
+    player.reset();
+    ghost = new PlayerGhost(player.pathTaken);
+    for (Zombie zombie : zombies)
+    {
+      zombie.reset();
+    }
+
+  }
+
   /**
    * Clears game data
    */
-  public void dispose()
+  private void dispose()
   {
-    gameIsRunning.set(false);
-
-    if (player.getNumDeaths() < 4)
-    {
-      player.reset();
-      System.out.println("player reset");
-    }
-    else
-    {
-      player.dispose();
-      player = null;
-    }
-
     for (Zombie zombie : zombies)
     {
       zombie.dispose();
     }
     zombies.clear();
+    gameIsRunning.set(false);
+    player.dispose();
+    player = null;
+    zombieHouse.dispose();
   }
 }
