@@ -9,9 +9,9 @@ import java.util.ArrayList;
  */
 public class PlayerGhost extends Creature
 {
-  protected ArrayList<Point2D.Double> path;
+  private ArrayList<CreaturePathInfo> path;
 
-  public PlayerGhost(ArrayList<Point2D.Double> path)
+  public PlayerGhost(ArrayList<CreaturePathInfo> path)
   {
     this.path = path;
   }

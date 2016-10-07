@@ -30,7 +30,11 @@ import utilities.ZombieBoardRenderer;
  */
 public class EntityManager
 {
+  //creatures
   public Player player;
+  private Zombie masterZombie;
+  private PlayerGhost ghost;
+
   public ArrayList<Zombie> zombies;
   public ArrayList<Prop> props;
   public SoundManager soundManager;
@@ -39,7 +43,6 @@ public class EntityManager
   public Main main;
   public boolean masterZombieSpawn = false;
   public AtomicBoolean gameIsRunning = new AtomicBoolean(true);
-  Zombie masterZombie;
 
   private MasterZombieDecision masterDecision;
   private ZombieDecision zombieDecision;
@@ -281,9 +284,9 @@ public class EntityManager
 
     if (player.isDead.get())
     {
-      System.out.println("EntityManager DISPOSE AFTER 5 DEATHS");
       soundManager.stopTrack();
       soundManager.playSoundClip(Sound.death);
+//      reset();
       dispose();
       HBox hBox = new HBox();
       hBox.getChildren().addAll(scenes.returnButton, scenes.goTo3dGameDeath);
@@ -406,6 +409,17 @@ public class EntityManager
   public void setZombieHouse3d(ZombieHouse3d zombieHouse)
   {
     this.zombieHouse = zombieHouse;
+  }
+
+  private void reset()
+  {
+    player.reset();
+    ghost = new PlayerGhost(player.pathTaken);
+    for (Zombie zombie : zombies)
+    {
+      zombie.reset();
+    }
+
   }
 
   /**

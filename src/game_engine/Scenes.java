@@ -350,6 +350,7 @@ public class Scenes implements EventHandler<ActionEvent>
     {
       playButtonSound();
       soundManager.playTrack(0);
+      System.out.println("TRY AGAIN");
       try
       {
         main.assignStage(threeDGameObject.zombieHouse3d(primaryStage, gameBoard));

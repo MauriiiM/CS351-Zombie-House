@@ -49,22 +49,22 @@ public class KeyboardEventHandler extends InputHandler implements EventHandler<K
       if (event.getCode() == KeyCode.W && !gameIsPaused)
       {
         player.wDown.set(true);
-        player.velocity = Player.WALKINGSPEED;
+        player.velocity = Player.WALKING_SPEED;
       }
       if (event.getCode() == KeyCode.S && !gameIsPaused)
       {
         player.sDown.set(true);
-        player.velocity = -Player.WALKINGSPEED;
+        player.velocity = -Player.WALKING_SPEED;
       }
       if (event.getCode() == KeyCode.A && !gameIsPaused)
       {
         player.aDown.set(true);
-        player.strafeVelocity = Player.WALKINGSPEED;
+        player.strafeVelocity = Player.WALKING_SPEED;
       }
       if (event.getCode() == KeyCode.D && !gameIsPaused)
       {
         player.dDown.set(true);
-        player.strafeVelocity = -Player.WALKINGSPEED;
+        player.strafeVelocity = -Player.WALKING_SPEED;
       }
       if (event.getCode() == KeyCode.F && !gameIsPaused)
       {
@@ -100,7 +100,7 @@ public class KeyboardEventHandler extends InputHandler implements EventHandler<K
     }
     else if (event.getEventType() == KeyEvent.KEY_RELEASED)
     {
-      if(event.getCode() == KeyCode.SPACE)
+      if (event.getCode() == KeyCode.SPACE)
       {
         player.notAttack();
       }

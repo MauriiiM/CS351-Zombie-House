@@ -98,9 +98,10 @@ public class Zombie extends Creature
     this.col = col;
     this.xPos = xPos;
     this.zPos = zPos;
+
     boundingCircle = new Cylinder(.5, 1);
     pathTaken = new ArrayList<>();
-    health = 3; // initialize the zombie health, they will not heal
+    health = 100; // initialize the zombie health, they will not heal
   }
 
 
@@ -116,7 +117,7 @@ public class Zombie extends Creature
 
   void setMasterHealth()
   {
-    health = 10;
+    health = 300;
   }
 
   double getHealth()
@@ -126,7 +127,7 @@ public class Zombie extends Creature
 
   void takeHealth()
   {
-    health -= .25;
+    health -= 8;
   }
 
   boolean getEngaged()
@@ -837,6 +838,11 @@ public class Zombie extends Creature
     double xDist = zombieCylinder.getTranslateX() - lastX;
     double zDist = zombieCylinder.getTranslateZ() - lastZ;
     return Math.sqrt((xDist * xDist) + (zDist * zDist));
+  }
+
+  void reset()
+  {
+
   }
 
   /**
