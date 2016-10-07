@@ -32,6 +32,7 @@ public class EntityManager
 {
   public Player player;
   public ArrayList<Zombie> zombies;
+  public Chainsaw chainsaw = new Chainsaw();
   public ArrayList<Prop> props;
   public SoundManager soundManager;
   public ZombieHouse3d zombieHouse;

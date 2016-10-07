@@ -5,10 +5,8 @@ import java.util.ArrayList;
 import com.interactivemesh.jfx.importer.obj.ObjImportOption;
 import com.interactivemesh.jfx.importer.obj.ObjModelImporter;
 
-import entities.EntityManager;
-import entities.Player;
-import entities.Prop;
-import entities.Zombie;
+import com.sun.net.httpserver.Filter;
+import entities.*;
 import graphing.GraphNode;
 import graphing.TileGraph;
 import gui.Main;
@@ -353,6 +351,8 @@ public class ZombieHouse3d
       }
       root.getChildren().addAll(zombie.zombieMesh);
     }
+
+    root.getChildren().addAll(entityManager.chainsaw.getMesh());
 
     // setMesh for props
     System.out.println("Number of Props: " + props.size());
