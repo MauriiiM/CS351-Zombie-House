@@ -19,7 +19,7 @@ public class Chainsaw extends Entity
     o = new ObjModelImporter();
     o.setOptions(ObjImportOption.NONE);
     //o.read("Resources/Meshes/Sofa/Sofa.obj");
-    o.read("Resources/Meshes/Chainsaw/chainsaw_no_Modifiere1.obj");
+    o.read("Resources/Meshes/Chainsaw/chainsaw_no_modifiere1.obj");
     in = o.getImport();
     for(int i = 0; i < in.length; i++)
     {
