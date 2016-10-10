@@ -2,6 +2,8 @@ package entities;
 
 import com.interactivemesh.jfx.importer.obj.ObjImportOption;
 import com.interactivemesh.jfx.importer.obj.ObjModelImporter;
+import com.sun.org.apache.xml.internal.dtm.Axis;
+import javafx.geometry.Point3D;
 import javafx.scene.Node;
 import javafx.scene.transform.Rotate;
 
@@ -30,6 +32,8 @@ public class Chainsaw extends Entity
       in[i].setTranslateX(42);
       in[i].setTranslateY(11.95);
       in[i].setTranslateZ(4);
+      in[i].setRotationAxis(Rotate.Z_AXIS);
+      in[i].setRotate(15);
     }
     o.close();
   }
