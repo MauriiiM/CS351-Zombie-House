@@ -18,17 +18,17 @@ public class Chainsaw extends Entity
   {
     o = new ObjModelImporter();
     o.setOptions(ObjImportOption.NONE);
-    //o.read("Resources/Meshes/Sofa/Sofa.obj");
-    o.read("Resources/Meshes/Chainsaw/chainsaw_no_modifiere1.obj");
+    //o.read("Resources/Meshes/HarleyQuinn/Harley.obj");
+    o.read("Resources/Meshes/LollipopChainsaw/chainsaw.obj");
     in = o.getImport();
     for(int i = 0; i < in.length; i++)
     {
+      in[i].setScaleX(.009);
+      in[i].setScaleY(.009);
+      in[i].setScaleZ(.009);
       in[i].setRotationAxis(Rotate.Y_AXIS);
-//      in[i].setScaleX(.5);
-//      in[i].setScaleY(.5);
-//      in[i].setScaleZ(.5);
-      in[i].setTranslateX(3);
-      in[i].setTranslateY(.15);
+      in[i].setTranslateX(42);
+      in[i].setTranslateY(11.95);
       in[i].setTranslateZ(4);
     }
     o.close();
