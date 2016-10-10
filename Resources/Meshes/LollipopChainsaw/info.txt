@@ -1,0 +1,9 @@
+Juliet's Chainsaw
+Game: Lollipop Chainsaw
+© 2012 Warner Bros. Interactive / Grasshopper Manufacture
+
+Ripped by Mystie from The VG Resource. Please credit her if used.
+
+NOTES:
+* The .dae needs to be re-textured. For some reason, .dae files will not export with their textures.
+* If the .dae is glitching out when trying to pose it, then use the .psk or .fbx instead, or rig the model yourself with the .obj.
