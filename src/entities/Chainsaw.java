@@ -13,8 +13,9 @@ public class Chainsaw extends Entity
 {
   private final double SCALE = .009;
   private final double Y_TRANSLATE = 11.95;
-  private final double X_OFFSET = 41.7;
-  private final int Z_OFFSET = 4;
+  private final double X_OFFSET = 38.7;
+  private final int Z_OFFSET = 2;
+  private final int ROTATE = 80;
 
   private EntityManager entityManager;
   private ObjModelImporter o;
@@ -38,7 +39,7 @@ public class Chainsaw extends Entity
       in[i].setScaleY(SCALE);
       in[i].setScaleZ(SCALE);
       in[i].setRotationAxis(Rotate.Y_AXIS);
-      in[i].setRotate(80);
+      in[i].setRotate(ROTATE);
       in[i].setTranslateX(X_OFFSET + xTranslate);
       in[i].setTranslateY(Y_TRANSLATE);
       in[i].setTranslateZ(Z_OFFSET + zTranslate);
@@ -51,6 +52,24 @@ public class Chainsaw extends Entity
   public Node[] getMesh()
   {
     return this.in;
+  }
+
+  public void setTranslateX(double xOffset)
+  {
+    in[0].setTranslateX(xOffset + X_OFFSET);
+    in[1].setTranslateX(xOffset + X_OFFSET);
+  }
+
+  public void setTranslateZ(double zOffset)
+  {
+    in[0].setTranslateZ(zOffset + Z_OFFSET);
+    in[1].setTranslateZ(zOffset + Z_OFFSET);
+  }
+
+  public void setRotate(double angle)
+  {
+    in[0].setRotate(angle + ROTATE);
+    in[1].setRotate(angle + ROTATE);
   }
 
   public void tick()

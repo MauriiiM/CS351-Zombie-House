@@ -202,7 +202,8 @@ public class ZombieHouse3d
     // Initialize player
     if (entityManager.player == null)
     {
-      entityManager.player = new Player(camera, entityManager, light);
+      entityManager.chainsaw = new Chainsaw(3,2);
+      entityManager.player = new Player(camera, entityManager, light, entityManager.chainsaw);
     }
 
     // Lighting
@@ -355,7 +356,7 @@ public class ZombieHouse3d
       root.getChildren().addAll(zombie.zombieMesh);
     }
 
-    root.getChildren().addAll(entityManager.chainsaw.getMesh());
+    root.getChildren().addAll(entityManager.player.chainsaw.getMesh());
 
     // setMesh for props
     System.out.println("Number of Props: " + props.size());

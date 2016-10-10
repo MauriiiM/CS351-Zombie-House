@@ -36,7 +36,7 @@ public class EntityManager
   private PlayerGhost ghost;
 
   public ArrayList<Zombie> zombies;
-  public Chainsaw chainsaw = new Chainsaw(0, 0);
+  public Chainsaw chainsaw;
   public ArrayList<Prop> props;
   public SoundManager soundManager;
   public ZombieHouse3d zombieHouse;

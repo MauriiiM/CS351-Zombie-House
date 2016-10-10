@@ -30,6 +30,7 @@ public class Player extends Creature
   private static final double START_X = 3;
   private static final double START_Y = 0;
   private static final double START_Z = 2;
+  public Chainsaw chainsaw;
   private static final int MAX_HEALTH = 500;
 
   //entityManager
@@ -92,7 +93,7 @@ public class Player extends Creature
    *                      the game runs
    * @param light         The light that emanates from the player
    */
-  public Player(PerspectiveCamera camera, EntityManager entityManager, PointLight light)
+  public Player(PerspectiveCamera camera, EntityManager entityManager, PointLight light, Chainsaw chainsaw)
   {
     stepDistance = 3;
     this.entityManager = entityManager;
@@ -102,10 +103,14 @@ public class Player extends Creature
     this.velocity = 0;
     this.angle = 0;
     this.strafeVelocity = 0;
+    this.chainsaw = chainsaw;
     camera.setRotate(this.angle);
+    chainsaw.setRotate(this.angle);
     this.camera = camera;
     camera.setTranslateX(START_X);
+    chainsaw.setTranslateX(START_X);
     camera.setTranslateZ(START_Z);
+    chainsaw.setTranslateZ(START_Z);
     this.light = light;
     light.setRotationAxis(Rotate.Y_AXIS);
     boundingCircle = new Cylinder(radius, 1);
@@ -233,11 +238,13 @@ public class Player extends Creature
     {
       this.angle -= Attributes.Player_Rotate_sensitivity;
       this.camera.setRotate(this.angle);
+      chainsaw.setRotate(this.angle);
     }
     if (turnRight)
     {
       this.angle += Attributes.Player_Rotate_sensitivity;
       this.camera.setRotate(this.angle);
+      chainsaw.setRotate(this.angle);
     }
 
     lastX = camera.getTranslateX();
@@ -246,10 +253,12 @@ public class Player extends Creature
     if (collisionX == null)
     {
       camera.setTranslateX(movementX);
+      chainsaw.setTranslateX(movementX);
     }
     if (collisionZ == null)
     {
       camera.setTranslateZ(movementZ);
+      chainsaw.setTranslateZ(movementZ);
     }
 
 
@@ -347,7 +356,9 @@ public class Player extends Creature
     yPos = START_Y;
     zPos = START_Z;
     camera.setTranslateX(START_X);
+    chainsaw.setTranslateX(START_X);
     camera.setTranslateZ(START_Z);
+    chainsaw.setTranslateZ(START_Z);
     boundingCircle.setTranslateX(START_X);
     boundingCircle.setTranslateZ(START_Z);
     lives--;
