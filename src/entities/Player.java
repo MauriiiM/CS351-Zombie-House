@@ -239,12 +239,16 @@ public class Player extends Creature
       this.angle -= Attributes.Player_Rotate_sensitivity;
       this.camera.setRotate(this.angle);
       chainsaw.setRotate(this.angle);
+      chainsaw.setTranslateX(Math.sin(Math.toRadians(this.angle)) + movementX);
+      chainsaw.setTranslateZ(Math.cos(Math.toRadians(this.angle)) + movementZ-1);
     }
     if (turnRight)
     {
       this.angle += Attributes.Player_Rotate_sensitivity;
       this.camera.setRotate(this.angle);
       chainsaw.setRotate(this.angle);
+      chainsaw.setTranslateX(Math.sin(Math.toRadians(this.angle)) + movementX);
+      chainsaw.setTranslateZ(Math.cos(Math.toRadians(this.angle)) + movementZ-1);
     }
 
     lastX = camera.getTranslateX();
@@ -253,12 +257,16 @@ public class Player extends Creature
     if (collisionX == null)
     {
       camera.setTranslateX(movementX);
-      chainsaw.setTranslateX(movementX);
+      //chainsaw.setTranslateX(movementX);
+      chainsaw.setTranslateX(Math.sin(Math.toRadians(this.angle)) + movementX);
+      //chainsaw.setTranslateZ(Math.cos(Math.toRadians(this.angle)) + movementZ - .5);
     }
     if (collisionZ == null)
     {
       camera.setTranslateZ(movementZ);
-      chainsaw.setTranslateZ(movementZ);
+      //chainsaw.setTranslateZ(movementZ);
+      //chainsaw.setTranslateX(Math.sin(Math.toRadians(this.angle)) + movementX);
+      chainsaw.setTranslateZ(Math.cos(Math.toRadians(this.angle)) + movementZ - 1);
     }
 
 
