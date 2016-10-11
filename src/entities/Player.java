@@ -234,21 +234,14 @@ public class Player extends Creature
     Box collisionX = entityManager.getWallCollision(tempX);
     Box collisionZ = entityManager.getWallCollision(tempZ);
 
-    if (turnLeft)
+    if (turnLeft || turnRight)
     {
-      this.angle -= Attributes.Player_Rotate_sensitivity;
-      this.camera.setRotate(this.angle);
-      chainsaw.setRotate(this.angle);
-      chainsaw.setTranslateX(Math.sin(Math.toRadians(this.angle)) + movementX);
-      chainsaw.setTranslateZ(Math.cos(Math.toRadians(this.angle)) + movementZ-1);
-    }
-    if (turnRight)
-    {
-      this.angle += Attributes.Player_Rotate_sensitivity;
-      this.camera.setRotate(this.angle);
-      chainsaw.setRotate(this.angle);
-      chainsaw.setTranslateX(Math.sin(Math.toRadians(this.angle)) + movementX);
-      chainsaw.setTranslateZ(Math.cos(Math.toRadians(this.angle)) + movementZ-1);
+      if (turnLeft) angle -= Attributes.Player_Rotate_sensitivity;
+      else angle += Attributes.Player_Rotate_sensitivity;
+      camera.setRotate(angle);
+      chainsaw.setRotate(angle);
+      chainsaw.setTranslateX(Math.sin(Math.toRadians(angle) + 50));
+      chainsaw.setTranslateZ(Math.cos(Math.toRadians(angle) + 50));
     }
 
     lastX = camera.getTranslateX();
@@ -258,15 +251,13 @@ public class Player extends Creature
     {
       camera.setTranslateX(movementX);
       //chainsaw.setTranslateX(movementX);
-      chainsaw.setTranslateX(Math.sin(Math.toRadians(this.angle)) + movementX);
-      //chainsaw.setTranslateZ(Math.cos(Math.toRadians(this.angle)) + movementZ - .5);
+      chainsaw.setTranslateX(Math.sin(Math.toRadians(angle)) + movementX);
     }
     if (collisionZ == null)
     {
       camera.setTranslateZ(movementZ);
       //chainsaw.setTranslateZ(movementZ);
-      //chainsaw.setTranslateX(Math.sin(Math.toRadians(this.angle)) + movementX);
-      chainsaw.setTranslateZ(Math.cos(Math.toRadians(this.angle)) + movementZ - 1);
+      chainsaw.setTranslateZ(Math.cos(Math.toRadians(angle)) + movementZ - 1);
     }
 
 
