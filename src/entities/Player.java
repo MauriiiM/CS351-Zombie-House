@@ -240,8 +240,6 @@ public class Player extends Creature
       else angle += Attributes.Player_Rotate_sensitivity;
       camera.setRotate(angle);
       chainsaw.setRotate(angle);
-      chainsaw.setTranslateX(Math.sin(Math.toRadians(angle) + 50));
-      chainsaw.setTranslateZ(Math.cos(Math.toRadians(angle) + 50));
     }
 
     lastX = camera.getTranslateX();
@@ -249,15 +247,18 @@ public class Player extends Creature
 
     if (collisionX == null)
     {
+
       camera.setTranslateX(movementX);
       //chainsaw.setTranslateX(movementX);
-      chainsaw.setTranslateX(Math.sin(Math.toRadians(angle)) + movementX);
+      chainsaw.setTranslateX(.45 * Math.sin(Math.toRadians(angle)) + movementX);
     }
     if (collisionZ == null)
     {
+      System.out.println("movememtZ " + movementZ);
+
       camera.setTranslateZ(movementZ);
       //chainsaw.setTranslateZ(movementZ);
-      chainsaw.setTranslateZ(Math.cos(Math.toRadians(angle)) + movementZ - 1);
+      chainsaw.setTranslateZ(.45 * Math.cos(Math.toRadians(angle)) + movementZ - .4);
     }
 
 

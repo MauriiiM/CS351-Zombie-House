@@ -20,14 +20,9 @@ public class Chainsaw extends Entity
   private EntityManager entityManager;
   private ObjModelImporter o;
   private Node[] in;
-  private double xTranslate;
-  private double zTranslate;
-
 
   public Chainsaw(double xTranslate, double zTranslate)
   {
-    this.xTranslate = xTranslate;
-    this.zTranslate = zTranslate;
     o = new ObjModelImporter();
     o.setOptions(ObjImportOption.NONE);
     //o.read("Resources/Meshes/HarleyQuinn/Harley.obj");
