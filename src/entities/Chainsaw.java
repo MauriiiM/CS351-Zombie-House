@@ -53,10 +53,12 @@ public class Chainsaw extends Entity
 
   public void makeRotate()
   {
-    in[0].setRotationAxis(Rotate.Z_AXIS);
-    in[0].setRotate(30);
-    in[1].setRotationAxis(Rotate.Z_AXIS);
-    in[1].setRotate(30);
+    in[0].setTranslateY(Y_TRANSLATE - .1);
+    in[1].setTranslateY(Y_TRANSLATE - .1);
+//    in[0].setRotationAxis(Rotate.Z_AXIS);
+//    in[0].setRotate(30);
+//    in[1].setRotationAxis(Rotate.Z_AXIS);
+//    in[1].setRotate(30);
 
 //    in[0].setRotationAxis(Rotate.Y_AXIS);
 //    in[0].setRotate(ROTATE);
@@ -66,12 +68,15 @@ public class Chainsaw extends Entity
 
   public void unRotate()
   {
-    in[0].setRotationAxis(Rotate.Z_AXIS);
-    in[0].setRotate(0);
-    in[1].setRotationAxis(Rotate.Z_AXIS);
-    in[1].setRotate(0);
-    in[1].setRotationAxis(Rotate.Y_AXIS);
-    in[0].setRotationAxis(Rotate.Y_AXIS);
+
+    in[0].setTranslateY(Y_TRANSLATE);
+    in[1].setTranslateY(Y_TRANSLATE);
+//    in[0].setRotationAxis(Rotate.Z_AXIS);
+//    in[0].setRotate(0);
+//    in[1].setRotationAxis(Rotate.Z_AXIS);
+//    in[1].setRotate(0);
+//    in[1].setRotationAxis(Rotate.Y_AXIS);
+//    in[0].setRotationAxis(Rotate.Y_AXIS);
 
 
     //    in[0].setRotationAxis(Rotate.Y_AXIS);
