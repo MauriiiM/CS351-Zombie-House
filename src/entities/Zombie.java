@@ -79,6 +79,8 @@ public class Zombie extends Creature
 
   private double START_X;
   private double START_Z;
+  private int START_ROW;
+  private int START_COL;
 
 
   /**
@@ -92,6 +94,8 @@ public class Zombie extends Creature
 
     START_X = xPos;
     START_Z = zPos;
+    START_ROW = row;
+    START_COL = col;
 
     this.entityManager = entityManager;
     // 50% chance that the zombie is either a random
