@@ -37,7 +37,7 @@ public class Scenes implements EventHandler<ActionEvent>
   public Button returnButton = new Button();
   private Button returnButtonDeath = new Button();
   private Button goTo3dGame = new Button();
-  public Button goTo3dGameDeath = new Button();
+  public Button tryAgainButton = new Button();
   public Button goTo3dGameNextLevel = new Button();
   private Button goTo2dGame = new Button();
   private Button goToMapViewer = new Button();
@@ -84,11 +84,11 @@ public class Scenes implements EventHandler<ActionEvent>
     returnButtonDeath.setText("Back to main menu.");
     returnButtonDeath.setOnAction(this);
 
-    goTo3dGame.setText("Play 3D ZombieHouse!");
+    goTo3dGame.setText("Start 3D Game!");
     goTo3dGame.setOnAction(this);
 
-    goTo3dGameDeath.setText("Try Again?");
-    goTo3dGameDeath.setOnAction(this);
+    tryAgainButton.setText("Try Again?");
+    tryAgainButton.setOnAction(this);
 
     goTo3dGameNextLevel.setText("Next Level!!");
     goTo3dGameNextLevel.setOnAction(this);
@@ -240,7 +240,7 @@ public class Scenes implements EventHandler<ActionEvent>
     gameOverRoot.setPrefSize(winW, winH);
     gameOverRoot.setCenter(new Label("A ZOMBIE KILLED YOU!"));
     HBox hBoxGameOver = new HBox();
-    hBoxGameOver.getChildren().addAll(returnButton, goTo3dGameDeath);
+    hBoxGameOver.getChildren().addAll(returnButton, tryAgainButton);
     gameOverRoot.setTop(hBoxGameOver);
 
     //loading Scene
@@ -330,7 +330,7 @@ public class Scenes implements EventHandler<ActionEvent>
   {
     Object source = event.getSource();
 
-    if (source == goTo3dGame)
+    if (source == goTo3dGame) //START 3D Game
     {
       playButtonSound();
       map = new Map(difficulty);
@@ -338,21 +338,19 @@ public class Scenes implements EventHandler<ActionEvent>
       {
         gameBoard = map.getGameBoard();
         main.assignStage(threeDGameObject.zombieHouse3d(primaryStage, gameBoard));
-        //ZombieHouse3d.parent.getChildren().add(returnButton);
       }
       catch (Exception e)
       {
         e.printStackTrace();
       }
     }
-    else if (source == goTo3dGameDeath)
+    else if (source == tryAgainButton) //TRY AGAIN
     {
       playButtonSound();
       soundManager.playTrack(0);
-      System.out.println("TRY AGAIN");
       try
       {
-        main.assignStage(threeDGameObject.zombieHouse3d(primaryStage, gameBoard));
+        main.assignStage(threeDGameObject.getScene());
         //ZombieHouse3d.parent.getChildren().add(returnButton);
       }
       catch (Exception e)

@@ -156,14 +156,14 @@ public class ZombieHouse3d
     return gameBoard;
   }
 
+  public Scene getScene()
+  {
+    return scene;
+  }
+
   boolean getPaused()
   {
     return paused;
-  }
-
-  Tile[][] createNewGameBoard()
-  {
-    return ProceduralMap.generateMap(Attributes.Map_Width, Attributes.Map_Height, difficulty);
   }
 
   void setPaused(boolean setPause)
