@@ -84,6 +84,8 @@ public class Player extends Creature
   private boolean gotHit = false;
   private int healTime = 0;
 
+  public boolean attacking;
+
 
   /**
    * A constructor for a 3D player. takes in a camera object
@@ -254,7 +256,7 @@ public class Player extends Creature
     }
     if (collisionZ == null)
     {
-      System.out.println("movememtZ " + movementZ);
+      //System.out.println("movememtZ " + movementZ);
 
       camera.setTranslateZ(movementZ);
       //chainsaw.setTranslateZ(movementZ);
@@ -275,7 +277,7 @@ public class Player extends Creature
 
       light.setColor(Color.rgb((int) ((MAX_HEALTH + health) / 4), (int) ((health / 50) + 10), (int) ((health / 5) + 10)));
 
-      //if the health is 0, or less than 0 then you're dead
+      //if the health is 0, or less than 0(which will only occur once) then you're dead
       if (health <= 0)
       {
         isDead.set(true);

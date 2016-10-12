@@ -121,7 +121,10 @@ public class EntityManager
 //          zombies.add(new Zombie(gameBoard[zombie.col][zombie.row], zombie.row, zombie.col,
 //              gameBoard[zombie.col][zombie.row].xPos, gameBoard[zombie.col][zombie.row].zPos, this));
 //        }
-        zombie.takeHealth();
+        if(this.player.attacking && (this.player.angle - zombie.angle > -200 && this.player.angle - zombie.angle < 200))
+        {
+          zombie.takeHealth();
+        }
         if (zombie.getHealth() <= 0)
         {
           //need to blow up the zombie

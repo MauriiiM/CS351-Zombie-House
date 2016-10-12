@@ -87,6 +87,8 @@ public class KeyboardEventHandler extends InputHandler implements EventHandler<K
       if (event.getCode() == KeyCode.SPACE && !gameIsPaused)
       {
         player.attack();
+        player.attacking = true;
+        player.chainsaw.makeRotate();
       }
       if (event.getCode() == KeyCode.P)
       {
@@ -103,6 +105,8 @@ public class KeyboardEventHandler extends InputHandler implements EventHandler<K
       if (event.getCode() == KeyCode.SPACE)
       {
         player.notAttack();
+        player.attacking = false;
+        player.chainsaw.unRotate();
       }
       if (event.getCode() == KeyCode.W)
       {

@@ -21,6 +21,8 @@ public class Chainsaw extends Entity
   private ObjModelImporter o;
   private Node[] in;
 
+  public boolean rotate;
+
   public Chainsaw(double xTranslate, double zTranslate)
   {
     o = new ObjModelImporter();
@@ -47,6 +49,32 @@ public class Chainsaw extends Entity
   public Node[] getMesh()
   {
     return this.in;
+  }
+
+  public void makeRotate()
+  {
+    in[0].setRotationAxis(Rotate.Z_AXIS);
+    in[0].setRotate(30);
+    in[1].setRotationAxis(Rotate.Z_AXIS);
+    in[1].setRotate(30);
+
+//    in[0].setRotationAxis(Rotate.Y_AXIS);
+//    in[0].setRotate(ROTATE);
+//    in[1].setRotationAxis(Rotate.Y_AXIS);
+//    in[1].setRotate(ROTATE);
+  }
+
+  public void unRotate()
+  {
+    in[0].setRotationAxis(Rotate.Z_AXIS);
+    in[0].setRotate(0);
+    in[1].setRotationAxis(Rotate.Z_AXIS);
+    in[1].setRotate(0);
+
+//    in[0].setRotationAxis(Rotate.Y_AXIS);
+//    in[0].setRotate(ROTATE);
+//    in[1].setRotationAxis(Rotate.Y_AXIS);
+//    in[1].setRotate(ROTATE);
   }
 
   public void setTranslateX(double xOffset)
