@@ -89,6 +89,7 @@ public class KeyboardEventHandler extends InputHandler implements EventHandler<K
         player.attack();
         player.attacking = true;
         player.chainsaw.makeRotate();
+        zombieHouse3d.playChainsaw();
       }
       if (event.getCode() == KeyCode.P)
       {
@@ -107,6 +108,7 @@ public class KeyboardEventHandler extends InputHandler implements EventHandler<K
         player.notAttack();
         player.attacking = false;
         player.chainsaw.unRotate();
+        zombieHouse3d.pauseChainsaw();
       }
       if (event.getCode() == KeyCode.W)
       {

@@ -1,5 +1,6 @@
 package game_engine;
 
+import java.net.URL;
 import java.util.ArrayList;
 
 import com.interactivemesh.jfx.importer.obj.ObjImportOption;
@@ -26,6 +27,9 @@ import javafx.scene.SubScene;
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.media.AudioClip;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Box;
 import javafx.scene.transform.Rotate;
@@ -81,6 +85,10 @@ public class ZombieHouse3d
   private String Desk = "Resources/Meshes/Desk/Desk.obj";
   private String Sofa = "Resources/Meshes/Sofa/Sofa.obj";
 
+  private final URL chainsawURL = getClass().getResource("chainsawAttack.mp3");
+  private final Media chainMedia = new Media(chainsawURL.toString());
+  private final MediaPlayer chainPlayer = new MediaPlayer(chainMedia);
+
   /**
    * Constructor for ZombieHouse3d object
    *
@@ -103,6 +111,7 @@ public class ZombieHouse3d
   {
     System.out.println("zombieHouse3D DISPOSE AFTER 5 DEATHS");
 
+    chainPlayer.dispose();
     gameLoop.stop();
     entityManager = null;
 //    scene = null;
@@ -164,6 +173,17 @@ public class ZombieHouse3d
   boolean getPaused()
   {
     return paused;
+  }
+
+  public void playChainsaw()
+  {
+    chainPlayer.setCycleCount(AudioClip.INDEFINITE);
+    chainPlayer.play();
+  }
+
+  public void pauseChainsaw()
+  {
+    chainPlayer.pause();
   }
 
   void setPaused(boolean setPause)
