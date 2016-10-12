@@ -275,7 +275,8 @@ public class Player extends Creature
       gotHit = true;
       healTime = 0;
 
-      light.setColor(Color.rgb((int) ((MAX_HEALTH + health) / 4), (int) ((health / 50) + 10), (int) ((health / 5) + 10)));
+      if(health >= 0)
+        light.setColor(Color.rgb((int) ((MAX_HEALTH + health) / 4), (int) ((health / 50) + 10), (int) ((health / 5) + 10)));
 
       //if the health is 0, or less than 0(which will only occur once) then you're dead
       if (health <= 0)

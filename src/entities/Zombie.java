@@ -77,6 +77,10 @@ public class Zombie extends Creature
   private boolean dead = false;
   private byte didAttack = 0;
 
+  private double START_X;
+  private double START_Z;
+
+
   /**
    * Constructor that sets whether this zombie is a random walk zombie or a line
    * walk zombie. Also sets the values for the location of initial spawning
@@ -85,6 +89,9 @@ public class Zombie extends Creature
   Zombie(Tile tile, int row, int col, double xPos, double zPos, EntityManager entityManager)
   {
     stepDistance = 1;
+
+    START_X = xPos;
+    START_Z = zPos;
 
     this.entityManager = entityManager;
     // 50% chance that the zombie is either a random
@@ -842,6 +849,8 @@ public class Zombie extends Creature
 
   void reset()
   {
+    xPos = START_X;
+    zPos = START_Z;
 
   }
 
