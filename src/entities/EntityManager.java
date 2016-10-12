@@ -290,10 +290,10 @@ public class EntityManager
     {
       soundManager.stopTrack();
       soundManager.playSoundClip(Sound.death);
-//      reset();
-      dispose();
+      reset();
+//      dispose();
       HBox hBox = new HBox();
-      hBox.getChildren().addAll(scenes.returnButton, scenes.goTo3dGameDeath);
+      hBox.getChildren().addAll(scenes.returnButton, scenes.tryAgainButton);
       scenes.gameOverRoot.setTop(hBox);
       main.assignStage(scenes.gameOver);
     }
@@ -330,7 +330,7 @@ public class EntityManager
     @Override
     public void run()
     {
-      while (gameIsRunning.get() == true)
+      while (gameIsRunning.get())
       {
         try
         {
@@ -378,7 +378,7 @@ public class EntityManager
     @Override
     public void run()
     {
-      while (gameIsRunning.get() == true)
+      while (gameIsRunning.get())
       {
         try
         {
@@ -423,7 +423,6 @@ public class EntityManager
     {
       zombie.reset();
     }
-
   }
 
   /**
