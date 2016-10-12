@@ -348,10 +348,10 @@ public class Scenes implements EventHandler<ActionEvent>
     {
       playButtonSound();
       soundManager.playTrack(0);
+      System.out.println("TRY AGAIN");
       try
       {
-        main.assignStage(threeDGameObject.getScene());
-        //ZombieHouse3d.parent.getChildren().add(returnButton);
+        main.assignStage(threeDGameObject.resetScene());
       }
       catch (Exception e)
       {
@@ -375,10 +375,11 @@ public class Scenes implements EventHandler<ActionEvent>
         e.printStackTrace();
       }
     }
-    else if (source == returnButton || source == returnButtonDeath)
+    else if (source == returnButton || source == returnButtonDeath) //BACK TO MAIN MENU
     {
       playButtonSound();
       soundManager.playTrack(0);
+      System.out.println("MAIN MENU");
       try
       {
         main.assignStage(mainMenu);

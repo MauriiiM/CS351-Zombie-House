@@ -275,6 +275,7 @@ public class EntityManager
    */
   public void tick()
   {
+//    System.out.println("EM.tick RUNNING");
     player.tick();
 
     for (Zombie zombie : zombies)
@@ -288,9 +289,12 @@ public class EntityManager
 
     if (player.isDead.get())
     {
+      System.out.println("EM.tick\tDEAD");
+      zombieHouse.stopGameLoop();
+      gameIsRunning.set(false);
       soundManager.stopTrack();
       soundManager.playSoundClip(Sound.death);
-      reset();
+//      reset();
 //      dispose();
       HBox hBox = new HBox();
       hBox.getChildren().addAll(scenes.returnButton, scenes.tryAgainButton);
@@ -415,7 +419,7 @@ public class EntityManager
     this.zombieHouse = zombieHouse;
   }
 
-  private void reset()
+  public void reset()
   {
     player.reset();
     ghost = new PlayerGhost(player.pathTaken);
@@ -423,6 +427,7 @@ public class EntityManager
     {
       zombie.reset();
     }
+    gameIsRunning.set(false);
   }
 
   /**

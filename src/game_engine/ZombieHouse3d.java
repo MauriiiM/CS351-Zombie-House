@@ -101,6 +101,11 @@ public class ZombieHouse3d
     this.scenes = scenes;
   }
 
+  public void stopGameLoop()
+  {
+    gameLoop.stop();
+  }
+
   /**
    * Delete game data after game has ended. Used when going from
    * one level to another, or restarting a level.
@@ -114,9 +119,9 @@ public class ZombieHouse3d
     chainPlayer.dispose();
     gameLoop.stop();
     entityManager = null;
-//    scene = null;
-//    camera = null;
-//    light = null;
+    scene = null;
+    camera = null;
+    light = null;
     gameBoard = null;
     walls.clear();
     exits.clear();
@@ -165,8 +170,14 @@ public class ZombieHouse3d
     return gameBoard;
   }
 
-  public Scene getScene()
+  /**
+   * called when "Try Again" is clicked and returns same scene and starts loop
+   * @return
+   */
+  public Scene resetScene()
   {
+    entityManager.reset();
+    gameLoop.start();
     return scene;
   }
 

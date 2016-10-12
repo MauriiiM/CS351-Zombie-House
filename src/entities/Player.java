@@ -275,8 +275,9 @@ public class Player extends Creature
       gotHit = true;
       healTime = 0;
 
+      System.out.println(health);
       if(health >= 0)
-        light.setColor(Color.rgb((int) ((MAX_HEALTH + health) / 4), (int) ((health / 50) + 10), (int) ((health / 5) + 10)));
+        light.setColor(Color.rgb(((MAX_HEALTH + health) / 4), ((health / 50) + 10), ((health / 5) + 10)));
 
       //if the health is 0, or less than 0(which will only occur once) then you're dead
       if (health <= 0)
@@ -355,6 +356,7 @@ public class Player extends Creature
 
   void reset()
   {
+    fullHealth();
     xPos = START_X;
     yPos = START_Y;
     zPos = START_Z;
@@ -366,7 +368,6 @@ public class Player extends Creature
     boundingCircle.setTranslateZ(START_Z);
     lives--;
     numDeaths++;
-    fullHealth();
   }
 
   /**
