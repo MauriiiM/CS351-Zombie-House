@@ -367,6 +367,8 @@ public class Player extends Creature
     boundingCircle.setTranslateZ(START_Z);
     lives--;
     numDeaths++;
+    isDead.set(false);
+    System.out.printf("health = %d\nlives = %d\nnumber of deaths = %d\n", health, lives, numDeaths );
   }
 
   /**

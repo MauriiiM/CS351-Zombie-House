@@ -21,7 +21,7 @@ public abstract class Creature extends Entity
 
   ArrayList<CreaturePathInfo> pathTaken;
   //boolean engaged = false;
-  protected int health;
+  int health;
 
   /**
    * Get distance that the zombie has traveled and
