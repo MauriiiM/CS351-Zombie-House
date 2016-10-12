@@ -70,8 +70,11 @@ public class Chainsaw extends Entity
     in[0].setRotate(0);
     in[1].setRotationAxis(Rotate.Z_AXIS);
     in[1].setRotate(0);
+    in[1].setRotationAxis(Rotate.Y_AXIS);
+    in[0].setRotationAxis(Rotate.Y_AXIS);
 
-//    in[0].setRotationAxis(Rotate.Y_AXIS);
+
+    //    in[0].setRotationAxis(Rotate.Y_AXIS);
 //    in[0].setRotate(ROTATE);
 //    in[1].setRotationAxis(Rotate.Y_AXIS);
 //    in[1].setRotate(ROTATE);
