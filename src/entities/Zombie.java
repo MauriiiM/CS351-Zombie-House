@@ -89,14 +89,9 @@ public class Zombie extends Creature
    * walk zombie. Also sets the values for the location of initial spawning
    * point of the zombie.
    */
-  Zombie(Tile tile, int row, int col, double xPos, double zPos, EntityManager entityManager)
+  Zombie(Tile tile, EntityManager entityManager)
   {
     stepDistance = 1;
-
-    START_X = xPos;
-    START_Z = zPos;
-    START_ROW = row;
-    START_COL = col;
 
     this.entityManager = entityManager;
     // 50% chance that the zombie is either a random
@@ -106,14 +101,20 @@ public class Zombie extends Creature
       randomWalk = true;
     }
     this.tile = tile;
-    this.row = row;
-    this.col = col;
-    this.xPos = xPos;
-    this.zPos = zPos;
+    row = tile.row;
+    col = tile.col;
+    xPos = tile.xPos;
+    zPos = tile.zPos;
+
+    START_X = xPos;
+    START_Z = zPos;
+    START_ROW = row;
+    START_COL = col;
 
     boundingCircle = new Cylinder(.5, 1);
     pathTaken = new ArrayList<>();
     health = fullHealth; // initialize the zombie health, they will not heal
+    create3DZombie(tile.tileSize);
   }
 
 
@@ -198,10 +199,9 @@ public class Zombie extends Creature
    * @param col      The column of the 3D game map.
    * @param cellSize The size of cells on the game map.
    */
-  void create3DZombie(int row, int col, int cellSize)
+  private void create3DZombie(int cellSize)
   {
-    Cylinder cylinder = null;
-    cylinder = new Cylinder(.2, 1);
+    Cylinder cylinder = new Cylinder(.2, 1);
     cylinder.setTranslateX(xPos * cellSize);
     cylinder.setTranslateZ(zPos * cellSize);
     zombieCylinder = cylinder;

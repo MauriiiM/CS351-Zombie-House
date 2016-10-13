@@ -30,6 +30,8 @@ public class Player extends Creature
   private static final double START_X = 3;
   private static final double START_Y = 0;
   private static final double START_Z = 2;
+  private final double START_ANGLE;
+
   public Chainsaw chainsaw;
   private static final int MAX_HEALTH = 500;
 
@@ -97,6 +99,7 @@ public class Player extends Creature
    */
   public Player(PerspectiveCamera camera, EntityManager entityManager, PointLight light, Chainsaw chainsaw)
   {
+    START_ANGLE = angle;
     stepDistance = 3;
     this.entityManager = entityManager;
     this.xPos = START_X;
@@ -106,8 +109,8 @@ public class Player extends Creature
     this.angle = 0;
     this.strafeVelocity = 0;
     this.chainsaw = chainsaw;
-    camera.setRotate(this.angle);
-    chainsaw.setRotate(this.angle);
+    camera.setRotate(angle);
+    chainsaw.setRotate(angle);
     this.camera = camera;
     camera.setTranslateX(START_X);
     chainsaw.setTranslateX(START_X);
@@ -136,6 +139,7 @@ public class Player extends Creature
    */
   public Player(double x, double y)
   {
+    START_ANGLE = 0;
     this.xPos = x;
     this.yPos = y;
     this.velocity = 0;
@@ -363,6 +367,8 @@ public class Player extends Creature
     chainsaw.setTranslateX(START_X);
     camera.setTranslateZ(START_Z);
     chainsaw.setTranslateZ(START_Z);
+    camera.setRotate(START_ANGLE);
+    chainsaw.setRotate(START_ANGLE);
     boundingCircle.setTranslateX(START_X);
     boundingCircle.setTranslateZ(START_Z);
     lives--;

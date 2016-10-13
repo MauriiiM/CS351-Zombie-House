@@ -203,6 +203,7 @@ public class EntityManager
   public void createZombies(Tile[][] gameBoard, int zHeight, int xWidth)
   {
     int counter = 0;
+    label1:
     for (int col = 0; col < zHeight; col++)
     {
       for (int row = 0; row < xWidth; row++)
@@ -210,13 +211,11 @@ public class EntityManager
         if (gameBoard[col][row].hasZombie && !gameBoard[col][row].isHallway)
         {
           counter++;
-          Zombie newZombie = new Zombie(gameBoard[col][row], row, col, gameBoard[col][row].xPos, gameBoard[col][row].zPos, this);
-          newZombie.create3DZombie(row, col, Tile.tileSize);
+          Zombie newZombie = new Zombie(gameBoard[col][row], this);
           zombies.add(newZombie);
-          if (counter == Attributes.Max_Zombies) break;
+          if (counter == Attributes.Max_Zombies) break label1;
         }
       }
-      if (counter == Attributes.Max_Zombies) break;
     }
     //Designate one zombie as the master zombie.
     int masterSpawnChance = masterZombieSpawnChance();
