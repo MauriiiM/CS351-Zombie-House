@@ -125,6 +125,11 @@ public class EntityManager
         if(this.player.attacking && (this.player.angle - zombie.angle > -200 && this.player.angle - zombie.angle < 200))
         {
           zombie.takeHealth();
+          if(!zombie.isEngaged())
+          zombie.setEngaged(true);
+//          else
+//            Zombie newZombie = new Zombie(gameB ,this);
+          //need to bifurcate the zombie
         }
         if (zombie.getHealth() <= 0)
         {

@@ -143,11 +143,6 @@ public class Zombie extends Creature
     health -= 8;
   }
 
-  boolean getEngaged()
-  {
-    return engaged;
-  }
-
   /**
    * @param newEngaged
    * @todo setEnganged(!getEngaged()) when damged, not setEngaged(true) because can be returned to false if that zombie killed player.
@@ -160,11 +155,6 @@ public class Zombie extends Creature
   public boolean isEngaged()
   {
     return engaged;
-  }
-
-  void setEngaged()
-  {
-    engaged = true;
   }
 
   /**
@@ -195,8 +185,6 @@ public class Zombie extends Creature
    * used for collision detection. It is given
    * the initial x and z coordinates of the spawn point on the game map.
    *
-   * @param row      The row of the 3D game map.
-   * @param col      The column of the 3D game map.
    * @param cellSize The size of cells on the game map.
    */
   private void create3DZombie(int cellSize)
