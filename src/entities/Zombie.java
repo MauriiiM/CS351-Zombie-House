@@ -117,13 +117,12 @@ public class Zombie extends Creature
     create3DZombie(tile.tileSize);
   }
 
-
   public boolean isDead()
   {
     return dead;
   }
 
-  public void setDead(boolean dead)
+  void setDead(boolean dead)
   {
     this.dead = dead;
   }
@@ -136,6 +135,16 @@ public class Zombie extends Creature
   double getHealth()
   {
     return health;
+  }
+
+  public int getCol()
+  {
+    return col;
+  }
+
+  public int getRow()
+  {
+    return row;
   }
 
   void takeHealth()
@@ -152,7 +161,7 @@ public class Zombie extends Creature
     engaged = newEngaged;
   }
 
-  public boolean isEngaged()
+  boolean isEngaged()
   {
     return engaged;
   }
@@ -178,7 +187,6 @@ public class Zombie extends Creature
       zombieCirc = zombie;
     }
   }
-
 
   /**
    * Creates a cylinder that is placed around the zombie mesh. This is

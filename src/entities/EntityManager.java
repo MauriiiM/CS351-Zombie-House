@@ -45,6 +45,7 @@ public class EntityManager
   public Main main;
   public boolean masterZombieSpawn = false;
   public AtomicBoolean gameIsRunning = new AtomicBoolean(true);
+  private Tile[][] gameBoard;
 
   private MasterZombieDecision masterDecision;
   private ZombieDecision zombieDecision;
@@ -122,14 +123,19 @@ public class EntityManager
 //          zombies.add(new Zombie(gameBoard[zombie.col][zombie.row], zombie.row, zombie.col,
 //              gameBoard[zombie.col][zombie.row].xPos, gameBoard[zombie.col][zombie.row].zPos, this));
 //        }
-        if(this.player.attacking && (this.player.angle - zombie.angle > -200 && this.player.angle - zombie.angle < 200))
+        if (this.player.attacking && (this.player.angle - zombie.angle > -200 && this.player.angle - zombie.angle < 200))
         {
+          if (!zombie.isEngaged()  || !zombie.isDead())
+          {
+            System.out.println("EM. not engaged");
           zombie.takeHealth();
-          if(!zombie.isEngaged())
-          zombie.setEngaged(true);
-//          else
-//            Zombie newZombie = new Zombie(gameB ,this);
-          //need to bifurcate the zombie
+            zombie.setEngaged(true);
+          }
+          else if (zombie.isEngaged() &&  zombie.isDead())
+          {
+            System.out.println("EM. engaged");
+            createZombie(zombie);
+          }
         }
         if (zombie.getHealth() <= 0)
         {
@@ -143,6 +149,12 @@ public class EntityManager
       }
     }
     return false;
+  }
+
+  private  void createZombie(Zombie zombie)
+  {
+    Zombie newZombie = new Zombie(gameBoard[zombie.getRow()][zombie.getCol()], this);
+    zombies.add(newZombie);
   }
 
   /**
@@ -207,8 +219,9 @@ public class EntityManager
    */
   public void createZombies(Tile[][] gameBoard, int zHeight, int xWidth)
   {
+    this.gameBoard = gameBoard;
     int counter = 0;
-    label1:
+    label:
     for (int col = 0; col < zHeight; col++)
     {
       for (int row = 0; row < xWidth; row++)
@@ -218,7 +231,7 @@ public class EntityManager
           counter++;
           Zombie newZombie = new Zombie(gameBoard[col][row], this);
           zombies.add(newZombie);
-          if (counter == Attributes.Max_Zombies) break label1;
+          if (counter == Attributes.Max_Zombies) break label;
         }
       }
     }
