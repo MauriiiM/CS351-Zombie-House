@@ -9,7 +9,7 @@ import javafx.scene.transform.Rotate;
  * @author Javier
  * @author Mauricio
  */
-public class Chainsaw extends Entity
+public class Chainsaw
 {
   private final double SCALE = .009;
   private final double Y_TRANSLATE = 11.95;
@@ -103,8 +103,4 @@ public class Chainsaw extends Entity
     in[1].setRotate(angle + ROTATE);
   }
 
-  public void tick()
-  {
-
-  }
 }

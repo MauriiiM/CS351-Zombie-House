@@ -81,6 +81,7 @@ public class Zombie extends Creature
   private double START_Z;
   private int START_ROW;
   private int START_COL;
+  private int fullHealth = 100;
 
 
   /**
@@ -112,7 +113,7 @@ public class Zombie extends Creature
 
     boundingCircle = new Cylinder(.5, 1);
     pathTaken = new ArrayList<>();
-    health = 100; // initialize the zombie health, they will not heal
+    health = fullHealth; // initialize the zombie health, they will not heal
   }
 
 
@@ -853,9 +854,11 @@ public class Zombie extends Creature
 
   void reset()
   {
+    health = fullHealth;
     xPos = START_X;
     zPos = START_Z;
-
+    row = START_ROW;
+    col = START_COL;
   }
 
   /**
