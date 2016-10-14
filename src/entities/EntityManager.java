@@ -39,6 +39,7 @@ public class EntityManager
   public Chainsaw chainsaw;
   public Prop1 prop1;
   public Prop2 prop2;
+  public Prop3 prop3;
   public ArrayList<Prop> props;
   public SoundManager soundManager;
   public ZombieHouse3d zombieHouse;
