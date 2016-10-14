@@ -217,7 +217,7 @@ public class ZombieHouse3d
     root.setCacheHint(CacheHint.SPEED);
 
     // initialize entity manager
-    entityManager = new EntityManager(scenes);
+    entityManager = new EntityManager(scenes, root);
     entityManager.setZombieHouse3d(this);
     entityManager.createProps();
     entityManager.createZombies(gameBoard, boardHeight, boardWidth);
@@ -387,7 +387,7 @@ public class ZombieHouse3d
       {
         zombie.setMesh(loadMeshViews(Feral_Ghoul));
       }
-      root.getChildren().addAll(zombie.zombieMesh);
+      root.getChildren().addAll(zombie.getMesh());
     }
 
     root.getChildren().addAll(entityManager.player.chainsaw.getMesh());
@@ -418,7 +418,7 @@ public class ZombieHouse3d
 
     Group group = new Group();
     group.getChildren().add(subScene);
-    group.addEventFilter(MouseEvent.MOUSE_MOVED, new MouseEventHandler(camera, entityManager.player, this));
+    group.addEventFilter(MouseEvent.ANY, new MouseEventHandler(camera, entityManager.player, this));
 
     return group;
   }

@@ -2,10 +2,10 @@ package entities;
 
 import com.interactivemesh.jfx.importer.obj.ObjImportOption;
 import com.interactivemesh.jfx.importer.obj.ObjModelImporter;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.transform.Rotate;
 
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 /**
@@ -15,17 +15,17 @@ import java.util.ArrayList;
 public class PlayerGhost extends Creature
 {
   private ArrayList<CreaturePathInfo> path;
-  private ObjModelImporter o;
+  private ObjModelImporter ghostMesh;
   private Node[] in;
   private int position = 1;
 
-  public PlayerGhost(ArrayList<CreaturePathInfo> path)
+  public PlayerGhost(ArrayList<CreaturePathInfo> path, Group root)
   {
     this.path = path;
-    o = new ObjModelImporter();
-    o.setOptions(ObjImportOption.NONE);
-    o.read("Resources/Meshes/DreamRunner/d_runner.obj");
-    in = o.getImport();
+    ghostMesh = new ObjModelImporter();
+    ghostMesh.setOptions(ObjImportOption.NONE);
+    ghostMesh.read("Resources/Meshes/DreamRunner/d_runner.obj");
+    in = ghostMesh.getImport();
     for(int i = 0; i < in.length; i++)
     {
       in[i].setTranslateX(path.get(0).getX());
@@ -33,7 +33,8 @@ public class PlayerGhost extends Creature
       in[i].setRotationAxis(Rotate.Y_AXIS);
       in[i].setRotate(path.get(0).getAngle());
     }
-    o.close();
+    ghostMesh.close();
+    root.getChildren().addAll(in);
   }
 
   public void tick()

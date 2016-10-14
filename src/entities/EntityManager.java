@@ -8,6 +8,7 @@ import game_engine.Attributes;
 import game_engine.Scenes;
 import game_engine.ZombieHouse3d;
 import gui.Main;
+import javafx.scene.Group;
 import javafx.scene.layout.HBox;
 import javafx.scene.shape.Box;
 import javafx.scene.shape.Circle;
@@ -45,6 +46,7 @@ public class EntityManager
   public SoundManager soundManager;
   public ZombieHouse3d zombieHouse;
   public Scenes scenes;
+  private Group root;
   public Main main;
   public boolean masterZombieSpawn = false;
   public AtomicBoolean gameIsRunning = new AtomicBoolean(true);
@@ -59,9 +61,10 @@ public class EntityManager
    * @param scenes The various screens that are seen throughout playing the game, such as
    *               the main menu, the settings menu, the win screen, etc.
    */
-  public EntityManager(Scenes scenes)
+  public EntityManager(Scenes scenes, Group root)
   {
     this.scenes = scenes;
+    this.root = root;
     main = scenes.getMain();
     soundManager = scenes.getSoundManager();
     zombies = new ArrayList<>();
@@ -148,6 +151,7 @@ public class EntityManager
           zombie.setDead(true);
           deadZombies.add(zombie);
           zombies.remove(zombie);
+          root.getChildren().removeAll(zombie.getMesh());
         }
         return true;
       }
@@ -444,10 +448,11 @@ public class EntityManager
   public void reset()
   {
     player.reset();
-    ghost = new PlayerGhost(player.pathTaken);
+    ghost = new PlayerGhost(player.pathTaken, root);
     for (Zombie zombie : deadZombies)
     {
       zombies.add(zombie);
+      root.getChildren().addAll(zombie.getMesh());
     }
     deadZombies.clear();
     for (Zombie zombie : zombies)

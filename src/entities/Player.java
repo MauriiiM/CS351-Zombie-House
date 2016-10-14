@@ -146,11 +146,10 @@ public class Player extends Creature
   }
 
   /**
-   * Called when LMB is clicked and used to attack Zombies
+   * Called when LMB is clicked and used to attack Zombies to add to creaturePathInfo
    */
   public void attack()
   {
-    System.out.println("Attack");
     didAttack = 1;
   }
 

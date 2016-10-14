@@ -17,7 +17,6 @@ import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Cylinder;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
 import levels.Tile;
 import sounds.Sound;
@@ -69,7 +68,7 @@ public class Zombie extends Creature
   private int row;
   private double prevAngle = 0;
   public Cylinder zombie = null;
-  public Node[] zombieMesh = null;
+  private Node[] zombieMesh = null;
   private CalculatePath calcPath = new CalculatePath();
   private double lastAngle = 0;
   private Heading zombieHeading;

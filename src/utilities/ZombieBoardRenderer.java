@@ -91,7 +91,7 @@ public class ZombieBoardRenderer
    */
   public Scene zombieHouse2d(Stage primaryStage)
   {
-    entityManager = new EntityManager(scenes);
+    entityManager = new EntityManager(scenes, root);
     gameBoard = ProceduralMap.generateMap(Attributes.Map_Width, Attributes.Map_Height, 2);
     entityManager.player = new Player(20, 30);
     

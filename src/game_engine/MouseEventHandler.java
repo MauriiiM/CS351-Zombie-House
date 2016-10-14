@@ -59,11 +59,19 @@ public class MouseEventHandler extends InputHandler implements EventHandler<Mous
     {
       if (event.isPrimaryButtonDown())
       {
-        System.out.println("HI");
-        player.attack();
-        player.attacking = true;
-        player.chainsaw.makeRotate();
-        zombieHouse3d.playChainsaw();
+        if(event.getClickCount() % 2 == 1)
+        {
+          player.attack();
+          player.attacking = true;
+          player.chainsaw.makeRotate();
+          zombieHouse3d.playChainsaw();
+        }
+        else
+        {
+          player.attacking = false;
+          player.chainsaw.unRotate();
+          zombieHouse3d.pauseChainsaw();
+        }
       }
       if (x > lastX)
       {
