@@ -116,7 +116,7 @@ public class EntityManager
   {
     for (Zombie zombie : zombies)
     {
-      if (player.getBoundsInParent().intersects(zombie.zombieCylinder.getBoundsInParent()))
+      if (player.getBoundsInParent().intersects(zombie.ZOMBIE_HITBOX.getBoundsInParent()))
       {
         //this should spawn a zombie if it is already going after a clone and you hurt them
 //        if(zombie.isEngaged())
@@ -126,13 +126,13 @@ public class EntityManager
 //        }
         if (this.player.attacking && (this.player.angle - zombie.angle > -200 && this.player.angle - zombie.angle < 200))
         {
-          if (!zombie.isEngaged()  || !zombie.isDead())
+          if (!zombie.isEngaged() || !zombie.isDead())
           {
             System.out.println("EM. not engaged");
-          zombie.takeHealth();
+            zombie.takeHealth();
             zombie.setEngaged(true);
           }
-          else if (zombie.isEngaged() &&  zombie.isDead())
+          else if (zombie.isEngaged() && zombie.isDead())
           {
             System.out.println("EM. engaged");
             createZombie(zombie);
@@ -152,7 +152,7 @@ public class EntityManager
     return false;
   }
 
-  private  void createZombie(Zombie zombie)
+  private void createZombie(Zombie zombie)
   {
     Zombie newZombie = new Zombie(gameBoard[zombie.getRow()][zombie.getCol()], this);
     zombies.add(newZombie);

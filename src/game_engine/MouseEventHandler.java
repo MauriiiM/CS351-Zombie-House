@@ -57,9 +57,13 @@ public class MouseEventHandler extends InputHandler implements EventHandler<Mous
 
     if (!gameIsPaused)
     {
-      if(event.isPrimaryButtonDown())
+      if (event.isPrimaryButtonDown())
       {
+        System.out.println("HI");
         player.attack();
+        player.attacking = true;
+        player.chainsaw.makeRotate();
+        zombieHouse3d.playChainsaw();
       }
       if (x > lastX)
       {
@@ -81,7 +85,7 @@ public class MouseEventHandler extends InputHandler implements EventHandler<Mous
       }
       lastX = x;
     }
-    if(mouseIsLocked) moveMouse();
+    if (mouseIsLocked) moveMouse();
   }
 
   private void moveMouse()

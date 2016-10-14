@@ -32,6 +32,12 @@ import utilities.ZombieBoardRenderer;
  */
 public class Zombie extends Creature
 {
+  private final double START_X;
+  private final double START_Z;
+  private final int START_ROW;
+  private final int START_COL;
+  final Cylinder ZOMBIE_HITBOX;
+
   private EntityManager entityManager;
 
   boolean randomWalk = false;
@@ -62,7 +68,6 @@ public class Zombie extends Creature
   private int col;
   private int row;
   private double prevAngle = 0;
-  Cylinder zombieCylinder = null;
   public Cylinder zombie = null;
   public Node[] zombieMesh = null;
   private Rectangle collisionBox;
@@ -74,13 +79,10 @@ public class Zombie extends Creature
   private double lastZ;
 
   private boolean engaged = false;
+  private int engagedCurrentGame = 0;
   private boolean dead = false;
   private byte didAttack = 0;
 
-  private double START_X;
-  private double START_Z;
-  private int START_ROW;
-  private int START_COL;
   private int fullHealth = 100;
 
 
@@ -100,7 +102,7 @@ public class Zombie extends Creature
     {
       randomWalk = true;
     }
-    this.tile = tile;
+    this.tile = tile;//for A* purposes i believe
     row = tile.row;
     col = tile.col;
     xPos = tile.xPos;
@@ -114,7 +116,7 @@ public class Zombie extends Creature
     boundingCircle = new Cylinder(.5, 1);
     pathTaken = new ArrayList<>();
     health = fullHealth; // initialize the zombie health, they will not heal
-    create3DZombie(tile.tileSize);
+    ZOMBIE_HITBOX = createZombieHitbox(tile.tileSize);
   }
 
   public boolean isDead()
@@ -159,6 +161,7 @@ public class Zombie extends Creature
   void setEngaged(boolean newEngaged)
   {
     engaged = newEngaged;
+    engagedCurrentGame++;
   }
 
   boolean isEngaged()
@@ -195,12 +198,12 @@ public class Zombie extends Creature
    *
    * @param cellSize The size of cells on the game map.
    */
-  private void create3DZombie(int cellSize)
+  private Cylinder createZombieHitbox(int cellSize)
   {
     Cylinder cylinder = new Cylinder(.2, 1);
     cylinder.setTranslateX(xPos * cellSize);
     cylinder.setTranslateZ(zPos * cellSize);
-    zombieCylinder = cylinder;
+    return cylinder;
   }
 
   /**
@@ -260,8 +263,8 @@ public class Zombie extends Creature
   private double getAngleToPlayer()
   {
 
-    double xDiff = entityManager.player.boundingCircle.getTranslateX() - zombieCylinder.getTranslateX();
-    double zDiff = entityManager.player.boundingCircle.getTranslateZ() - zombieCylinder.getTranslateZ();
+    double xDiff = entityManager.player.boundingCircle.getTranslateX() - ZOMBIE_HITBOX.getTranslateX();
+    double zDiff = entityManager.player.boundingCircle.getTranslateZ() - ZOMBIE_HITBOX.getTranslateZ();
 
     if (zDiff < 0)
     {
@@ -294,8 +297,8 @@ public class Zombie extends Creature
    */
   private void stopThreeDZombie()
   {
-    zombieCylinder.setTranslateZ(zombieCylinder.getTranslateZ());
-    zombieCylinder.setTranslateX(zombieCylinder.getTranslateX());
+    ZOMBIE_HITBOX.setTranslateZ(ZOMBIE_HITBOX.getTranslateZ());
+    ZOMBIE_HITBOX.setTranslateX(ZOMBIE_HITBOX.getTranslateX());
   }
 
   /**
@@ -378,7 +381,7 @@ public class Zombie extends Creature
       findNewPath.set(false);
     }
     lastAngle = angle;
-    moveThreeDZombie(angle, zombieWalkingSpeed, zombieCylinder);
+    moveThreeDZombie(angle, zombieWalkingSpeed, ZOMBIE_HITBOX);
   }
 
   /**
@@ -456,7 +459,7 @@ public class Zombie extends Creature
   @Override
   public void tick()
   {
-    if (entityManager.getWallCollision(zombieCylinder) != null && !angleAdjusted.get())
+    if (entityManager.getWallCollision(ZOMBIE_HITBOX) != null && !angleAdjusted.get())
     {
       if (!collisionJustDetected.get())
       {
@@ -467,19 +470,19 @@ public class Zombie extends Creature
         // Move the zombie out of the bounds of the obstacle.
         if (goingAfterPlayer.get())
         {
-          while (entityManager.getWallCollision(zombieCylinder) != null)
+          while (entityManager.getWallCollision(ZOMBIE_HITBOX) != null)
           {
-            moveThreeDZombie(angle, zombieWalkingSpeed, zombieCylinder);
+            moveThreeDZombie(angle, zombieWalkingSpeed, ZOMBIE_HITBOX);
           }
-          double currentX = zombieCylinder.getTranslateX();
-          double currentZ = zombieCylinder.getTranslateZ();
+          double currentX = ZOMBIE_HITBOX.getTranslateX();
+          double currentZ = ZOMBIE_HITBOX.getTranslateZ();
           checkForCornerTile(entityManager.zombieHouse.getGameBoard()[(int) Math.floor(currentZ)][(int) Math.floor(currentX)]);
         }
         else
         {
-          while (entityManager.getWallCollision(zombieCylinder) != null)
+          while (entityManager.getWallCollision(ZOMBIE_HITBOX) != null)
           {
-            moveThreeDZombie(angle, zombieWalkingSpeed, zombieCylinder);
+            moveThreeDZombie(angle, zombieWalkingSpeed, ZOMBIE_HITBOX);
           }
         }
       }
@@ -488,7 +491,7 @@ public class Zombie extends Creature
     {
       if (!goingAfterPlayer.get() && !isMasterZombie)
       {
-        moveThreeDZombie(angle, zombieWalkingSpeed, zombieCylinder);
+        moveThreeDZombie(angle, zombieWalkingSpeed, ZOMBIE_HITBOX);
       }
       else if (!isMasterZombie && goingAfterPlayer.get())
       {
@@ -496,15 +499,15 @@ public class Zombie extends Creature
       }
       else if (isMasterZombie && !goingAfterPlayer.get())
       {
-        moveThreeDZombie(angle, masterZombieSpeed, zombieCylinder);
+        moveThreeDZombie(angle, masterZombieSpeed, ZOMBIE_HITBOX);
       }
       else if (isMasterZombie && goingAfterPlayer.get())
       {
         moveTowardPlayer(masterZombieSpeed);
       }
     }
-    double currentX = zombieCylinder.getTranslateX();
-    double currentZ = zombieCylinder.getTranslateZ();
+    double currentX = ZOMBIE_HITBOX.getTranslateX();
+    double currentZ = ZOMBIE_HITBOX.getTranslateZ();
     if (angle == 180)
     {
       if (currentZ > (Math.floor(currentZ) + .5))
@@ -810,8 +813,8 @@ public class Zombie extends Creature
     {
       if (currentTile.wallNE || currentTile.wallNW || currentTile.wallSW || currentTile.wallSE)
       {
-        zombieCylinder.setTranslateZ(currentTile.zPos);
-        zombieCylinder.setTranslateX(currentTile.xPos);
+        ZOMBIE_HITBOX.setTranslateZ(currentTile.zPos);
+        ZOMBIE_HITBOX.setTranslateX(currentTile.xPos);
       }
     }
   }
@@ -838,18 +841,19 @@ public class Zombie extends Creature
   /**
    * Calculates Distance for zombies.
    *
-   * @return The distance between lastX/Z and zombieCylinder.getTranslateX/Z
+   * @return The distance between lastX/Z and ZOMBIE_HITBOX.getTranslateX/Z
    */
   @Override
   public double calculateDistance()
   {
-    double xDist = zombieCylinder.getTranslateX() - lastX;
-    double zDist = zombieCylinder.getTranslateZ() - lastZ;
+    double xDist = ZOMBIE_HITBOX.getTranslateX() - lastX;
+    double zDist = ZOMBIE_HITBOX.getTranslateZ() - lastZ;
     return Math.sqrt((xDist * xDist) + (zDist * zDist));
   }
 
   void reset()
   {
+    if (engagedCurrentGame == 0) pathTaken.clear(); //player never interacted with zombie
     health = fullHealth;
     xPos = START_X;
     zPos = START_Z;
@@ -863,7 +867,6 @@ public class Zombie extends Creature
    */
   void dispose()
   {
-    zombieCylinder = null;
     zombie = null;
     zombieMesh = null;
     collisionBox = null;

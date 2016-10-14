@@ -1,6 +1,5 @@
 package entities;
 
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -31,9 +30,9 @@ public class Player extends Creature
   private static final double START_Y = 0;
   private static final double START_Z = 2;
   private final double START_ANGLE;
+  private static final int MAX_HEALTH = 500;
 
   public Chainsaw chainsaw;
-  private static final int MAX_HEALTH = 500;
 
   //entityManager
   EntityManager entityManager;
@@ -53,7 +52,7 @@ public class Player extends Creature
   double newZ = 0;
   double offSetX = 0;
   double offSetZ = 0;
-  public double radius = .25;
+  public double playerRadius = .25;
 
   //atomic booleans:
   public AtomicBoolean shiftPressed = new AtomicBoolean(false);
@@ -118,7 +117,7 @@ public class Player extends Creature
     chainsaw.setTranslateZ(START_Z);
     this.light = light;
     light.setRotationAxis(Rotate.Y_AXIS);
-    boundingCircle = new Cylinder(radius, 1);
+    boundingCircle = new Cylinder(playerRadius, 1);
     PlayerStamina staminaCounter = new PlayerStamina();
     staminaCounter.start();
     boundingCircle.setTranslateX(camera.getTranslateX());
@@ -360,6 +359,7 @@ public class Player extends Creature
   void reset()
   {
     fullHealth();
+    attacking = false;
     xPos = START_X;
     yPos = START_Y;
     zPos = START_Z;
