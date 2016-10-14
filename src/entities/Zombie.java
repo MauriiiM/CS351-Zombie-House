@@ -70,9 +70,7 @@ public class Zombie extends Creature
   private double prevAngle = 0;
   public Cylinder zombie = null;
   public Node[] zombieMesh = null;
-  private Rectangle collisionBox;
   private CalculatePath calcPath = new CalculatePath();
-  private static Cylinder boundingCircle = null;
   private double lastAngle = 0;
   private Heading zombieHeading;
   private double lastX;
@@ -113,7 +111,6 @@ public class Zombie extends Creature
     START_ROW = row;
     START_COL = col;
 
-    boundingCircle = new Cylinder(.5, 1);
     pathTaken = new ArrayList<>();
     health = fullHealth; // initialize the zombie health, they will not heal
     ZOMBIE_HITBOX = createZombieHitbox(tile.tileSize);
@@ -859,6 +856,10 @@ public class Zombie extends Creature
     zPos = START_Z;
     row = START_ROW;
     col = START_COL;
+    tile.xPos = xPos;
+    tile.zPos = zPos;
+    ZOMBIE_HITBOX.setTranslateX(xPos);
+    ZOMBIE_HITBOX.setTranslateZ(zPos);
   }
 
   /**
@@ -869,8 +870,6 @@ public class Zombie extends Creature
   {
     zombie = null;
     zombieMesh = null;
-    collisionBox = null;
-    boundingCircle = null;
   }
 
   /**
@@ -906,7 +905,7 @@ public class Zombie extends Creature
      * @param zombieNode The node on the graph that represents the location of the
      *                   zombie.
      */
-    public void findPath(Tile from, Tile to, GraphNode zombieNode)
+    void findPath(Tile from, Tile to, GraphNode zombieNode)
     {
       if (from != null && to != null)
       {

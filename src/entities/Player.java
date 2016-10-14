@@ -363,6 +363,7 @@ public class Player extends Creature
     xPos = START_X;
     yPos = START_Y;
     zPos = START_Z;
+
     camera.setTranslateX(START_X);
     chainsaw.setTranslateX(START_X);
     camera.setTranslateZ(START_Z);
@@ -394,7 +395,6 @@ public class Player extends Creature
     if (TileGraph.tileGraph.containsKey(currentTile))
     {
       currentNode = TileGraph.tileGraph.get(currentTile);
-      return currentNode;
     }
     return currentNode;
   }
