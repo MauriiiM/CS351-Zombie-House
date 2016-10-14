@@ -236,7 +236,7 @@ public class ZombieHouse3d
       entityManager.chainsaw = new Chainsaw(3,2);
       entityManager.prop1 = new Prop1(3, 2);
       entityManager.prop2 = new Prop2(3,3);
-      entityManager.prop3 = new Prop3(3,3);
+      entityManager.prop3 = new Prop3(3,2);
       entityManager.player = new Player(camera, entityManager, light, entityManager.chainsaw);
     }
 

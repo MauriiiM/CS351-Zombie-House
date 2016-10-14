@@ -9,7 +9,7 @@ import javafx.scene.Node;
  */
 public class Prop3
 {
-  private final double Y_TRANSLATE = 1;
+  private final double Y_TRANSLATE = 0;
 
   private ObjModelImporter o;
   private Node[] in;
