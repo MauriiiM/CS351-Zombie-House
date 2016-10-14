@@ -585,7 +585,7 @@ public class Zombie extends Creature
       currentZ--;
     }
     Tile currentTile = entityManager.zombieHouse.getGameBoard()[(int) currentZ][(int) currentX];
-    findPathToPlayer(currentTile);
+    findPathToPlayer(currentTile);/** @todo look here*/
     updateDistance();
     //adds EVERY step taken to path. There'll be many repeats because it records how long player stays there
     pathTaken.add(new CreaturePathInfo((float) xPos, (float) zPos, (float) angle, didAttack));

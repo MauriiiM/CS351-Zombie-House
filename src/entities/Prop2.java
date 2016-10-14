@@ -13,6 +13,7 @@ public class Prop2
 
   private ObjModelImporter o;
   private Node[] in;
+
   public Prop2(double xTranslate, double zTranslate)
   {
     o = new ObjModelImporter();

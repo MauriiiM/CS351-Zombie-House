@@ -86,7 +86,7 @@ public class Player extends Creature
   private int healTime = 0;
 
   public boolean attacking;
-
+  private ArrayList<CreaturePathInfo>[] currentPath = (ArrayList<CreaturePathInfo>[]) new ArrayList[4];
 
   /**
    * A constructor for a 3D player. takes in a camera object
@@ -124,8 +124,11 @@ public class Player extends Creature
     boundingCircle.setTranslateZ(camera.getTranslateZ());
     lastX = camera.getTranslateX();
     lastZ = camera.getTranslateZ();
-    pathTaken = new ArrayList<>();
 
+    for (int i = 0; i < 4; i++)
+    {
+      currentPath[i] = new ArrayList<>();
+    }
     //give the player an initial health of 5
     health = MAX_HEALTH;
   }
@@ -181,7 +184,7 @@ public class Player extends Creature
 //    System.out.println(xPos + yPos + " in stepSound()");
   }
 
-  public boolean getDidAttack()
+  public boolean didAttack()
   {
     if (didAttack == 1)
     {
@@ -240,8 +243,14 @@ public class Player extends Creature
 
     if (turnLeft || turnRight)
     {
-      if (turnLeft) angle -= Attributes.Player_Rotate_sensitivity;
-      else angle += Attributes.Player_Rotate_sensitivity;
+      if (turnLeft)
+      {
+        angle -= Attributes.Player_Rotate_sensitivity;
+      }
+      else
+      {
+        angle += Attributes.Player_Rotate_sensitivity;
+      }
       camera.setRotate(angle);
       chainsaw.setRotate(angle);
     }
@@ -277,8 +286,10 @@ public class Player extends Creature
       gotHit = true;
       healTime = 0;
 
-      if(health > -MAX_HEALTH)
+      if (health > -MAX_HEALTH)
+      {
         light.setColor(Color.rgb((int) ((MAX_HEALTH + health) / 4), (int) ((health / 50) + 10), (int) ((health / 5) + 10)));
+      }
 
       //if the health is 0, or less than 0(which will only occur once) then you're dead
       if (health <= 0)
@@ -338,7 +349,7 @@ public class Player extends Creature
     zPos = camera.getTranslateZ();
 
     //adds EVERY step taken to path. There'll be many repeats because it records how long player stays there
-    pathTaken.add(new CreaturePathInfo((float) xPos, (float) zPos, (float) angle, didAttack));
+    currentPath[numDeaths].add(new CreaturePathInfo((float) xPos, (float) zPos, (float) angle, didAttack));
     if (didAttack == 1) notAttack();
     //System.out.println("x= " + xPos + ",\t z= " + zPos + " in tick()");
 
@@ -374,7 +385,7 @@ public class Player extends Creature
     lives--;
     numDeaths++;
     isDead.set(false);
-    System.out.printf("health = %d\nlives = %d\nnumber of deaths = %d\n", health, lives, numDeaths );
+    System.out.printf("health = %d\nlives = %d\nnumber of deaths = %d\n", health, lives, numDeaths);
   }
 
   /**
@@ -419,6 +430,11 @@ public class Player extends Creature
       return currentNode;
     }
     return currentNode;
+  }
+
+  public ArrayList<CreaturePathInfo>[] getCurrentPath()
+  {
+    return currentPath;
   }
 
   private void fullHealth()

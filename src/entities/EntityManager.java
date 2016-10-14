@@ -37,7 +37,9 @@ public class EntityManager
   private PlayerGhost ghost;
 
   public ArrayList<Zombie> zombies;
-  public ArrayList<Zombie> deadZombies;
+  private ArrayList<Zombie> deadZombies;
+  private PlayerGhost[] ghosts = new PlayerGhost[4];
+
   public Chainsaw chainsaw;
   public Prop1 prop1;
   public Prop2 prop2;
@@ -303,6 +305,10 @@ public class EntityManager
   {
 //    System.out.println("EM.tick RUNNING");
     player.tick();
+    for (int i = 0; i < player.getNumDeaths(); i++)
+    {
+      if (ghosts[i] != null) ghosts[i].tick();
+    }
 
     for (Zombie zombie : zombies)
     {
@@ -448,7 +454,10 @@ public class EntityManager
   public void reset()
   {
     player.reset();
-    ghost = new PlayerGhost(player.pathTaken, root);
+    for(PlayerGhost ghost : ghosts)
+    {
+      if(ghost != null) ghost.reset();
+    }
     for (Zombie zombie : deadZombies)
     {
       zombies.add(zombie);
@@ -459,6 +468,10 @@ public class EntityManager
     {
       zombie.reset();
     }
+
+    ghost = new PlayerGhost(player.getCurrentPath()[player.getNumDeaths()-1], root);
+    ghosts[player.getNumDeaths()-1] = ghost;
+
     gameIsRunning.set(false);
   }
 
