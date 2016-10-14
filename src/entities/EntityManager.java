@@ -36,6 +36,7 @@ public class EntityManager
   private PlayerGhost ghost;
 
   public ArrayList<Zombie> zombies;
+  public ArrayList<Zombie> deadZombies;
   public Chainsaw chainsaw;
   public Prop1 prop1;
   public Prop2 prop2;
@@ -64,6 +65,7 @@ public class EntityManager
     main = scenes.getMain();
     soundManager = scenes.getSoundManager();
     zombies = new ArrayList<>();
+    deadZombies = new ArrayList<>();
     props = new ArrayList<>();
     zombieDecision = new ZombieDecision();
     zombieDecision.setDaemon(true);
@@ -144,7 +146,7 @@ public class EntityManager
           //need to blow up the zombie
           System.out.println("killed zombie");
           zombie.setDead(true);
-          //zombieHouse.removeZombie(zombie);
+          deadZombies.add(zombie);
           zombies.remove(zombie);
         }
         return true;
@@ -443,6 +445,11 @@ public class EntityManager
   {
     player.reset();
     ghost = new PlayerGhost(player.pathTaken);
+    for (Zombie zombie : deadZombies)
+    {
+      zombies.add(zombie);
+    }
+    deadZombies.clear();
     for (Zombie zombie : zombies)
     {
       zombie.reset();

@@ -288,8 +288,8 @@ public class Zombie extends Creature
    */
   public void stopZombie()
   {
-    zombieCirc.setCenterY(zombieCirc.getCenterY());
     zombieCirc.setCenterX(zombieCirc.getCenterX());
+    zombieCirc.setCenterY(zombieCirc.getCenterY());
   }
 
   /**
