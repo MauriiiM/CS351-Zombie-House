@@ -9,11 +9,7 @@ import javafx.scene.Node;
  */
 public class Prop2
 {
-  private final double SCALE = 1;
-  private final double Y_TRANSLATE = 4;
-  private final double X_OFFSET = 38.7;
-  private final int Z_OFFSET = 2;
-  private final int ROTATE = 80;
+  private final double Y_TRANSLATE = 1;
 
   private ObjModelImporter o;
   private Node[] in;
@@ -25,9 +21,6 @@ public class Prop2
     in = o.getImport();
     for(int i = 0; i < in.length; i++)
     {
-      in[i].setScaleX(SCALE);
-      in[i].setScaleY(SCALE);
-      in[i].setScaleZ(SCALE);
       in[i].setTranslateX(xTranslate);
       in[i].setTranslateY(Y_TRANSLATE);
       in[i].setTranslateZ(zTranslate);

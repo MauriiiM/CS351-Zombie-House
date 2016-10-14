@@ -1,40 +1,35 @@
-# Blender MTL File: 'dreamrunner.blend'
+# Blender MTL File: 'None'
 # Material Count: 3
 
 newmtl mi_armour
-Ns 96.078431
+Ns 86.274510
 Ka 0.000000 0.000000 0.000000
-Kd 0.640000 0.640000 0.640000
+Kd 0.327680 0.327680 0.327680
 Ks 0.500000 0.500000 0.500000
 Ni 1.000000
 d 1.000000
 illum 2
 map_Kd t_dreamRunner_d.tga
-map_Ks t_dreamRunner_s.tga
-map_Ke t_dreamRunner_m.tga
-map_Disp t_dreamRunner_n.tga
+map_d t_dreamRunner_n.tga
 
 newmtl mi_dreamRunnerSkin
-Ns 96.078431
+Ns 86.274510
 Ka 0.000000 0.000000 0.000000
-Kd 0.640000 0.640000 0.640000
+Kd 0.327680 0.327680 0.327680
 Ks 0.500000 0.500000 0.500000
 Ni 1.000000
 d 1.000000
 illum 2
 map_Kd t_dreamRunner_d.tga
-map_Ks t_dreamRunner_s.tga
-map_Ke t_dreamRunner_m.tga
-map_Disp t_dreamRunner_n.tga
+map_d t_dreamRunner_n.tga
 
 newmtl mi_skirt
-Ns 96.078431
+Ns 86.274510
 Ka 0.000000 0.000000 0.000000
-Kd 0.640000 0.640000 0.640000
+Kd 0.327680 0.327680 0.327680
 Ks 0.500000 0.500000 0.500000
 Ni 1.000000
 d 1.000000
 illum 2
 map_Kd t_dreamRunnerSkirt_dm.tga
-map_Ks t_dreamRunnerSkirt_s.tga
-map_Disp t_dreamRunnerSkirt_n.tga
+map_d t_dreamRunnerSkirt_n.tga
