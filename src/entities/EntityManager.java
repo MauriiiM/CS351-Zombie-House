@@ -451,6 +451,10 @@ public class EntityManager
     this.zombieHouse = zombieHouse;
   }
 
+  /**
+   * this is called every Try Again (once for each life), and reset everything back to starting position and
+   * creates a new ghost
+   */
   public void reset()
   {
     player.reset();

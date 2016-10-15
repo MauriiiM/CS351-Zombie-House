@@ -27,7 +27,6 @@ public class Chainsaw
   {
     o = new ObjModelImporter();
     o.setOptions(ObjImportOption.NONE);
-    //o.read("Resources/Meshes/HarleyQuinn/Harley.obj");
     o.read("Resources/Meshes/LollipopChainsaw/chainsaw.obj");
     in = o.getImport();
     for(int i = 0; i < in.length; i++)

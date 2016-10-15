@@ -456,7 +456,7 @@ public class Zombie extends Creature
   @Override
   public void tick()
   {
-    if(entityManager.player.getNumDeaths() == 0 || !engaged || locationOnPath > pathTaken.size())
+    if(entityManager.player.getNumDeaths() == 0 || locationOnPath >= pathTaken.size() /*|| !engaged*/)
     {
       if (entityManager.getWallCollision(ZOMBIE_HITBOX) != null && !angleAdjusted.get())
       {
@@ -587,10 +587,10 @@ public class Zombie extends Creature
       updateDistance();
       //adds EVERY step taken to path. There'll be many repeats because it records how long player stays there
       pathTaken.add(new CreaturePathInfo((float) xPos, (float) zPos, (float) angle, didAttack));
-      locationOnPath++;
     }
     else
     {
+      System.out.println("HHHHHHHHHHHHHHHHHHHEEEEEEEEEEEEEEEEEYYYYYYYYYYYYYYYY");
       if(isMasterZombie)
       {
         moveThreeDZombie(pathTaken.get(locationOnPath).getAngle(), masterZombieSpeed, ZOMBIE_HITBOX);
@@ -598,6 +598,7 @@ public class Zombie extends Creature
       else
         moveThreeDZombie(angle, zombieWalkingSpeed, ZOMBIE_HITBOX);
     }
+    locationOnPath++;
   }
 
   /**
