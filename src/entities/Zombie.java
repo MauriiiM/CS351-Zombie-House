@@ -594,7 +594,6 @@ public class Zombie extends Creature
     }
     else
     {
-      System.out.println("HHHHHHHHHHHHHHHHHHHEEEEEEEEEEEEEEEEEYYYYYYYYYYYYYYYY");
       if(!isMasterZombie)
       {
         moveThreeDZombie(pathTaken.get(locationOnPath).getAngle(), zombieWalkingSpeed, ZOMBIE_HITBOX);

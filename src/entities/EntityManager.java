@@ -121,23 +121,21 @@ public class EntityManager
    * @param player The shape that represents the zombie.
    * @return True if there is a collision. False if there isn't.
    */
-  public boolean checkPlayerCollision(Shape3D player)
+  boolean checkPlayerCollision(Shape3D player)
   {
     for (Zombie zombie : zombies)
     {
-      /*if (zombiePathIndex < zombie.pathTaken.size())
+      if (zombiePathIndex == zombie.pathTaken.size() - 1 && zombie.pathTaken.get(zombiePathIndex).getIsDead() == 1)
       {
-        if (zombie.pathTaken.get(zombiePathIndex).getIsDead() == 1)
-        {
-          System.out.println("dieeeeeeeeeeee");
-          zombie.setDead(true);
-          deadZombies.add(zombie);
-          zombies.remove(zombie);
-          root.getChildren().removeAll(zombie.getMesh());
-          //continue;
-        }
+        System.out.println("dieeeeeeeeeeee");
+        zombie.setDead(true);
+        deadZombies.add(zombie);
+        zombies.remove(zombie);
+        root.getChildren().removeAll(zombie.getMesh());
+        return false;
+
       }
-      else */if (player.getBoundsInParent().intersects(zombie.ZOMBIE_HITBOX.getBoundsInParent()))
+      else if (player.getBoundsInParent().intersects(zombie.ZOMBIE_HITBOX.getBoundsInParent()))
       {
         //this should spawn a zombie if it is already going after a clone and you hurt them
 //        if(zombie.isEngaged())
@@ -472,9 +470,9 @@ public class EntityManager
   {
     zombiePathIndex = 0;
     player.reset();
-    for(PlayerGhost ghost : ghosts)
+    for (PlayerGhost ghost : ghosts)
     {
-      if(ghost != null) ghost.reset();
+      if (ghost != null) ghost.reset();
     }
     for (Zombie zombie : deadZombies)
     {
@@ -487,8 +485,8 @@ public class EntityManager
       zombie.reset();
     }
 
-    ghost = new PlayerGhost(player.getCurrentPath()[player.getNumDeaths()-1], root);
-    ghosts[player.getNumDeaths()-1] = ghost;
+    ghost = new PlayerGhost(player.getCurrentPath()[player.getNumDeaths() - 1], root);
+    ghosts[player.getNumDeaths() - 1] = ghost;
 
     gameIsRunning.set(false);
   }
