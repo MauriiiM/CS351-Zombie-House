@@ -56,6 +56,7 @@ public class EntityManager
 
   private MasterZombieDecision masterDecision;
   private ZombieDecision zombieDecision;
+  private int zombiePathIndex = 0;
 
   /**
    * Constructor for EntityManager.
@@ -124,7 +125,19 @@ public class EntityManager
   {
     for (Zombie zombie : zombies)
     {
-      if (player.getBoundsInParent().intersects(zombie.ZOMBIE_HITBOX.getBoundsInParent()))
+      /*if (zombiePathIndex < zombie.pathTaken.size())
+      {
+        if (zombie.pathTaken.get(zombiePathIndex).getIsDead() == 1)
+        {
+          System.out.println("dieeeeeeeeeeee");
+          zombie.setDead(true);
+          deadZombies.add(zombie);
+          zombies.remove(zombie);
+          root.getChildren().removeAll(zombie.getMesh());
+          //continue;
+        }
+      }
+      else */if (player.getBoundsInParent().intersects(zombie.ZOMBIE_HITBOX.getBoundsInParent()))
       {
         //this should spawn a zombie if it is already going after a clone and you hurt them
 //        if(zombie.isEngaged())
@@ -136,20 +149,19 @@ public class EntityManager
         {
           if (!zombie.isEngaged() || !zombie.isDead())
           {
-            System.out.println("EM. not engaged");
             zombie.takeHealth();
             zombie.setEngaged(true);
           }
           else if (zombie.isEngaged() && zombie.isDead())
           {
-            System.out.println("EM. engaged");
             createZombie(zombie);
           }
         }
         if (zombie.getHealth() <= 0)
         {
+          byte dead = 1;
           //need to blow up the zombie
-          System.out.println("killed zombie");
+          zombie.pathTaken.get(zombie.pathTaken.size() - 1).setIsDead(dead);
           zombie.setDead(true);
           deadZombies.add(zombie);
           zombies.remove(zombie);
@@ -304,6 +316,7 @@ public class EntityManager
   public void tick()
   {
 //    System.out.println("EM.tick RUNNING");
+    zombiePathIndex++;
     player.tick();
     for (int i = 0; i < player.getNumDeaths(); i++)
     {
@@ -457,6 +470,7 @@ public class EntityManager
    */
   public void reset()
   {
+    zombiePathIndex = 0;
     player.reset();
     for(PlayerGhost ghost : ghosts)
     {

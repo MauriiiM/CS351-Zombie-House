@@ -41,7 +41,7 @@ public class Zombie extends Creature
 
   boolean randomWalk = false;
   Random rand = new Random();
-  double zombieWalkingSpeed = .5 / 60;
+  double zombieWalkingSpeed = .01;
   double masterZombieSpeed = .05;
   double masterZombie2dSpeed = .3;
   double zombieSmell = 15.0;
@@ -78,6 +78,7 @@ public class Zombie extends Creature
   private boolean engaged = false;
   private int engagedCurrentGame = 0;
   private boolean dead = false;
+  private byte isDeadInPath = 0;
   private byte didAttack = 0;
   private int fullHealth = 100;
 
@@ -116,15 +117,18 @@ public class Zombie extends Creature
     ZOMBIE_HITBOX = createZombieHitbox(tile.tileSize);
   }
 
-  public boolean isDead()
+  boolean isDead()
   {
     return dead;
   }
 
   void setDead(boolean dead)
   {
+    isDeadInPath = 1;
     this.dead = dead;
   }
+
+
 
   void setMasterHealth()
   {
@@ -456,7 +460,7 @@ public class Zombie extends Creature
   @Override
   public void tick()
   {
-    if(entityManager.player.getNumDeaths() == 0 || locationOnPath >= pathTaken.size() /*|| !engaged*/)
+    if(entityManager.player.getNumDeaths() == 0 || locationOnPath >= pathTaken.size() || !engaged)
     {
       if (entityManager.getWallCollision(ZOMBIE_HITBOX) != null && !angleAdjusted.get())
       {
@@ -586,17 +590,17 @@ public class Zombie extends Creature
       findPathToPlayer(currentTile);/** @todo look here*/
       updateDistance();
       //adds EVERY step taken to path. There'll be many repeats because it records how long player stays there
-      pathTaken.add(new CreaturePathInfo((float) xPos, (float) zPos, (float) angle, didAttack));
+      pathTaken.add(new CreaturePathInfo((float) xPos, (float) zPos, (float) angle, didAttack, isDeadInPath));
     }
     else
     {
       System.out.println("HHHHHHHHHHHHHHHHHHHEEEEEEEEEEEEEEEEEYYYYYYYYYYYYYYYY");
-      if(isMasterZombie)
+      if(!isMasterZombie)
       {
-        moveThreeDZombie(pathTaken.get(locationOnPath).getAngle(), masterZombieSpeed, ZOMBIE_HITBOX);
+        moveThreeDZombie(pathTaken.get(locationOnPath).getAngle(), zombieWalkingSpeed, ZOMBIE_HITBOX);
       }
       else
-        moveThreeDZombie(angle, zombieWalkingSpeed, ZOMBIE_HITBOX);
+        moveThreeDZombie(pathTaken.get(locationOnPath).getAngle(), masterZombieSpeed, ZOMBIE_HITBOX);
     }
     locationOnPath++;
   }
@@ -861,6 +865,7 @@ public class Zombie extends Creature
   {
     if (engagedCurrentGame == 0) pathTaken.clear(); //player never interacted with zombie
     health = fullHealth;
+    goingAfterPlayer.set(false);//idk yet
     xPos = START_X;
     zPos = START_Z;
     row = START_ROW;

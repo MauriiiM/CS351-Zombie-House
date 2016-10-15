@@ -40,7 +40,7 @@ public class KeyboardEventHandler extends InputHandler implements EventHandler<K
   @Override
   public void handle(KeyEvent event)
   {
-    if (event.getEventType() == KeyEvent.KEY_PRESSED)
+    if (event.getEventType() == KeyEvent.KEY_PRESSED && !player.isDead())
     {
       if (event.getCode() == KeyCode.SHIFT && !gameIsPaused)
       {

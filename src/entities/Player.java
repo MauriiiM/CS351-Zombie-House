@@ -81,6 +81,7 @@ public class Player extends Creature
   private int damage = 15; //the damage taken by the player when hit by a zombie
   private int healthRegen = 5; //how fast the player heals when not taking damage(after two seconds)
   private byte didAttack = 0;
+  private byte isDeadinPath = 0;
 
   private boolean gotHit = false;
   private int healTime = 0;
@@ -211,6 +212,11 @@ public class Player extends Creature
   public int getNumDeaths()
   {
     return numDeaths;
+  }
+
+  public boolean isDead()
+  {
+    return isDead.get();
   }
 
   /**
@@ -349,7 +355,7 @@ public class Player extends Creature
     zPos = camera.getTranslateZ();
 
     //adds EVERY step taken to path. There'll be many repeats because it records how long player stays there
-    currentPath[numDeaths].add(new CreaturePathInfo((float) xPos, (float) zPos, (float) angle, didAttack));
+    currentPath[numDeaths].add(new CreaturePathInfo((float) xPos, (float) zPos, (float) angle, didAttack, isDeadinPath));
     if (didAttack == 1) notAttack();
     //System.out.println("x= " + xPos + ",\t z= " + zPos + " in tick()");
 
