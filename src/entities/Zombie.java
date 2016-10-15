@@ -79,8 +79,9 @@ public class Zombie extends Creature
   private int engagedCurrentGame = 0;
   private boolean dead = false;
   private byte didAttack = 0;
-
   private int fullHealth = 100;
+
+  private int locationOnPath = 0;
 
 
   /**
@@ -455,140 +456,148 @@ public class Zombie extends Creature
   @Override
   public void tick()
   {
-    if (entityManager.getWallCollision(ZOMBIE_HITBOX) != null && !angleAdjusted.get())
+    if(entityManager.player.getNumDeaths() == 0 || !engaged || locationOnPath > pathTaken.size())
     {
-      if (!collisionJustDetected.get())
+      if (entityManager.getWallCollision(ZOMBIE_HITBOX) != null && !angleAdjusted.get())
       {
-        collisionDetected.set(true);
-        collisionJustDetected.set(true);
-        stopThreeDZombie();
-        adjustAngle();
-        // Move the zombie out of the bounds of the obstacle.
-        if (goingAfterPlayer.get())
+        if (!collisionJustDetected.get())
         {
-          while (entityManager.getWallCollision(ZOMBIE_HITBOX) != null)
+          collisionDetected.set(true);
+          collisionJustDetected.set(true);
+          stopThreeDZombie();
+          adjustAngle();
+          // Move the zombie out of the bounds of the obstacle.
+          if (goingAfterPlayer.get())
           {
-            moveThreeDZombie(angle, zombieWalkingSpeed, ZOMBIE_HITBOX);
+            while (entityManager.getWallCollision(ZOMBIE_HITBOX) != null)
+            {
+              moveThreeDZombie(angle, zombieWalkingSpeed, ZOMBIE_HITBOX);
+            }
+            double currentX = ZOMBIE_HITBOX.getTranslateX();
+            double currentZ = ZOMBIE_HITBOX.getTranslateZ();
+            checkForCornerTile(entityManager.zombieHouse.getGameBoard()[(int) Math.floor(currentZ)][(int) Math.floor(currentX)]);
+          } else
+          {
+            while (entityManager.getWallCollision(ZOMBIE_HITBOX) != null)
+            {
+              moveThreeDZombie(angle, zombieWalkingSpeed, ZOMBIE_HITBOX);
+            }
           }
-          double currentX = ZOMBIE_HITBOX.getTranslateX();
-          double currentZ = ZOMBIE_HITBOX.getTranslateZ();
-          checkForCornerTile(entityManager.zombieHouse.getGameBoard()[(int) Math.floor(currentZ)][(int) Math.floor(currentX)]);
         }
-        else
+      } else if (!collisionDetected.get())
+      {
+        if (!goingAfterPlayer.get() && !isMasterZombie)
         {
-          while (entityManager.getWallCollision(ZOMBIE_HITBOX) != null)
-          {
-            moveThreeDZombie(angle, zombieWalkingSpeed, ZOMBIE_HITBOX);
-          }
+          moveThreeDZombie(angle, zombieWalkingSpeed, ZOMBIE_HITBOX);
+        } else if (!isMasterZombie && goingAfterPlayer.get())
+        {
+          moveTowardPlayer(zombieWalkingSpeed);
+        } else if (isMasterZombie && !goingAfterPlayer.get())
+        {
+          moveThreeDZombie(angle, masterZombieSpeed, ZOMBIE_HITBOX);
+        } else if (isMasterZombie && goingAfterPlayer.get())
+        {
+          moveTowardPlayer(masterZombieSpeed);
         }
       }
-    }
-    else if (!collisionDetected.get())
-    {
-      if (!goingAfterPlayer.get() && !isMasterZombie)
+      double currentX = ZOMBIE_HITBOX.getTranslateX();
+      double currentZ = ZOMBIE_HITBOX.getTranslateZ();
+      if (angle == 180)
       {
-        moveThreeDZombie(angle, zombieWalkingSpeed, ZOMBIE_HITBOX);
+        if (currentZ > (Math.floor(currentZ) + .5))
+        {
+          currentZ++;
+        }
       }
-      else if (!isMasterZombie && goingAfterPlayer.get())
+      if (angle == 90)
       {
-        moveTowardPlayer(zombieWalkingSpeed);
+        if (currentX < (Math.floor(currentX) + .5))
+        {
+          currentX--;
+        }
       }
-      else if (isMasterZombie && !goingAfterPlayer.get())
+      if (angle == 0)
       {
-        moveThreeDZombie(angle, masterZombieSpeed, ZOMBIE_HITBOX);
+        if (currentZ < (Math.floor(currentZ) + .5))
+        {
+          currentZ--;
+        }
       }
-      else if (isMasterZombie && goingAfterPlayer.get())
+      if (angle == 270)
       {
-        moveTowardPlayer(masterZombieSpeed);
+        if (currentX > (Math.floor(currentX) + .5))
+        {
+          currentX++;
+        }
       }
-    }
-    double currentX = ZOMBIE_HITBOX.getTranslateX();
-    double currentZ = ZOMBIE_HITBOX.getTranslateZ();
-    if (angle == 180)
-    {
-      if (currentZ > (Math.floor(currentZ) + .5))
+      if (angle > 90 && angle < 180)
       {
-        currentZ++;
+        if (currentX < (Math.floor(currentX) + .5))
+        {
+          currentX--;
+        }
+        if (currentZ > (Math.floor(currentZ) + .5))
+        {
+          currentZ++;
+        }
       }
-    }
-    if (angle == 90)
-    {
-      if (currentX < (Math.floor(currentX) + .5))
+      if (angle > 0 && angle < 90)
+      {
+        if (currentX < (Math.floor(currentX) + .5))
+        {
+          currentX--;
+        }
+        if (currentZ < (Math.floor(currentZ) + .5))
+        {
+          currentZ--;
+        }
+      }
+      if (angle < 360 && angle > 270)
+      {
+        if (currentX > (Math.floor(currentX) + .5))
+        {
+          currentX++;
+        }
+        if (currentZ < (Math.floor(currentZ) + .5))
+        {
+          currentZ--;
+        }
+      }
+      if (angle > 180 && angle < 270)
+      {
+        if (currentX > (Math.floor(currentX) + .5))
+        {
+          currentX++;
+        }
+        if (currentZ > (Math.floor(currentZ) + .5))
+        {
+          currentZ++;
+        }
+      }
+      if (currentX >= entityManager.zombieHouse.getGameBoard().length)
       {
         currentX--;
       }
-    }
-    if (angle == 0)
-    {
-      if (currentZ < (Math.floor(currentZ) + .5))
+      if (currentZ >= entityManager.zombieHouse.getGameBoard().length)
       {
         currentZ--;
       }
+      Tile currentTile = entityManager.zombieHouse.getGameBoard()[(int) currentZ][(int) currentX];
+      findPathToPlayer(currentTile);/** @todo look here*/
+      updateDistance();
+      //adds EVERY step taken to path. There'll be many repeats because it records how long player stays there
+      pathTaken.add(new CreaturePathInfo((float) xPos, (float) zPos, (float) angle, didAttack));
+      locationOnPath++;
     }
-    if (angle == 270)
+    else
     {
-      if (currentX > (Math.floor(currentX) + .5))
+      for (int i = 0; i < zombieMesh.length; i++)
       {
-        currentX++;
+        zombieMesh[i].setTranslateZ(pathTaken.get(locationOnPath).getZ());
+        zombieMesh[i].setTranslateX(pathTaken.get(locationOnPath).getX());
+        zombieMesh[i].setRotate(pathTaken.get(locationOnPath).getAngle());
       }
     }
-    if (angle > 90 && angle < 180)
-    {
-      if (currentX < (Math.floor(currentX) + .5))
-      {
-        currentX--;
-      }
-      if (currentZ > (Math.floor(currentZ) + .5))
-      {
-        currentZ++;
-      }
-    }
-    if (angle > 0 && angle < 90)
-    {
-      if (currentX < (Math.floor(currentX) + .5))
-      {
-        currentX--;
-      }
-      if (currentZ < (Math.floor(currentZ) + .5))
-      {
-        currentZ--;
-      }
-    }
-    if (angle < 360 && angle > 270)
-    {
-      if (currentX > (Math.floor(currentX) + .5))
-      {
-        currentX++;
-      }
-      if (currentZ < (Math.floor(currentZ) + .5))
-      {
-        currentZ--;
-      }
-    }
-    if (angle > 180 && angle < 270)
-    {
-      if (currentX > (Math.floor(currentX) + .5))
-      {
-        currentX++;
-      }
-      if (currentZ > (Math.floor(currentZ) + .5))
-      {
-        currentZ++;
-      }
-    }
-    if (currentX >= entityManager.zombieHouse.getGameBoard().length)
-    {
-      currentX--;
-    }
-    if (currentZ >= entityManager.zombieHouse.getGameBoard().length)
-    {
-      currentZ--;
-    }
-    Tile currentTile = entityManager.zombieHouse.getGameBoard()[(int) currentZ][(int) currentX];
-    findPathToPlayer(currentTile);/** @todo look here*/
-    updateDistance();
-    //adds EVERY step taken to path. There'll be many repeats because it records how long player stays there
-    pathTaken.add(new CreaturePathInfo((float) xPos, (float) zPos, (float) angle, didAttack));
   }
 
   /**
@@ -859,6 +868,7 @@ public class Zombie extends Creature
     tile.zPos = zPos;
     ZOMBIE_HITBOX.setTranslateX(xPos);
     ZOMBIE_HITBOX.setTranslateZ(zPos);
+    locationOnPath = 0;
   }
 
   /**
