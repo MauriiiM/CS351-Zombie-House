@@ -591,12 +591,12 @@ public class Zombie extends Creature
     }
     else
     {
-      for (int i = 0; i < zombieMesh.length; i++)
+      if(isMasterZombie)
       {
-        zombieMesh[i].setTranslateZ(pathTaken.get(locationOnPath).getZ());
-        zombieMesh[i].setTranslateX(pathTaken.get(locationOnPath).getX());
-        zombieMesh[i].setRotate(pathTaken.get(locationOnPath).getAngle());
+        moveThreeDZombie(pathTaken.get(locationOnPath).getAngle(), masterZombieSpeed, ZOMBIE_HITBOX);
       }
+      else
+        moveThreeDZombie(angle, zombieWalkingSpeed, ZOMBIE_HITBOX);
     }
   }
 
