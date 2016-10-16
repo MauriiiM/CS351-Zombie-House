@@ -1,6 +1,5 @@
 package game_engine;
 
-import com.sun.glass.ui.Robot;
 import entities.Player;
 /**
  * @author Jeffrey McCall
@@ -20,7 +19,7 @@ import javafx.scene.input.MouseEvent;
  *         Handles mouse events in the game. Moves the player camera to the
  *         left and right.
  */
-public class MouseEventHandler extends InputHandler implements EventHandler<MouseEvent>
+class MouseEventHandler extends InputHandler implements EventHandler<MouseEvent>
 {
 
   //The angle that the camera is rotated to.
@@ -54,12 +53,13 @@ public class MouseEventHandler extends InputHandler implements EventHandler<Mous
   {
     double rotationSpeed = Math.PI / 1.3;
     double x = event.getX();
+    System.out.println(event.getScreenX() + "\t" + event.getScreenY());
 
     if (!gameIsPaused)
     {
       if (event.isPrimaryButtonDown())
       {
-        if(event.getClickCount() % 2 == 1)
+        if (event.getClickCount() % 2 == 1)
         {
           player.attack();
           player.attacking = true;
@@ -98,9 +98,8 @@ public class MouseEventHandler extends InputHandler implements EventHandler<Mous
 
   private void moveMouse()
   {
-    Robot robot = com.sun.glass.ui.Application.GetApplication().createRobot();
-    robot.mouseMove(1280, 800);
-    robot.mousePress(0);
-    robot.mouseRelease(1);
+    robot.mouseMove((int) screenWidth/2, (int)screenHeight/2);
+//    robot.mousePress(0);
+//    robot.mouseRelease(1);
   }
 }

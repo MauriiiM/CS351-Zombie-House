@@ -1,4 +1,3 @@
-
 package game_engine;
 
 import entities.Player;
@@ -14,7 +13,7 @@ import levels.Tile;
  *         This class handles the input from the keyboard that controls
  *         player movement as well as some other actions.
  */
-public class KeyboardEventHandler extends InputHandler implements EventHandler<KeyEvent>
+class KeyboardEventHandler extends InputHandler implements EventHandler<KeyEvent>
 {
   /**
    * Constructor for the keyboard event handler.
@@ -23,7 +22,7 @@ public class KeyboardEventHandler extends InputHandler implements EventHandler<K
    * @param player        The player object.
    * @param zombieHouse3d The 3D game map renderer.
    */
-  public KeyboardEventHandler(PerspectiveCamera camera, Player player, ZombieHouse3d zombieHouse3d)
+  KeyboardEventHandler(PerspectiveCamera camera, Player player, ZombieHouse3d zombieHouse3d)
   {
     super(camera, player, zombieHouse3d);
   }
