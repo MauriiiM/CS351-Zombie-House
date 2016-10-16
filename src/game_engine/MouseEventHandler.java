@@ -1,12 +1,6 @@
 package game_engine;
 
 import entities.Player;
-/**
- * @author Jeffrey McCall
- * This class handles all of the mouse input
- * into the game. When the mouse is moved, the camera
- * is rotated appropriately.
- */
 import javafx.event.EventHandler;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.input.MouseEvent;
@@ -16,8 +10,9 @@ import javafx.scene.input.MouseEvent;
  *         Jeffrey McCall
  *         Mauricio Monsivais - added extends InputHandler
  *         <p>
- *         Handles mouse events in the game. Moves the player camera to the
- *         left and right.
+ *         This class handles all of the mouse input
+ *         into the game. When the mouse is moved, the camera
+ *         is rotated appropriately.
  */
 class MouseEventHandler extends InputHandler implements EventHandler<MouseEvent>
 {
@@ -53,7 +48,7 @@ class MouseEventHandler extends InputHandler implements EventHandler<MouseEvent>
   {
     double rotationSpeed = Math.PI / 1.3;
     double x = event.getX();
-    System.out.println(event.getScreenX() + "\t" + event.getScreenY());
+//    System.out.println(event.getScreenX() + "\t" + event.getScreenY());
 
     if (!gameIsPaused)
     {
@@ -98,7 +93,7 @@ class MouseEventHandler extends InputHandler implements EventHandler<MouseEvent>
 
   private void moveMouse()
   {
-    robot.mouseMove((int) screenWidth/2, (int)screenHeight/2);
+    robot.mouseMove((int) screenWidth / 2, (int) screenHeight / 2);
 //    robot.mousePress(0);
 //    robot.mouseRelease(1);
   }
