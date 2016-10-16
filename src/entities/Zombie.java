@@ -83,6 +83,7 @@ public class Zombie extends Creature
   private int fullHealth = 100;
 
   private int locationOnPath = 0;
+  private byte takeHealth = 0;
 
 
   /**
@@ -128,6 +129,15 @@ public class Zombie extends Creature
     this.dead = dead;
   }
 
+  public void setTakeHealth(byte takeHealth)
+  {
+    this.takeHealth = takeHealth;
+  }
+
+  public byte getTakeHealth()
+  {
+    return takeHealth;
+  }
 
 
   void setMasterHealth()
@@ -462,6 +472,7 @@ public class Zombie extends Creature
   {
     if(entityManager.player.getNumDeaths() == 0 || locationOnPath >= pathTaken.size() || !engaged)
     {
+      takeHealth = 0;
       if (entityManager.getWallCollision(ZOMBIE_HITBOX) != null && !angleAdjusted.get())
       {
         if (!collisionJustDetected.get())
@@ -874,6 +885,7 @@ public class Zombie extends Creature
     ZOMBIE_HITBOX.setTranslateX(xPos);
     ZOMBIE_HITBOX.setTranslateZ(zPos);
     locationOnPath = 0;
+    takeHealth = 1;
   }
 
   /**

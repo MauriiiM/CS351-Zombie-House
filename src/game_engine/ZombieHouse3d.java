@@ -428,7 +428,7 @@ public class ZombieHouse3d
    * @return mesh
    * The Node[] that contains the model
    */
-  private static Node[] loadMeshViews(String input)
+  public static Node[] loadMeshViews(String input)
   {
     ObjModelImporter importer = new ObjModelImporter();
     importer.setOptions(ObjImportOption.NONE);

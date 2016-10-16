@@ -147,12 +147,13 @@ public class EntityManager
         {
           if (!zombie.isEngaged() || !zombie.isDead())
           {
+            System.out.println("zombie damaged");
             zombie.takeHealth();
             zombie.setEngaged(true);
           }
           else if (zombie.isEngaged() && zombie.isDead())
           {
-            createZombie(zombie);
+//            createZombie(zombie);
           }
         }
         if (zombie.getHealth() <= 0)
@@ -165,6 +166,7 @@ public class EntityManager
           zombies.remove(zombie);
           root.getChildren().removeAll(zombie.getMesh());
         }
+        if (zombie.isEngaged() && zombie.getTakeHealth() == 1) return false;
         return true;
       }
     }
@@ -175,6 +177,9 @@ public class EntityManager
   {
     Zombie newZombie = new Zombie(gameBoard[zombie.getRow()][zombie.getCol()], this);
     zombies.add(newZombie);
+    zombie.setMesh(ZombieHouse3d.loadMeshViews("Resources/Meshes/Feral_Ghoul/Feral_Ghoul.obj"));
+
+    root.getChildren().addAll(zombie.getMesh());
   }
 
   /**
