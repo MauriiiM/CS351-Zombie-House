@@ -8,9 +8,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import levels.Tile;
 import utilities.ZombieBoardRenderer;
-
 import java.util.*;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * @author Jeffrey McCall This class is used for zombie pathfinding to find
@@ -18,30 +16,25 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 class CalculatePath
 {
-  Comparator<GraphNode> comparator = new NodeComparator();
-  PriorityQueue<GraphNode> priorityQueue = new PriorityQueue<GraphNode>(1, comparator);
-  LinkedHashMap<Tile, Tile> cameFrom = new LinkedHashMap<>();
-  LinkedHashMap<Tile, Double> costSoFar = new LinkedHashMap<>();
-
   private EntityManager entityManager;
   private Zombie zombie;
 
-  private double newCost;
-  private double priority;
-  private int lastPathSize = 0;
   ArrayList<Circle> oldPath = new ArrayList<>();
+  private Comparator<GraphNode> comparator = new NodeComparator();
+  private PriorityQueue<GraphNode> priorityQueue = new PriorityQueue<>(1, comparator);
+  private LinkedHashMap<Tile, Tile> cameFrom = new LinkedHashMap<>();
+  private LinkedHashMap<Tile, Double> costSoFar = new LinkedHashMap<>();
+
   int distanceToPlayer;
-  LinkedList<Tile> path;
-  Tile destination;
-  Tile end;
+  private int lastPathSize = 0;
+  private Tile end;
+
   boolean twoD = false;
-  AtomicBoolean findNewPath;
 
   CalculatePath(EntityManager entityManager, Zombie zombie)
   {
     this.entityManager = entityManager;
     this.zombie = zombie;
-    findNewPath = zombie.findNewPath;
   }
 
   /**
@@ -59,10 +52,12 @@ class CalculatePath
    */
   void findPath(Tile from, Tile to, GraphNode zombieNode)
   {
+    double newCost;
+    double priority;
+
     if (from != null && to != null)
     {
       end = to;
-      destination = to;
       priorityQueue.add(zombieNode);
       costSoFar.put(from, 0.0);
       cameFrom.put(from, null);
@@ -230,7 +225,7 @@ class CalculatePath
    */
   private int getPathLength(LinkedHashMap<Tile, Tile> cameFrom, Tile end)
   {
-    int counter = 0;
+    int counter;
     LinkedList<Tile> path = new LinkedList<>();
     Tile curr = end;
     while (curr != null)
@@ -238,7 +233,7 @@ class CalculatePath
       path.addFirst(curr);
       curr = cameFrom.get(curr);
     }
-    if (path.size() >= 2 && findNewPath.get())
+    if (path.size() >= 2 && zombie.findNewPath.get())
     {
       calculateHeadings(path.get(0), path.get(1));
     }

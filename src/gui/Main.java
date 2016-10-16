@@ -35,7 +35,7 @@ public class Main extends Application
     this.primaryStage = primaryStage;
     scenes.setSoundManager(soundManager);
     soundManager.playTrack(0);
-    primaryStage.setTitle("Zombie House By: (Anacaren, Javier, & Mauricio) and (Atle, Ben, & Jeffrey)");
+    primaryStage.setTitle("Zombie House By: (Javier, & Mauricio) and (Atle, Ben, & Jeffrey)");
     primaryStage.setScene(scenes.mainMenu);
     primaryStage.show();
 
