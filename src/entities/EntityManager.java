@@ -4,15 +4,17 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import com.interactivemesh.jfx.importer.obj.ObjImportOption;
+import com.interactivemesh.jfx.importer.obj.ObjModelImporter;
 import game_engine.Attributes;
 import game_engine.Scenes;
 import game_engine.ZombieHouse3d;
 import gui.Main;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.layout.HBox;
 import javafx.scene.shape.Box;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Shape;
 import javafx.scene.shape.Shape3D;
 import levels.Tile;
 import sounds.Sound;
@@ -51,6 +53,7 @@ public class EntityManager
   public Scenes scenes;
   private Group root;
   public Main main;
+
   public boolean masterZombieSpawn = false;
   public AtomicBoolean gameIsRunning = new AtomicBoolean(true);
   private Tile[][] gameBoard;
@@ -58,6 +61,7 @@ public class EntityManager
   private MasterZombieDecision masterDecision;
   private ZombieDecision zombieDecision;
   private int zombiePathIndex = 0;
+  private int collisionTicks = 59;
 
   /**
    * Constructor for EntityManager.
@@ -119,13 +123,14 @@ public class EntityManager
   /**
    * Collision detection for 3D player objects.
    *
-   * @param player The shape that represents the zombie.
+   * @param player The shape that represents the player.
    * @return True if there is a collision. False if there isn't.
    */
   boolean checkPlayerCollision(Shape3D player, Shape3D chainsaw)
   {
     for (Zombie zombie : zombies)
     {
+      // if at the last index of zombie's path he is dead, remove. (Used for ghost killing zombie)
       if (zombiePathIndex == zombie.pathTaken.size() - 1 && zombie.pathTaken.get(zombiePathIndex).getIsDead() == 1)
       {
         zombie.setDead(true);
@@ -133,19 +138,26 @@ public class EntityManager
         zombies.remove(zombie);
         root.getChildren().removeAll(zombie.getMesh());
         return false;
+
       }
+      //if chainsaw and zombie are colliding
       else if (chainsaw.getBoundsInParent().intersects(zombie.ZOMBIE_HITBOX.getBoundsInParent()))
       {
+        //if player is attacking and facing zombie
         if (this.player.attacking && (this.player.angle - zombie.angle > -300 && this.player.angle - zombie.angle < 300))
         {
-          if (!zombie.isEngaged() || !zombie.isDead())
+          if (!zombie.hasPath())
           {
-            System.out.println("zombie damaged");
             zombie.takeHealth();
           }
-          else if (zombie.isEngaged() && zombie.isDead())
+          else
           {
-//            createZombie(zombie);
+            collisionTicks++;
+            if (collisionTicks == 60)
+            {
+              bifurcate(zombie);
+              collisionTicks = 0;
+            }
           }
         }
         if (zombie.getHealth() <= 0)
@@ -158,24 +170,21 @@ public class EntityManager
           zombies.remove(zombie);
           root.getChildren().removeAll(zombie.getMesh());
         }
-        if (zombie.isEngaged() && zombie.getTakeHealth() == 1) return false;
-        //return true;
+        if (zombie.hasPath()) return false;
       }
-       if (player.getBoundsInParent().intersects(zombie.ZOMBIE_HITBOX.getBoundsInParent()))
-      {
-        return true;
-      }
+      //if player and zombie are colliding
+      if (player.getBoundsInParent().intersects(zombie.ZOMBIE_HITBOX.getBoundsInParent())) return true;
+
     }
     return false;
   }
 
-  private void createZombie(Zombie zombie)
+  private void bifurcate(Zombie zombie)
   {
     Zombie newZombie = new Zombie(gameBoard[zombie.getRow()][zombie.getCol()], this);
     zombies.add(newZombie);
-    zombie.setMesh(ZombieHouse3d.loadMeshViews("Resources/Meshes/Feral_Ghoul/Feral_Ghoul.obj"));
-
-    root.getChildren().addAll(zombie.getMesh());
+    newZombie.setMesh(ZombieHouse3d.loadMeshViews("Resources/Meshes/Feral_Ghoul/Feral_Ghoul.obj"));
+    root.getChildren().addAll(newZombie.getMesh());
   }
 
   /**

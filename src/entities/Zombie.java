@@ -43,7 +43,7 @@ public class Zombie extends Creature
   boolean randomWalk = false;
   Random rand = new Random();
   double zombieWalkingSpeed = .01;
-  double masterZombieSpeed = .05;
+  double masterZombieSpeed = .0;
   double masterZombie2dSpeed = .3;
   double zombieSmell = 15.0;
   double twoDSpeed = (.5 / 60) * ZombieBoardRenderer.cellSize;
@@ -174,7 +174,7 @@ public class Zombie extends Creature
 
   void takeHealth()
   {
-    health -= 8;
+    health -= 2;
   }
 
   /**
