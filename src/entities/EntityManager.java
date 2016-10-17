@@ -4,11 +4,14 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import com.interactivemesh.jfx.importer.obj.ObjImportOption;
+import com.interactivemesh.jfx.importer.obj.ObjModelImporter;
 import game_engine.Attributes;
 import game_engine.Scenes;
 import game_engine.ZombieHouse3d;
 import gui.Main;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.layout.HBox;
 import javafx.scene.shape.Box;
 import javafx.scene.shape.Circle;
@@ -58,7 +61,7 @@ public class EntityManager
   private MasterZombieDecision masterDecision;
   private ZombieDecision zombieDecision;
   private int zombiePathIndex = 0;
-  private int collisionTicks = 0;
+  private int collisionTicks = 59;
 
   /**
    * Constructor for EntityManager.
@@ -144,18 +147,20 @@ public class EntityManager
         //if player is attacking and facing zombie
         if (this.player.attacking && (this.player.angle - zombie.angle > -300 && this.player.angle - zombie.angle < 300))
         {
-        if (collisionTicks == 100) collisionTicks = 0;
-        collisionTicks++;
-        System.out.println(collisionTicks);
-        if (!zombie.hasPath())
-        {
-          zombie.takeHealth();
-        }
-        else if (collisionTicks == 1)
-        {
-          System.out.println("BIFURCATE");
-//          createZombie(zombie);
-        }
+          System.out.println(collisionTicks);
+          if (!zombie.hasPath())
+          {
+            zombie.takeHealth();
+          }
+          else
+          {
+            collisionTicks++;
+            if (collisionTicks == 60)
+            {
+              bifurcate(zombie);
+              collisionTicks = 0;
+            }
+          }
         }
         if (zombie.getHealth() <= 0)
         {
@@ -175,13 +180,12 @@ public class EntityManager
     return false;
   }
 
-  private void createZombie(Zombie zombie)
+  private void bifurcate(Zombie zombie)
   {
     Zombie newZombie = new Zombie(gameBoard[zombie.getRow()][zombie.getCol()], this);
     zombies.add(newZombie);
-    zombie.setMesh(ZombieHouse3d.loadMeshViews("Resources/Meshes/Lambent_Female/Lambent_Female.obj"));
-
-    root.getChildren().addAll(zombie.getMesh());
+    newZombie.setMesh(ZombieHouse3d.loadMeshViews("Resources/Meshes/Feral_Ghoul/Feral_Ghoul.obj"));
+    root.getChildren().addAll(newZombie.getMesh());
   }
 
   /**
