@@ -10,10 +10,7 @@ import com.sun.net.httpserver.Filter;
 import entities.*;
 import graphing.GraphNode;
 import graphing.TileGraph;
-import gui.Main;
 import javafx.animation.AnimationTimer;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.CacheHint;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
@@ -24,7 +21,6 @@ import javafx.scene.PointLight;
 import javafx.scene.Scene;
 import javafx.scene.SceneAntialiasing;
 import javafx.scene.SubScene;
-import javafx.scene.control.Button;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.media.AudioClip;
@@ -35,11 +31,9 @@ import javafx.scene.shape.Box;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
-import levels.ProceduralMap;
 import levels.TextureMaps;
 import levels.Tile;
 import levels.Tile.TileType;
-import sounds.SoundManager;
 
 /**
  * @author Atle Olson
@@ -237,6 +231,7 @@ public class ZombieHouse3d
       entityManager.prop1 = new Prop1(3, 2);
       entityManager.prop2 = new Prop2(3,3);
       entityManager.prop3 = new Prop3(3,1);
+      light.setColor(Color.GRAY);
       entityManager.player = new Player(camera, entityManager, light, entityManager.chainsaw);
     }
 
@@ -412,7 +407,7 @@ public class ZombieHouse3d
 
     // Use a SubScene
     SubScene subScene = new SubScene(root, 1280, 800, true, SceneAntialiasing.BALANCED);
-    subScene.setFill(Color.rgb(10, 10, 40));
+    subScene.setFill(Color.BLACK);
     subScene.setCamera(camera);
     subScene.setCursor(Cursor.DISAPPEAR);
 

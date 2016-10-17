@@ -126,7 +126,7 @@ public class Player extends Creature
     lastX = camera.getTranslateX();
     lastZ = camera.getTranslateZ();
 
-    for (int i = 0; i < 4; i++)
+    for (int i = 0; i < lives; i++)
     {
       currentPath[i] = new ArrayList<>();
     }
@@ -284,7 +284,7 @@ public class Player extends Creature
 
       if (health > -MAX_HEALTH)
       {
-        light.setColor(Color.rgb((int) ((MAX_HEALTH + health) / 4), (int) ((health / 50) + 10), (int) ((health / 5) + 10)));
+        light.setColor(Color.rgb( ((MAX_HEALTH + health) / 4), ((health / 50) + 10), ((health / 5) + 10)));
       }
 
       //if the health is 0, or less than 0(which will only occur once) then you're dead
@@ -438,7 +438,7 @@ public class Player extends Creature
     health = MAX_HEALTH;
     healTime = 0;
     gotHit = false;
-    light.setColor(Color.WHITE);
+    light.setColor(Color.GRAY);
   }
 
   /**

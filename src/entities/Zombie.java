@@ -879,7 +879,7 @@ public class Zombie extends Creature
       zombieMesh[i].setTranslateZ(zPos);
       //zombieMesh[i].setRotate(angleToPlayer);
     }
-
+    findPathToPlayer(tile);
   }
 
   /**
