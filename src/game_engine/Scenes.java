@@ -219,7 +219,7 @@ public class Scenes implements EventHandler<ActionEvent>
 
     //Main menu Scene
     startRoot = new BorderPane();
-    startRoot.setStyle("-fx-background-image: url(/Images/background2.jpg);-fx-background-size: 1280, 800;-fx-background-repeat: " + "no-repeat;");
+    startRoot.setStyle("-fx-background-image: url(/Images/background2.jpg);-fx-background-size: stretch;-fx-background-repeat: " + "no-repeat;");
     startRoot.setPrefSize(winW, winH);
     VBox buttonVBox = new VBox();
     buttonVBox.getChildren().addAll(goTo3dGame, goTo2dGame, goToMapViewer, goToGameOver, goToWin, goToSettings);
@@ -229,7 +229,8 @@ public class Scenes implements EventHandler<ActionEvent>
 
     //3D Game Scene
     threeDGameRoot = new BorderPane();
-    threeDGameRoot.setPrefSize(winW, winH);
+//    threeDGameRoot.setPrefSize(winW, winH);
+    threeDGameRoot.setStyle("-fx-background-size: stretch;");
 
     //2D Game Scene
     twoDGameRoot = new BorderPane();
@@ -237,8 +238,8 @@ public class Scenes implements EventHandler<ActionEvent>
 
     //Game over Scene
     gameOverRoot = new BorderPane();
+    gameOverRoot.setStyle("-fx-background-image: url(/Images/dead_bg.jpg);-fx-background-size: stretch;-fx-background-repeat: " + "no-repeat;");
     gameOverRoot.setPrefSize(winW, winH);
-    gameOverRoot.setCenter(new Label("A ZOMBIE KILLED YOU!"));
     HBox hBoxGameOver = new HBox();
     hBoxGameOver.getChildren().addAll(returnButton, tryAgainButton);
     gameOverRoot.setTop(hBoxGameOver);
