@@ -75,8 +75,8 @@ public class Zombie extends Creature
   private double lastX;
   private double lastZ;
 
-  private boolean engaged = false;
-  private int engagedCurrentGame = 0;
+  private boolean hasPath;
+  private boolean engaged;
   private boolean dead = false;
   private byte isDeadInPath = 0;
   private byte didAttack = 0;
@@ -96,7 +96,7 @@ public class Zombie extends Creature
     stepDistance = 1;
 
     this.entityManager = entityManager;
-    calcPath  = new CalculatePath(entityManager, this);
+    calcPath = new CalculatePath(entityManager, this);
 
     // 50% chance that the zombie is either a random
     // walk zombie or a line walk zombie.
@@ -162,6 +162,11 @@ public class Zombie extends Creature
     return row;
   }
 
+  public boolean hasPath()
+  {
+    return hasPath;
+  }
+
   void setZombieHeading(Heading zombieHeading)
   {
     this.zombieHeading = zombieHeading;
@@ -179,7 +184,6 @@ public class Zombie extends Creature
   void setEngaged(boolean newEngaged)
   {
     engaged = newEngaged;
-    engagedCurrentGame++;
   }
 
   boolean isEngaged()
@@ -265,8 +269,14 @@ public class Zombie extends Creature
       {
         zombieMesh[i].setTranslateZ(movementAmountZ);
         zombieMesh[i].setTranslateX(movementAmountX);
-        if(!engaged) zombieMesh[i].setRotate(angleToPlayer);
-        else zombieMesh[i].setRotate(angle + 180);
+        if (!engaged)
+        {
+          zombieMesh[i].setRotate(angleToPlayer);
+        }
+        else
+        {
+          zombieMesh[i].setRotate(angle + 180);
+        }
       }
     }
     xPos = zombieCylinder.getTranslateX();
@@ -378,7 +388,7 @@ public class Zombie extends Creature
   }
 
   /**
-   *  helper method to find the correct angle to move
+   * helper method to find the correct angle to move
    */
   private void findAngle()
   {
@@ -456,8 +466,9 @@ public class Zombie extends Creature
   public void tick()
   {
     //if the zombie does not have a path then it has to make decisions
-    if(entityManager.player.getNumDeaths() == 0 || locationOnPath >= pathTaken.size() || !engaged)
+    if (entityManager.player.getNumDeaths() == 0 || locationOnPath >= pathTaken.size() || !engaged)
     {
+      hasPath = false;
       takeHealth = 0;
       if (entityManager.getWallCollision(ZOMBIE_HITBOX) != null && !angleAdjusted.get())
       {
@@ -477,7 +488,8 @@ public class Zombie extends Creature
             double currentX = ZOMBIE_HITBOX.getTranslateX();
             double currentZ = ZOMBIE_HITBOX.getTranslateZ();
             checkForCornerTile(entityManager.zombieHouse.getGameBoard()[(int) Math.floor(currentZ)][(int) Math.floor(currentX)]);
-          } else
+          }
+          else
           {
             while (entityManager.getWallCollision(ZOMBIE_HITBOX) != null)
             {
@@ -485,18 +497,22 @@ public class Zombie extends Creature
             }
           }
         }
-      } else if (!collisionDetected.get())
+      }
+      else if (!collisionDetected.get())
       {
         if (!goingAfterPlayer.get() && !isMasterZombie)
         {
           moveThreeDZombie(angle, zombieWalkingSpeed, ZOMBIE_HITBOX, false);
-        } else if (!isMasterZombie && goingAfterPlayer.get())
+        }
+        else if (!isMasterZombie && goingAfterPlayer.get())
         {
           moveTowardPlayer(zombieWalkingSpeed);
-        } else if (isMasterZombie && !goingAfterPlayer.get())
+        }
+        else if (isMasterZombie && !goingAfterPlayer.get())
         {
           moveThreeDZombie(angle, masterZombieSpeed, ZOMBIE_HITBOX, false);
-        } else if (isMasterZombie && goingAfterPlayer.get())
+        }
+        else if (isMasterZombie && goingAfterPlayer.get())
         {
           moveTowardPlayer(masterZombieSpeed);
         }
@@ -592,15 +608,18 @@ public class Zombie extends Creature
     //the zombie has a path and it needs to follow it
     else
     {
-      if(!isMasterZombie)
+      hasPath = true;
+      if (!isMasterZombie)
       {
         moveThreeDZombie(pathTaken.get(locationOnPath).getAngle(), zombieWalkingSpeed, ZOMBIE_HITBOX, true);
       }
       else
+      {
         moveThreeDZombie(pathTaken.get(locationOnPath).getAngle(), masterZombieSpeed, ZOMBIE_HITBOX, true);
+      }
     }
     locationOnPath++;
-    if(locationOnPath == pathTaken.size()-1) engaged = false;
+    if (locationOnPath == pathTaken.size() - 1) engaged = false;
   }
 
   /**
@@ -791,7 +810,7 @@ public class Zombie extends Creature
       if (calcPath.distanceToPlayer <= zombieSmell || (isMasterZombie && masterZombieChasePlayer.get()))
       {
         goingAfterPlayer.set(true);
-        setEngaged(true);
+        if(!hasPath)engaged = true;
       }
       else
       {
@@ -860,9 +879,11 @@ public class Zombie extends Creature
     return Math.sqrt((xDist * xDist) + (zDist * zDist));
   }
 
+  /**
+   * @todo clear path condition
+   */
   void reset()
   {
-    if (engagedCurrentGame == 0) pathTaken.clear(); //player never interacted with zombie
     health = fullHealth;
     goingAfterPlayer.set(false);//idk yet
     xPos = START_X;
