@@ -130,7 +130,7 @@ public class EntityManager
   {
     for (Zombie zombie : zombies)
     {
-      // if at last index of zombie's path he is dead, remove. (Used for ghost killing zombie)
+      // if at the last index of zombie's path he is dead, remove. (Used for ghost killing zombie)
       if (zombiePathIndex == zombie.pathTaken.size() - 1 && zombie.pathTaken.get(zombiePathIndex).getIsDead() == 1)
       {
         zombie.setDead(true);
@@ -140,13 +140,12 @@ public class EntityManager
         return false;
 
       }
-      //if player and zombie are colliding
-      else if (player.getBoundsInParent().intersects(zombie.ZOMBIE_HITBOX.getBoundsInParent()))
+      //if chainsaw and zombie are colliding
+      else if (chainsaw.getBoundsInParent().intersects(zombie.ZOMBIE_HITBOX.getBoundsInParent()))
       {
         //if player is attacking and facing zombie
         if (this.player.attacking && (this.player.angle - zombie.angle > -300 && this.player.angle - zombie.angle < 300))
         {
-          System.out.println(collisionTicks);
           if (!zombie.hasPath())
           {
             zombie.takeHealth();
@@ -172,8 +171,10 @@ public class EntityManager
           root.getChildren().removeAll(zombie.getMesh());
         }
         if (zombie.hasPath()) return false;
-        return true;
       }
+      //if player and zombie are colliding
+      if (player.getBoundsInParent().intersects(zombie.ZOMBIE_HITBOX.getBoundsInParent())) return true;
+
     }
     return false;
   }
