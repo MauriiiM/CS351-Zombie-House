@@ -600,6 +600,7 @@ public class Zombie extends Creature
         moveThreeDZombie(pathTaken.get(locationOnPath).getAngle(), masterZombieSpeed, ZOMBIE_HITBOX, true);
     }
     locationOnPath++;
+    if(locationOnPath == pathTaken.size()-1) engaged = false;
   }
 
   /**

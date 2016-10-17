@@ -127,7 +127,6 @@ public class EntityManager
     {
       if (zombiePathIndex == zombie.pathTaken.size() - 1 && zombie.pathTaken.get(zombiePathIndex).getIsDead() == 1)
       {
-        System.out.println("dieeeeeeeeeeee");
         zombie.setDead(true);
         deadZombies.add(zombie);
         zombies.remove(zombie);
