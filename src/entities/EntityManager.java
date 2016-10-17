@@ -143,7 +143,7 @@ public class EntityManager
 //          zombies.add(new Zombie(gameBoard[zombie.col][zombie.row], zombie.row, zombie.col,
 //              gameBoard[zombie.col][zombie.row].xPos, gameBoard[zombie.col][zombie.row].zPos, this));
 //        }
-        if (this.player.attacking && (this.player.angle - zombie.angle > -200 && this.player.angle - zombie.angle < 200))
+        if (this.player.attacking && (this.player.angle - zombie.angle > -300 && this.player.angle - zombie.angle < 300))
         {
           if (!zombie.isEngaged() || !zombie.isDead())
           {
