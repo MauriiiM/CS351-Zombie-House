@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 import entities.EntityManager;
 import entities.Player;
-import entities.Prop;
 import entities.Zombie;
 import game_engine.Attributes;
 import game_engine.Scenes;
@@ -25,7 +24,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import levels.ProceduralMap;
 import levels.Tile;
-import sounds.SoundManager;
+
 /**
  * @author Atle Olson
  * @author Jeffrey McCall
@@ -131,10 +130,10 @@ public class ZombieBoardRenderer
 
         if (ke.getText() == "w" && ke.isShiftDown())
         {
-          entityManager.player.velocity = 4 * Tile.tileSize / 16d;
+          entityManager.player.speed = 4 * Tile.tileSize / 16d;
         } else if ((ke.getText() == "w" && !ke.isShiftDown()))
         {
-          entityManager.player.velocity = 2 * Tile.tileSize / 16d;
+          entityManager.player.speed = 2 * Tile.tileSize / 16d;
         }
         if (ke.getText() == "a")
         {
@@ -142,7 +141,7 @@ public class ZombieBoardRenderer
         }
         if (ke.getText() == "s")
         {
-          entityManager.player.velocity = -2 * Tile.tileSize / 16d;
+          entityManager.player.speed = -2 * Tile.tileSize / 16d;
         }
         if (ke.getText() == "d")
         {
@@ -157,11 +156,11 @@ public class ZombieBoardRenderer
 
         if (ke.getText() == "w")
         {
-          entityManager.player.velocity = 0;
+          entityManager.player.speed = 0;
         }
         if (ke.getText() == "W")
         {
-          entityManager.player.velocity = 0;
+          entityManager.player.speed = 0;
         }
         if (ke.getText() == "a")
         {
@@ -169,7 +168,7 @@ public class ZombieBoardRenderer
         }
         if (ke.getText() == "s")
         {
-          entityManager.player.velocity = 0;
+          entityManager.player.speed = 0;
         }
         if (ke.getText() == "d")
         {
@@ -380,10 +379,10 @@ public class ZombieBoardRenderer
           System.out.printf("%s pressed\n", event.getText());
         if (event.getText().equals("w"))
         {
-          entityManager.player.velocity = 2;
+          entityManager.player.speed = 2;
           if (ATLE)
-            System.out.printf("%s pressed, setting player.velocity %d \n",
-                event.getText(), (int) entityManager.player.velocity);
+            System.out.printf("%s pressed, setting player.speed %d \n",
+                event.getText(), (int) entityManager.player.speed);
         }
         if (event.getText().equals("a"))
         {
@@ -391,7 +390,7 @@ public class ZombieBoardRenderer
         }
         if (event.getText().equals("s"))
         {
-          entityManager.player.velocity = -2;
+          entityManager.player.speed = -2;
         }
         if (event.getText().equals("d"))
         {
@@ -402,10 +401,10 @@ public class ZombieBoardRenderer
         System.out.printf("%s released\n", event.getText());
         if (event.getText().equals("w"))
         {
-          entityManager.player.velocity = 0;
+          entityManager.player.speed = 0;
           if (ATLE)
-            System.out.printf("%s released, setting player.velocity %d\n",
-                event.getText(), (int) entityManager.player.velocity);
+            System.out.printf("%s released, setting player.speed %d\n",
+                event.getText(), (int) entityManager.player.speed);
         }
         if (event.getText().equals("a"))
         {
@@ -413,7 +412,7 @@ public class ZombieBoardRenderer
         }
         if (event.getText().equals("s"))
         {
-          entityManager.player.velocity = 0;
+          entityManager.player.speed = 0;
         }
         if (event.getText().equals("d"))
         {

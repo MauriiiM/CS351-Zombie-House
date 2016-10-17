@@ -11,7 +11,7 @@ import java.util.ArrayList;
  */
 public abstract class Creature extends Entity
 {
-  public double velocity;
+  public double speed;
   public double angle;
   double stepDistance;
 

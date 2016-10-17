@@ -48,22 +48,22 @@ class KeyboardEventHandler extends InputHandler implements EventHandler<KeyEvent
       if (event.getCode() == KeyCode.W && !gameIsPaused)
       {
         player.wDown.set(true);
-        player.velocity = Player.WALKING_SPEED;
+        player.speed = Player.WALKING_SPEED;
       }
       if (event.getCode() == KeyCode.S && !gameIsPaused)
       {
         player.sDown.set(true);
-        player.velocity = -Player.WALKING_SPEED;
+        player.speed = -Player.WALKING_SPEED;
       }
       if (event.getCode() == KeyCode.A && !gameIsPaused)
       {
         player.aDown.set(true);
-        player.strafeVelocity = Player.WALKING_SPEED;
+        player.strafeSpeed = Player.WALKING_SPEED;
       }
       if (event.getCode() == KeyCode.D && !gameIsPaused)
       {
         player.dDown.set(true);
-        player.strafeVelocity = -Player.WALKING_SPEED;
+        player.strafeSpeed = -Player.WALKING_SPEED;
       }
       if (event.getCode() == KeyCode.F && !gameIsPaused)
       {
@@ -112,22 +112,22 @@ class KeyboardEventHandler extends InputHandler implements EventHandler<KeyEvent
       if (event.getCode() == KeyCode.W)
       {
         player.wDown.set(false);
-        player.velocity = 0;
+        player.speed = 0;
       }
       if (event.getCode() == KeyCode.S)
       {
         player.sDown.set(false);
-        player.velocity = 0;
+        player.speed = 0;
       }
       if (event.getCode() == KeyCode.A)
       {
         player.aDown.set(false);
-        player.strafeVelocity = 0;
+        player.strafeSpeed = 0;
       }
       if (event.getCode() == KeyCode.D)
       {
         player.dDown.set(false);
-        player.strafeVelocity = 0;
+        player.strafeSpeed = 0;
       }
       if (event.getCode() == KeyCode.SHIFT)
       {

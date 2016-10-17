@@ -44,7 +44,7 @@ public class Player extends Creature
   public boolean lightOn = true;
 
   //
-  public double strafeVelocity;
+  public double strafeSpeed;
   int counter = 0;
 
   //position and orientation:
@@ -76,7 +76,7 @@ public class Player extends Creature
   private double regen = .2;
   private double deltaTime = 0;
 
-  public int lives = 4; //for GUI displaying purposes
+  private int lives = 5; //for GUI displaying purposes
   private int numDeaths = 0; // for indexing creaturePathInfo array purposes
   private int damage = 15; //the damage taken by the player when hit by a zombie
   private int healthRegen = 5; //how fast the player heals when not taking damage(after two seconds)
@@ -87,7 +87,7 @@ public class Player extends Creature
   private int healTime = 0;
 
   public boolean attacking;
-  private ArrayList<CreaturePathInfo>[] currentPath = (ArrayList<CreaturePathInfo>[]) new ArrayList[4];
+  private ArrayList<CreaturePathInfo>[] currentPath = (ArrayList<CreaturePathInfo>[]) new ArrayList[lives];
 
   /**
    * A constructor for a 3D player. takes in a camera object
@@ -105,9 +105,9 @@ public class Player extends Creature
     this.xPos = START_X;
     this.yPos = START_Y;
     this.zPos = START_Z;
-    this.velocity = 0;
+    this.speed = 0;
     this.angle = 0;
-    this.strafeVelocity = 0;
+    this.strafeSpeed = 0;
     this.chainsaw = chainsaw;
     camera.setRotate(angle);
     chainsaw.setRotate(angle);
@@ -145,7 +145,7 @@ public class Player extends Creature
     START_ANGLE = 0;
     this.xPos = x;
     this.yPos = y;
-    this.velocity = 0;
+    this.speed = 0;
     this.angle = 0;
   }
 
@@ -182,16 +182,6 @@ public class Player extends Creature
   public void stepSound()
   {
     entityManager.soundManager.playSoundClip(Sound.footstep);
-//    System.out.println(xPos + yPos + " in stepSound()");
-  }
-
-  public boolean didAttack()
-  {
-    if (didAttack == 1)
-    {
-      return true;
-    }
-    return false;
   }
 
   /**
@@ -200,10 +190,10 @@ public class Player extends Creature
    */
   public void tick2d()
   {
-    if (xPos + (velocity * Math.cos(angle)) > 0 && yPos + (velocity * Math.sin(angle)) > 0 && xPos + (velocity * Math.cos(angle)) < ZombieBoardRenderer.boardWidth * ZombieBoardRenderer.cellSize && yPos + (velocity * Math.sin(angle)) < ZombieBoardRenderer.boardWidth * ZombieBoardRenderer.cellSize)
+    if (xPos + (speed * Math.cos(angle)) > 0 && yPos + (speed * Math.sin(angle)) > 0 && xPos + (speed * Math.cos(angle)) < ZombieBoardRenderer.boardWidth * ZombieBoardRenderer.cellSize && yPos + (speed * Math.sin(angle)) < ZombieBoardRenderer.boardWidth * ZombieBoardRenderer.cellSize)
     {
-      xPos += (velocity * Math.cos(angle));
-      yPos += (velocity * Math.sin(angle));
+      xPos += (speed * Math.cos(angle));
+      yPos += (speed * Math.sin(angle));
     }
   }
 
@@ -232,10 +222,10 @@ public class Player extends Creature
     double movementX = boundingCircle.getTranslateX();
     double movementZ = boundingCircle.getTranslateZ();
 
-    movementX += (velocity * Math.sin(angle * (Math.PI / 180)));
-    movementX += (strafeVelocity * Math.sin(angle * (Math.PI / 180) - Math.PI / 2));
-    movementZ += (velocity * Math.cos(angle * (Math.PI / 180)));
-    movementZ += (strafeVelocity * Math.cos(angle * (Math.PI / 180) - Math.PI / 2));
+    movementX += (speed * Math.sin(angle * (Math.PI / 180)));
+    movementX += (strafeSpeed * Math.sin(angle * (Math.PI / 180) - Math.PI / 2));
+    movementZ += (speed * Math.cos(angle * (Math.PI / 180)));
+    movementZ += (strafeSpeed * Math.cos(angle * (Math.PI / 180) - Math.PI / 2));
 
 
     tempX.setTranslateX(movementX);
@@ -334,17 +324,17 @@ public class Player extends Creature
 
     if (shiftPressed.get() && !staminaOut.get())
     {
-      if (wDown.get()) velocity = SPRINT_SPEED;
-      if (sDown.get()) velocity = -SPRINT_SPEED;
-      if (aDown.get()) strafeVelocity = SPRINT_SPEED;
-      if (dDown.get()) strafeVelocity = -SPRINT_SPEED;
+      if (wDown.get()) speed = SPRINT_SPEED;
+      if (sDown.get()) speed = -SPRINT_SPEED;
+      if (aDown.get()) strafeSpeed = SPRINT_SPEED;
+      if (dDown.get()) strafeSpeed = -SPRINT_SPEED;
     }
     if (staminaOut.get())
     {
-      if (wDown.get()) velocity = WALKING_SPEED;
-      if (sDown.get()) velocity = -WALKING_SPEED;
-      if (aDown.get()) strafeVelocity = WALKING_SPEED;
-      if (dDown.get()) strafeVelocity = -WALKING_SPEED;
+      if (wDown.get()) speed = WALKING_SPEED;
+      if (sDown.get()) speed = -WALKING_SPEED;
+      if (aDown.get()) strafeSpeed = WALKING_SPEED;
+      if (dDown.get()) strafeSpeed = -WALKING_SPEED;
     }
 
     updateDistance();
@@ -384,8 +374,8 @@ public class Player extends Creature
     chainsaw.setTranslateX(START_X);
     camera.setTranslateZ(START_Z);
     chainsaw.setTranslateZ(START_Z);
-    camera.setRotate(START_ANGLE);
-    chainsaw.setRotate(START_ANGLE);
+//    camera.setRotate(START_ANGLE);
+//    chainsaw.setRotate(START_ANGLE);
     boundingCircle.setTranslateX(START_X);
     boundingCircle.setTranslateZ(START_Z);
     lives--;
