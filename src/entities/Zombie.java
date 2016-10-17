@@ -790,6 +790,7 @@ public class Zombie extends Creature
       if (calcPath.distanceToPlayer <= zombieSmell || (isMasterZombie && masterZombieChasePlayer.get()))
       {
         goingAfterPlayer.set(true);
+        setEngaged(true);
       }
       else
       {

@@ -149,7 +149,6 @@ public class EntityManager
           {
             System.out.println("zombie damaged");
             zombie.takeHealth();
-            zombie.setEngaged(true);
           }
           else if (zombie.isEngaged() && zombie.isDead())
           {
