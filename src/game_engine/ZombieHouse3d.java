@@ -414,7 +414,7 @@ public class ZombieHouse3d
     SubScene subScene = new SubScene(root, 1280, 800, true, SceneAntialiasing.BALANCED);
     subScene.setFill(Color.rgb(10, 10, 40));
     subScene.setCamera(camera);
-    subScene.setCursor(Cursor.CROSSHAIR);
+    subScene.setCursor(Cursor.DISAPPEAR);
 
     Group group = new Group();
     group.getChildren().add(subScene);

@@ -67,9 +67,9 @@ public class Zombie extends Creature
   private Tile tile;
   private int col;
   private int row;
-  private double prevAngle = 0;
   public Cylinder zombie = null;
   private Node[] zombieMesh = null;
+  private double prevAngle = 0;
   private double lastAngle = 0;
   private Heading zombieHeading;
   private double lastX;
@@ -162,7 +162,7 @@ public class Zombie extends Creature
     return row;
   }
 
-  public void setZombieHeading(Heading zombieHeading)
+  void setZombieHeading(Heading zombieHeading)
   {
     this.zombieHeading = zombieHeading;
   }
@@ -302,16 +302,6 @@ public class Zombie extends Creature
   }
 
   /**
-   * This is called when the zombie has hit an obstacle to stop the zombie at
-   * whatever position it has travelled to.
-   */
-  public void stopZombie()
-  {
-    zombieCirc.setCenterX(zombieCirc.getCenterX());
-    zombieCirc.setCenterY(zombieCirc.getCenterY());
-  }
-
-  /**
    * Stops the zombie on the 3D game map when it has hit an obstacle.
    */
   private void stopThreeDZombie()
@@ -373,15 +363,7 @@ public class Zombie extends Creature
     }
     else
     {
-      if (zombieHeading != null)
-      {
-        angle = zombieHeading.direction;
-      }
-      if (lastAngle != angle)
-      {
-        findNewPath.set(false);
-      }
-      lastAngle = angle;
+      findAngle();
     }
   }
 
@@ -390,6 +372,15 @@ public class Zombie extends Creature
    * this method is called to move the zombie in the appropriate direction.
    */
   private void moveTowardPlayer(double zombieWalkingSpeed)
+  {
+    findAngle();
+    moveThreeDZombie(angle, zombieWalkingSpeed, ZOMBIE_HITBOX, false);
+  }
+
+  /**
+   *  helper method to find the correct angle to move
+   */
+  private void findAngle()
   {
     if (zombieHeading != null)
     {
@@ -400,7 +391,6 @@ public class Zombie extends Creature
       findNewPath.set(false);
     }
     lastAngle = angle;
-    moveThreeDZombie(angle, zombieWalkingSpeed, ZOMBIE_HITBOX, false);
   }
 
   /**
@@ -883,6 +873,13 @@ public class Zombie extends Creature
     ZOMBIE_HITBOX.setTranslateZ(zPos);
     locationOnPath = 0;
     takeHealth = 1;
+    for (int i = 0; i < zombieMesh.length; i++)
+    {
+      zombieMesh[i].setTranslateX(xPos);
+      zombieMesh[i].setTranslateZ(zPos);
+      //zombieMesh[i].setRotate(angleToPlayer);
+    }
+
   }
 
   /**
