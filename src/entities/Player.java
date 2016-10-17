@@ -11,6 +11,7 @@ import javafx.scene.PointLight;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Box;
 import javafx.scene.shape.Cylinder;
+import javafx.scene.shape.Ellipse;
 import javafx.scene.transform.Rotate;
 import levels.Tile;
 import sounds.Sound;
@@ -65,6 +66,7 @@ public class Player extends Creature
 
   //other player fields:
   Cylinder boundingCircle = null;
+  public Cylinder chainsawCylinder = null;
   AtomicBoolean isDead = new AtomicBoolean(false);
   AtomicBoolean foundExit = new AtomicBoolean(false);
 
@@ -110,7 +112,6 @@ public class Player extends Creature
     this.strafeSpeed = 0;
     this.chainsaw = chainsaw;
     camera.setRotate(angle);
-    chainsaw.setRotate(angle);
     this.camera = camera;
     camera.setTranslateX(START_X);
     chainsaw.setTranslateX(START_X);
@@ -119,10 +120,18 @@ public class Player extends Creature
     this.light = light;
     light.setRotationAxis(Rotate.Y_AXIS);
     boundingCircle = new Cylinder(playerRadius, 1);
+    chainsawCylinder = new Cylinder();
+    chainsawCylinder.setHeight(2);
+    chainsawCylinder.setRadius(.5);
     PlayerStamina staminaCounter = new PlayerStamina();
     staminaCounter.start();
     boundingCircle.setTranslateX(camera.getTranslateX());
     boundingCircle.setTranslateZ(camera.getTranslateZ());
+    chainsawCylinder.setTranslateX(camera.getTranslateX());
+    chainsawCylinder.setTranslateY(1);
+    chainsawCylinder.setTranslateZ(camera.getTranslateZ());
+    chainsawCylinder.setRotationAxis(Rotate.X_AXIS);
+    //chainsawCylinder.setRotate(angle - 90);
     lastX = camera.getTranslateX();
     lastZ = camera.getTranslateZ();
 
@@ -249,6 +258,7 @@ public class Player extends Creature
       }
       camera.setRotate(angle);
       chainsaw.setRotate(angle);
+      //chainsawCylinder.setRotate(angle - 90);
     }
 
     lastX = camera.getTranslateX();
@@ -273,8 +283,11 @@ public class Player extends Creature
 
     boundingCircle.setTranslateX(camera.getTranslateX());
     boundingCircle.setTranslateZ(camera.getTranslateZ());
+    chainsawCylinder.setTranslateX(camera.getTranslateX());
+    chainsawCylinder.setTranslateZ(camera.getTranslateZ());
 
-    if (entityManager.checkPlayerCollision(boundingCircle))
+
+    if (entityManager.checkPlayerCollision(boundingCircle, chainsawCylinder))
     {
       //every time the zombie touches you, then you lose health
       health -= damage;
@@ -360,6 +373,7 @@ public class Player extends Creature
     camera = null;
     light = null;
     boundingCircle = null;
+    chainsawCylinder = null;
   }
 
   void reset()
