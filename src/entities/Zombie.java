@@ -247,7 +247,7 @@ public class Zombie extends Creature
    * Moves the zombie forward in a direction determined by the current angle in
    * a 3D environment.
    */
-  private void moveThreeDZombie(double angle, double zombieWalkingSpeed, Cylinder zombieCylinder)
+  private void moveThreeDZombie(double angle, double zombieWalkingSpeed, Cylinder zombieCylinder, boolean engaged)
   {
     lastX = zombieCylinder.getTranslateX();
     lastZ = zombieCylinder.getTranslateZ();
@@ -265,7 +265,8 @@ public class Zombie extends Creature
       {
         zombieMesh[i].setTranslateZ(movementAmountZ);
         zombieMesh[i].setTranslateX(movementAmountX);
-        zombieMesh[i].setRotate(angleToPlayer);
+        if(!engaged) zombieMesh[i].setRotate(angleToPlayer);
+        else zombieMesh[i].setRotate(angle + 180);
       }
     }
     xPos = zombieCylinder.getTranslateX();
@@ -399,7 +400,7 @@ public class Zombie extends Creature
       findNewPath.set(false);
     }
     lastAngle = angle;
-    moveThreeDZombie(angle, zombieWalkingSpeed, ZOMBIE_HITBOX);
+    moveThreeDZombie(angle, zombieWalkingSpeed, ZOMBIE_HITBOX, false);
   }
 
   /**
@@ -464,6 +465,7 @@ public class Zombie extends Creature
   @Override
   public void tick()
   {
+    //if the zombie does not have a path then it has to make decisions
     if(entityManager.player.getNumDeaths() == 0 || locationOnPath >= pathTaken.size() || !engaged)
     {
       takeHealth = 0;
@@ -480,7 +482,7 @@ public class Zombie extends Creature
           {
             while (entityManager.getWallCollision(ZOMBIE_HITBOX) != null)
             {
-              moveThreeDZombie(angle, zombieWalkingSpeed, ZOMBIE_HITBOX);
+              moveThreeDZombie(angle, zombieWalkingSpeed, ZOMBIE_HITBOX, false);
             }
             double currentX = ZOMBIE_HITBOX.getTranslateX();
             double currentZ = ZOMBIE_HITBOX.getTranslateZ();
@@ -489,7 +491,7 @@ public class Zombie extends Creature
           {
             while (entityManager.getWallCollision(ZOMBIE_HITBOX) != null)
             {
-              moveThreeDZombie(angle, zombieWalkingSpeed, ZOMBIE_HITBOX);
+              moveThreeDZombie(angle, zombieWalkingSpeed, ZOMBIE_HITBOX, false);
             }
           }
         }
@@ -497,13 +499,13 @@ public class Zombie extends Creature
       {
         if (!goingAfterPlayer.get() && !isMasterZombie)
         {
-          moveThreeDZombie(angle, zombieWalkingSpeed, ZOMBIE_HITBOX);
+          moveThreeDZombie(angle, zombieWalkingSpeed, ZOMBIE_HITBOX, false);
         } else if (!isMasterZombie && goingAfterPlayer.get())
         {
           moveTowardPlayer(zombieWalkingSpeed);
         } else if (isMasterZombie && !goingAfterPlayer.get())
         {
-          moveThreeDZombie(angle, masterZombieSpeed, ZOMBIE_HITBOX);
+          moveThreeDZombie(angle, masterZombieSpeed, ZOMBIE_HITBOX, false);
         } else if (isMasterZombie && goingAfterPlayer.get())
         {
           moveTowardPlayer(masterZombieSpeed);
@@ -597,14 +599,15 @@ public class Zombie extends Creature
       //adds EVERY step taken to path. There'll be many repeats because it records how long player stays there
       pathTaken.add(new CreaturePathInfo((float) xPos, (float) zPos, (float) angle, didAttack, isDeadInPath));
     }
+    //the zombie has a path and it needs to follow it
     else
     {
       if(!isMasterZombie)
       {
-        moveThreeDZombie(pathTaken.get(locationOnPath).getAngle(), zombieWalkingSpeed, ZOMBIE_HITBOX);
+        moveThreeDZombie(pathTaken.get(locationOnPath).getAngle(), zombieWalkingSpeed, ZOMBIE_HITBOX, true);
       }
       else
-        moveThreeDZombie(pathTaken.get(locationOnPath).getAngle(), masterZombieSpeed, ZOMBIE_HITBOX);
+        moveThreeDZombie(pathTaken.get(locationOnPath).getAngle(), masterZombieSpeed, ZOMBIE_HITBOX, true);
     }
     locationOnPath++;
   }
