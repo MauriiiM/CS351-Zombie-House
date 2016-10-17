@@ -126,14 +126,13 @@ public class EntityManager
    * @param player The shape that represents the player.
    * @return True if there is a collision. False if there isn't.
    */
-  boolean checkPlayerCollision(Shape3D player)
+  boolean checkPlayerCollision(Shape3D player, Shape3D chainsaw)
   {
     for (Zombie zombie : zombies)
     {
       // if at last index of zombie's path he is dead, remove. (Used for ghost killing zombie)
       if (zombiePathIndex == zombie.pathTaken.size() - 1 && zombie.pathTaken.get(zombiePathIndex).getIsDead() == 1)
       {
-        System.out.println("removes zombie");
         zombie.setDead(true);
         deadZombies.add(zombie);
         zombies.remove(zombie);
@@ -164,7 +163,6 @@ public class EntityManager
         }
         if (zombie.getHealth() <= 0)
         {
-          System.out.println("killed");
           byte dead = 1;
           //need to blow up the zombie
           zombie.pathTaken.get(zombie.pathTaken.size() - 1).setIsDead(dead);
