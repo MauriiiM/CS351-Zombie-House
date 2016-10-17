@@ -41,6 +41,7 @@ public class EntityManager
 
   public ArrayList<Zombie> zombies;
   private ArrayList<Zombie> deadZombies;
+  private ArrayList<Zombie> bifurcatedZombies;
   private PlayerGhost[] ghosts = new PlayerGhost[4];
 
   public Chainsaw chainsaw;
@@ -62,6 +63,7 @@ public class EntityManager
   private ZombieDecision zombieDecision;
   private int zombiePathIndex = 0;
   private int collisionTicks = 59;
+  private long timeToBifurcate = 0;
 
   /**
    * Constructor for EntityManager.
@@ -77,6 +79,7 @@ public class EntityManager
     soundManager = scenes.getSoundManager();
     zombies = new ArrayList<>();
     deadZombies = new ArrayList<>();
+    bifurcatedZombies = new ArrayList<>();
     props = new ArrayList<>();
     zombieDecision = new ZombieDecision();
     zombieDecision.setDaemon(true);
@@ -156,6 +159,7 @@ public class EntityManager
             if (collisionTicks == 60)
             {
               bifurcate(zombie);
+              zombie.setTimeToBifurcate(timeToBifurcate);
               collisionTicks = 0;
             }
           }
@@ -185,6 +189,7 @@ public class EntityManager
     zombies.add(newZombie);
     newZombie.setMesh(ZombieHouse3d.loadMeshViews("Resources/Meshes/Feral_Ghoul/Feral_Ghoul.obj"));
     root.getChildren().addAll(newZombie.getMesh());
+    bifurcatedZombies.add(newZombie);
   }
 
   /**
@@ -486,13 +491,21 @@ public class EntityManager
     }
     for (Zombie zombie : deadZombies)
     {
-      zombies.add(zombie);
-      root.getChildren().addAll(zombie.getMesh());
+      if(!bifurcatedZombies.contains(zombie))
+      {
+        zombies.add(zombie);
+        root.getChildren().addAll(zombie.getMesh());
+      }
     }
     deadZombies.clear();
+
     for (Zombie zombie : zombies)
     {
       zombie.reset();
+      if(bifurcatedZombies.contains(zombie))
+      {
+        zombies.remove(zombie);
+      }
     }
 
     ghost = new PlayerGhost(player.getCurrentPath()[player.getNumDeaths() - 1], root);

@@ -84,6 +84,7 @@ public class Zombie extends Creature
 
   private int locationOnPath = 0;
   private byte takeHealth = 0;
+  private long timeToBifurcate = 0;
 
 
   /**
@@ -129,6 +130,16 @@ public class Zombie extends Creature
   {
     isDeadInPath = 1;
     this.dead = dead;
+  }
+
+  public long getTimeToBifurcate()
+  {
+    return timeToBifurcate;
+  }
+
+  public void setTimeToBifurcate(long timeToBifurcate)
+  {
+    this.timeToBifurcate = timeToBifurcate;
   }
 
   public void setTakeHealth(byte takeHealth)
