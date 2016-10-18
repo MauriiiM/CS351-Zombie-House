@@ -244,7 +244,6 @@ public class Tile
     {
       //randDouble = rand.nextDouble();
       //if( randDouble >= 0 && randDouble < objectSpawn) return true;
-      return true;
     }
     return false;
   }

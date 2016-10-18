@@ -21,12 +21,15 @@ import sounds.SoundManager;
 import utilities.MapViewerScene;
 import utilities.ZombieBoardRenderer;
 
+import java.util.Random;
+
 /**
  * @author Atle Olson
  *         A place to stage Scenes and switch them out
  */
 public class Scenes implements EventHandler<ActionEvent>
 {
+  private final boolean DEBUG = false;
   private SoundManager soundManager;
   private Main main;
   private Stage primaryStage;
@@ -84,7 +87,7 @@ public class Scenes implements EventHandler<ActionEvent>
     returnButtonDeath.setText("Back to main menu.");
     returnButtonDeath.setOnAction(this);
 
-    goTo3dGame.setText("Start 3D Game!");
+    goTo3dGame.setText("Start Game!");
     goTo3dGame.setOnAction(this);
 
     tryAgainButton.setText("Try Again?");
@@ -218,18 +221,20 @@ public class Scenes implements EventHandler<ActionEvent>
     });
 
     //Main menu Scene
+    Random random = new Random();
     startRoot = new BorderPane();
-    startRoot.setStyle("-fx-background-image: url(/Images/background2.jpg);-fx-background-size: stretch;-fx-background-repeat: " + "no-repeat;");
+    if(random.nextInt(2) == 1) startRoot.setStyle("-fx-background-image: url(/Images/background.jpg);-fx-background-size: stretch;-fx-background-repeat: " + "no-repeat;");
+    else startRoot.setStyle("-fx-background-image: url(/Images/background2.jpg);-fx-background-size: stretch;-fx-background-repeat: " + "no-repeat;");
     startRoot.setPrefSize(winW, winH);
     VBox buttonVBox = new VBox();
-    buttonVBox.getChildren().addAll(goTo3dGame, goTo2dGame, goToMapViewer, goToGameOver, goToWin, goToSettings);
+    if(!DEBUG) buttonVBox.getChildren().addAll(goTo3dGame, goToSettings);
+    else buttonVBox.getChildren().addAll(goTo3dGame, goTo2dGame, goToMapViewer, goToGameOver, goToWin, goToSettings);
     buttonVBox.setSpacing(5);//vertical spacing in between buttons
     buttonVBox.setPadding(new Insets(5, 5, 5, 5));
     startRoot.setCenter(buttonVBox);
 
     //3D Game Scene
     threeDGameRoot = new BorderPane();
-//    threeDGameRoot.setPrefSize(winW, winH);
     threeDGameRoot.setStyle("-fx-background-size: stretch;");
 
     //2D Game Scene
