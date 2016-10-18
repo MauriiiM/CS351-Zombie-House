@@ -25,18 +25,19 @@ import utilities.ZombieBoardRenderer;
  */
 public class Player extends Creature
 {
-  public static final double SPRINT_SPEED = Tile.tileSize / 4d;
+  private static final double SPRINT_SPEED = Tile.tileSize / 4d;
   public static final double WALKING_SPEED = Tile.tileSize / 8d;
   private static final double START_X = 3;
   private static final double START_Y = 0;
   private static final double START_Z = 2;
   private final double START_ANGLE;
   private static final int MAX_HEALTH = 500;
+  static final int MAX_LIVES = 1;
 
   public Chainsaw chainsaw;
 
   //entityManager
-  EntityManager entityManager;
+  private EntityManager entityManager;
 
   //camera:
   public PerspectiveCamera camera;
@@ -44,16 +45,14 @@ public class Player extends Creature
   public int brightness = 255;
   public boolean lightOn = true;
 
-  //
   public double strafeSpeed;
-  int counter = 0;
 
   //position and orientation:
   double newX = 0;
   double newZ = 0;
   double offSetX = 0;
   double offSetZ = 0;
-  public double playerRadius = .25;
+  private double playerRadius = .25;
 
   //atomic booleans:
   public AtomicBoolean shiftPressed = new AtomicBoolean(false);
@@ -62,11 +61,11 @@ public class Player extends Creature
   public AtomicBoolean aDown = new AtomicBoolean(false);
   public AtomicBoolean sDown = new AtomicBoolean(false);
   public AtomicBoolean gameIsRunning = new AtomicBoolean(true);
-  public AtomicBoolean staminaOut = new AtomicBoolean(false);
+  private AtomicBoolean staminaOut = new AtomicBoolean(false);
 
   //other player fields:
   Cylinder boundingCircle = null;
-  public Cylinder chainsawCylinder = null;
+  private Cylinder chainsawCylinder = null;
   AtomicBoolean isDead = new AtomicBoolean(false);
   AtomicBoolean foundExit = new AtomicBoolean(false);
 
@@ -78,7 +77,7 @@ public class Player extends Creature
   private double regen = .2;
   private double deltaTime = 0;
 
-  private int lives = 5; //for GUI displaying purposes
+  private int lives = MAX_LIVES; //for GUI displaying purposes
   private int numDeaths = 0; // for indexing creaturePathInfo array purposes
   private int damage = 15; //the damage taken by the player when hit by a zombie
   private int healthRegen = 5; //how fast the player heals when not taking damage(after two seconds)
@@ -158,6 +157,11 @@ public class Player extends Creature
     this.angle = 0;
   }
 
+  int getLives()
+  {
+    return lives;
+  }
+
   /**
    * Called when LMB is clicked and used to attack Zombies to add to creaturePathInfo
    */
@@ -224,7 +228,6 @@ public class Player extends Creature
    */
   public void tick()
   {
-    counter++;
     Cylinder tempX = new Cylinder(boundingCircle.getRadius(), boundingCircle.getHeight());
     Cylinder tempZ = new Cylinder(boundingCircle.getRadius(), boundingCircle.getHeight());
 
@@ -331,7 +334,6 @@ public class Player extends Creature
       if (box.getBoundsInParent().intersects(boundingCircle.getBoundsInParent()))
       {
         foundExit.set(true);
-        System.out.println("exit");
       }
     }
 
@@ -360,7 +362,6 @@ public class Player extends Creature
     //adds EVERY step taken to path. There'll be many repeats because it records how long player stays there
     currentPath[numDeaths].add(new CreaturePathInfo((float) xPos, (float) zPos, (float) angle, didAttack, isDeadinPath));
     if (didAttack == 1) notAttack();
-    //System.out.println("x= " + xPos + ",\t z= " + zPos + " in tick()");
 
 
   }
@@ -392,7 +393,6 @@ public class Player extends Creature
 //    chainsaw.setRotate(START_ANGLE);
     boundingCircle.setTranslateX(START_X);
     boundingCircle.setTranslateZ(START_Z);
-    lives--;
     numDeaths++;
     isDead.set(false);
     System.out.printf("health = %d\nlives = %d\nnumber of deaths = %d\n", health, lives, numDeaths);
@@ -442,11 +442,15 @@ public class Player extends Creature
     return currentNode;
   }
 
-  public ArrayList<CreaturePathInfo>[] getCurrentPath()
+  ArrayList<CreaturePathInfo>[] getCurrentPath()
   {
     return currentPath;
   }
 
+  void subtractLife()
+  {
+    lives--;
+  }
   private void fullHealth()
   {
     health = MAX_HEALTH;

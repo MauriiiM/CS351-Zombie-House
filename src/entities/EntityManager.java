@@ -42,7 +42,7 @@ public class EntityManager
   public ArrayList<Zombie> zombies;
   private ArrayList<Zombie> deadZombies;
   private ArrayList<Zombie> bifurcatedZombies;
-  private PlayerGhost[] ghosts = new PlayerGhost[4];
+  private PlayerGhost[] ghosts = new PlayerGhost[player.MAX_LIVES];
 
   public Chainsaw chainsaw;
   public Prop1 prop1;
@@ -349,15 +349,24 @@ public class EntityManager
 
     if (player.isDead.get())
     {
-      System.out.println("EM.tick\tDEAD");
       zombieHouse.stopGameLoop();
       gameIsRunning.set(false);
       soundManager.stopTrack();
       soundManager.playSoundClip(Sound.death);
+      player.subtractLife();
       HBox hBox = new HBox();
-      hBox.getChildren().addAll(scenes.tryAgainButton, scenes.returnButtonDeath);
-      scenes.gameOverRoot.setTop(hBox);
-      main.assignStage(scenes.gameOver);
+      if (player.getLives() > 0)
+      {
+        hBox.getChildren().addAll(scenes.tryAgainButton, scenes.returnButtonDeath);
+        scenes.gameOverRoot.setTop(hBox);
+        main.assignStage(scenes.gameOver);
+      }
+      else
+      {
+        hBox.getChildren().addAll(scenes.returnButtonDeath);
+        scenes.gameOverRoot.setTop(hBox);
+        main.assignStage(scenes.gameOver);
+      }
     }
 
     if (player != null && player.foundExit.get())
@@ -420,7 +429,7 @@ public class EntityManager
             }
           }
         }
-        for(Zombie zombie : bifurcatedZombies)
+        for (Zombie zombie : bifurcatedZombies)
         {
           zombie.goingAfterPlayer.set(true);
         }
@@ -495,7 +504,7 @@ public class EntityManager
     }
     for (Zombie zombie : deadZombies)
     {
-      if(!bifurcatedZombies.contains(zombie))
+      if (!bifurcatedZombies.contains(zombie))
       {
         zombies.add(zombie);
         root.getChildren().addAll(zombie.getMesh());
@@ -506,7 +515,7 @@ public class EntityManager
     for (Zombie zombie : zombies)
     {
       zombie.reset();
-      if(bifurcatedZombies.contains(zombie))
+      if (bifurcatedZombies.contains(zombie))
       {
         zombies.remove(zombie);
       }
