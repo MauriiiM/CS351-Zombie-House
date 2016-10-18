@@ -331,7 +331,6 @@ public class EntityManager
    */
   public void tick()
   {
-//    System.out.println("EM.tick RUNNING");
     zombiePathIndex++;
     player.tick();
     for (int i = 0; i < player.getNumDeaths(); i++)

@@ -12,7 +12,6 @@ illum 1
 map_Kd Ghoulferal_d.tga
 map_Bump Ghoulferal_n.tga
 map_Ka Ghoulferal_o.tga
-map_d Ghoulferal_d.tga
 
 newmtl FeralGhoulEyes
 Ns 96.078431
@@ -25,7 +24,6 @@ illum 1
 map_Kd Ghoulferal_d.tga
 map_Bump Ghoulferal_n.tga
 map_Ka Ghoulferal_o.tga
-map_d Ghoulferal_d.tga
 
 newmtl FeralGhoulPants
 Ns 96.078431
@@ -38,4 +36,3 @@ illum 1
 map_Kd Ghoulferal_d.tga
 map_Bump Ghoulferal_n.tga
 map_Ka Ghoulferal_o.tga
-map_d Ghoulferal_d.tga

@@ -10,8 +10,6 @@ Ni 1.000000
 d 1.000000
 illum 2
 map_Kd TX_WP_Chainsaw_D.png
-map_Disp TX_WP_Chainsaw_N.png
-map_d TX_WP_Chainsaw_N.png
 map_Ks TX_WP_Chainsaw_S.png
 map_Ns TX_WP_Chainsaw_S.png
 
@@ -24,7 +22,5 @@ Ni 1.000000
 d 1.000000
 illum 2
 map_Kd TX_WP_ChainsawBlades_D.png
-map_Disp TX_WP_ChainsawBlades_N.png
-map_d TX_WP_ChainsawBlades_N.png
 map_Ks TX_WP_ChainsawBlades_S.png
 map_Ns TX_WP_ChainsawBlades_S.png

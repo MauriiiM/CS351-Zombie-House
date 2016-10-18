@@ -10,7 +10,6 @@ Ni 1.000000
 d 1.000000
 illum 2
 map_Kd t_dreamRunner_d.tga
-map_d t_dreamRunner_n.tga
 
 newmtl mi_dreamRunnerSkin
 Ns 86.274510
@@ -21,7 +20,6 @@ Ni 1.000000
 d 1.000000
 illum 2
 map_Kd t_dreamRunner_d.tga
-map_d t_dreamRunner_n.tga
 
 newmtl mi_skirt
 Ns 86.274510
@@ -32,4 +30,3 @@ Ni 1.000000
 d 1.000000
 illum 2
 map_Kd t_dreamRunnerSkirt_dm.tga
-map_d t_dreamRunnerSkirt_n.tga

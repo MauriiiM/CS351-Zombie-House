@@ -393,15 +393,6 @@ public class ZombieHouse3d
     root.getChildren().addAll(entityManager.prop5.getMesh());
     root.getChildren().addAll(entityManager.prop6.getMesh());
 
-    // setMesh for props
-    System.out.println("Number of Props: " + props.size());
-
-    for (Prop prop : entityManager.props)
-    {
-      prop.setMesh(loadMeshViews(prop.getPropName()));
-      root.getChildren().addAll(prop.propMesh);
-    }
-
     exitLight = new PointLight();
     exitLight.setTranslateX(exits.get(0).getTranslateX());
     exitLight.setTranslateZ(exits.get(0).getTranslateZ());
@@ -463,7 +454,6 @@ public class ZombieHouse3d
       x = 1 + rand.nextInt(boardWidth-1);
       if(!gameBoard[x][boardWidth-2].getType().equals("wall") && !gameBoard[x][boardWidth-1].getType().equals("exit"))
       {
-        System.out.println(x);
         gameBoard[x][boardWidth-2].setType(TileType.wall);
         entityManager.prop5 = new Prop3(x*tileSize,boardWidth-1, 2);
         break;
@@ -480,7 +470,6 @@ public class ZombieHouse3d
       z = 1 + rand.nextInt(boardWidth-1);
       if(!gameBoard[boardHeight-2][z].getType().equals("wall") && !gameBoard[boardHeight-1][z].getType().equals("exit"))
       {
-        System.out.println(z);
         gameBoard[boardHeight-2][z].setType(TileType.wall);
         entityManager.prop6 = new Prop3(boardHeight-1,z, 3);
         break;

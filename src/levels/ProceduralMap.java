@@ -699,7 +699,6 @@ public class ProceduralMap
 
     if (downExitCandidates.isEmpty() && rightExitCandidates.isEmpty())
     { // up and left
-      System.out.println("up left");
       System.out.println(upExitCandidates.size());
       System.out.println(leftExitCandidates.size());
       if (first)
@@ -721,7 +720,6 @@ public class ProceduralMap
     }
     if (upExitCandidates.isEmpty() && rightExitCandidates.isEmpty())
     { // down and left
-      System.out.println("down left");
       if (first)
       {
         exit = downExitCandidates.get(random.nextInt(downExitCandidates.size()));
@@ -741,7 +739,6 @@ public class ProceduralMap
     }
     if (downExitCandidates.isEmpty() && leftExitCandidates.isEmpty())
     { // up and right
-      System.out.println("up right");
       if (first)
       {
         exit = upExitCandidates.get(random.nextInt(upExitCandidates.size()));
@@ -761,7 +758,6 @@ public class ProceduralMap
     }
     if (upExitCandidates.isEmpty() && leftExitCandidates.isEmpty())
     { // down and right
-      System.out.println("down right");
       if (first)
       {
         exit = downExitCandidates.get(random.nextInt(downExitCandidates.size()));

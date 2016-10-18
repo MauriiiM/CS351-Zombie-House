@@ -10,7 +10,6 @@ Ni 1.000000
 d 1.000000
 illum 2
 map_Kd t_hunter_eye_d.tga
-map_d t_eye_n.tga
 
 newmtl m_hunterGears_CH01
 Ns 78.431373
@@ -21,7 +20,6 @@ Ni 1.000000
 d 1.000000
 illum 2
 map_Kd t_hunter_gears_d.tga
-map_d t_hunter_gears_n.tga
 
 newmtl m_hunterHair_CH01_masked_noTransmission
 Ns 78.431373
@@ -32,7 +30,6 @@ Ni 1.000000
 d 1.000000
 illum 2
 map_Kd t_hunter_hair_dm.tga
-map_d t_hunter_hair_n.tga
 
 newmtl mi_hunterBody_CH01OPT
 Ns 78.431373
@@ -43,7 +40,6 @@ Ni 1.000000
 d 1.000000
 illum 2
 map_Kd t_hunter_body_d.tga
-map_d t_hunter_body_n.tga
 
 newmtl mi_hunterBody_CH01OPT.001
 Ns 78.431373
@@ -54,7 +50,6 @@ Ni 1.000000
 d 1.000000
 illum 2
 map_Kd t_hunter_body_d.tga
-map_d t_hunter_body_n.tga
 
 newmtl mi_hunterFace_CH01OPT
 Ns 78.431373
@@ -65,7 +60,6 @@ Ni 1.000000
 d 1.000000
 illum 2
 map_Kd t_hunter_face_d.tga
-map_d t_hunter_face_n.tga
 
 newmtl mi_hunterFace_CH01OPT.001
 Ns 78.431373

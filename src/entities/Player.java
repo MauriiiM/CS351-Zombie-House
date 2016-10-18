@@ -11,7 +11,6 @@ import javafx.scene.PointLight;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Box;
 import javafx.scene.shape.Cylinder;
-import javafx.scene.shape.Ellipse;
 import javafx.scene.transform.Rotate;
 import levels.Tile;
 import sounds.Sound;
@@ -32,7 +31,7 @@ public class Player extends Creature
   private static final double START_Z = 2;
   private final double START_ANGLE;
   private static final int MAX_HEALTH = 500;
-  static final int MAX_LIVES = 1;
+  static final int MAX_LIVES = 5;
 
   public Chainsaw chainsaw;
 
@@ -74,7 +73,7 @@ public class Player extends Creature
   public boolean turnRight = false;
 
   private double stamina = 5;
-  private double regen = .2;
+  private double staminaRegen = .2;
   private double deltaTime = 0;
 
   private int lives = MAX_LIVES; //for GUI displaying purposes
@@ -496,9 +495,9 @@ public class Player extends Creature
         else if (!shiftPressed.get())
         {
           deltaTime++;
-          if (((deltaTime * regen) + stamina) <= 5)
+          if (((deltaTime * staminaRegen) + stamina) <= 5)
           {
-            stamina += deltaTime * regen;
+            stamina += deltaTime * staminaRegen;
           }
           else
           {
