@@ -304,6 +304,7 @@ public class ZombieHouse3d
     region1Prop();
     region2Prop();
     region3Prop();
+    region4Prop();
     // Spawn zombies on board and create list of wall tiles for
     // purposes of collision detection.
     for (int col = 0; col < boardHeight; col++)
@@ -390,6 +391,7 @@ public class ZombieHouse3d
     root.getChildren().addAll(entityManager.prop3.getMesh());
     root.getChildren().addAll(entityManager.prop4.getMesh());
     root.getChildren().addAll(entityManager.prop5.getMesh());
+    root.getChildren().addAll(entityManager.prop6.getMesh());
 
     // setMesh for props
     System.out.println("Number of Props: " + props.size());
@@ -464,6 +466,23 @@ public class ZombieHouse3d
         System.out.println(x);
         gameBoard[x][boardWidth-2].setType(TileType.wall);
         entityManager.prop5 = new Prop3(x*tileSize,boardWidth-1, 2);
+        break;
+      }
+    }
+  }
+
+  private void region4Prop()
+  {
+    Random rand = new Random();
+    int z;
+    while(true)
+    {
+      z = 1 + rand.nextInt(boardWidth-1);
+      if(!gameBoard[boardHeight-2][z].getType().equals("wall") && !gameBoard[boardHeight-1][z].getType().equals("exit"))
+      {
+        System.out.println(z);
+        gameBoard[boardHeight-2][z].setType(TileType.wall);
+        entityManager.prop6 = new Prop3(boardHeight-1,z, 3);
         break;
       }
     }
