@@ -66,26 +66,26 @@ public class Prop extends Entity
         }
     }
 
-    /**
-    * @author Anacaren Ruiz
-    * Create circle object to represent where props are located in 2D game map
-    * Given initial x and y coords to spawn poin on game map
-    * @param row           The row of the 2D game map.
-    * @param col           The column of the 2D game map.
-    * @param props         The list of Prop objects.
-    * @param cellSize      The size of cells on the game map.
-    */
-    public void create2DProp(int row, int col, ArrayList<Prop> props, int cellSize)
-    {
-        Circle prop = null;
-        for ( Prop p: props )
-        {
-            double xPos = p.xPos;
-            double yPos = p.zPos;
-            prop = new Circle((xPos * cellSize), (yPos * cellSize), twoDSize, Color.PURPLE);
-            propCirc = prop;
-        }
-    }
+//    /**
+//    * @author Anacaren Ruiz
+//    * Create circle object to represent where props are located in 2D game map
+//    * Given initial x and y coords to spawn poin on game map
+//    * @param row           The row of the 2D game map.
+//    * @param col           The column of the 2D game map.
+//    * @param props         The list of Prop objects.
+//    * @param cellSize      The size of cells on the game map.
+//    */
+//    public void create2DProp(int row, int col, ArrayList<Prop> props, int cellSize)
+//    {
+//        Circle prop = null;
+//        for ( Prop p: props )
+//        {
+//            double xPos = p.xPos;
+//            double yPos = p.zPos;
+//            prop = new Circle((xPos * cellSize), (yPos * cellSize), twoDSize, Color.PURPLE);
+//            propCirc = prop;
+//        }
+//    }
 
 
 

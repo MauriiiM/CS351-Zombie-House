@@ -13,10 +13,10 @@ Entry Point: Main.java
   * Settings: Takes you to a settings screen with several modifiable values on sliders with reasonable values (note Map Width and Map Height can go up to 100 to demonstrate A* and procedural generation with the 2d game)
 * Controls:
   * W, A, S, D: Player Movement
-  * LMB or Space: attack
+  * (DISABLED)LMB or Space: attack 
   * Mouse on screen: rotates camera
   * Left and Right arrow keys: rotates camera
-  * Up: peek above the map
+  * (DISABLED)Up: peek above the map
   * F: toggle player lighting
   * P: pause game
   * ESC: lock/unlock mouse

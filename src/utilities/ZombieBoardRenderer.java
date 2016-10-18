@@ -273,8 +273,8 @@ public class ZombieBoardRenderer
         /* add props to 2D board - make visible */
         if (propCounter < numProps)
         {
-          entityManager.props.get(propCounter).create2DProp(row, col,
-                  entityManager.props, cellSize);
+//          entityManager.props.get(propCounter).create2DProp(row, col,
+//                  entityManager.props, cellSize);
           if (entityManager.props.get(propCounter).propCirc != null)
           {
             root.getChildren().add(entityManager.props.get(propCounter).propCirc);

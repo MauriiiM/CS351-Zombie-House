@@ -2,8 +2,7 @@ package entities;
 
 import com.interactivemesh.jfx.importer.obj.ObjImportOption;
 import com.interactivemesh.jfx.importer.obj.ObjModelImporter;
-import com.interactivemesh.jfx.importer.tds.TdsImportOption;
-import com.interactivemesh.jfx.importer.tds.TdsModelImporter;
+
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.transform.Rotate;
@@ -32,8 +31,6 @@ public class PlayerGhost extends Creature
     in = ghostMesh.getImport();
     for (int i = 0; i < in.length; i++)
     {
-//      in[i].setScaleY(.08);
-//      in[i].setScaleZ(-.08);
       in[i].setTranslateX(path.get(0).getX());
       in[i].setTranslateY(.6);
       in[i].setTranslateZ(path.get(0).getZ());
@@ -82,7 +79,7 @@ public class PlayerGhost extends Creature
     return 0;
   }
 
-  public void reset()
+  void reset()
   {
     position = 0;
     dead = false;
