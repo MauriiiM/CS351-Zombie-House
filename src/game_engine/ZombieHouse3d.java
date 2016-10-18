@@ -109,7 +109,6 @@ public class ZombieHouse3d
   public void dispose()
   {
     gameLoop.stop();
-//    chainsawPlayer.dispose();
     entityManager = null;
     scene = null;
     camera = null;

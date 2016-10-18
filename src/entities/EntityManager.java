@@ -354,8 +354,6 @@ public class EntityManager
       gameIsRunning.set(false);
       soundManager.stopTrack();
       soundManager.playSoundClip(Sound.death);
-//      reset();
-//      dispose();
       HBox hBox = new HBox();
       hBox.getChildren().addAll(scenes.tryAgainButton, scenes.returnButtonDeath);
       scenes.gameOverRoot.setTop(hBox);
