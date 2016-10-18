@@ -455,15 +455,15 @@ public class ZombieHouse3d
   private void region3Prop()
   {
     Random rand = new Random();
-    int z;
+    int x;
     while(true)
     {
-      z = 1 + rand.nextInt(boardWidth-1);
-      if(!gameBoard[boardWidth-2][z-1].getType().equals("wall"))
+      x = 1 + rand.nextInt(boardWidth-1);
+      if(!gameBoard[x][boardWidth-2].getType().equals("wall"))
       {
-        System.out.println(z);
-        gameBoard[boardWidth-2][z-1].setType(TileType.wall);
-        entityManager.prop5 = new Prop3(boardWidth-2,z*tileSize-1, 2);
+        System.out.println(x);
+        gameBoard[x][boardWidth-2].setType(TileType.wall);
+        entityManager.prop5 = new Prop3(x*tileSize,boardWidth-1, 2);
         break;
       }
     }
