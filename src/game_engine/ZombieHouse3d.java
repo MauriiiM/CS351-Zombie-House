@@ -305,19 +305,7 @@ public class ZombieHouse3d
         root.getChildren().add(roofDrawingBoard[col][row]);
       }
     }
-    Random rand = new Random();
-    int x;
-    while(true)
-    {
-      x = 1 + rand.nextInt(boardHeight-1);
-      if(!gameBoard[x][1].getType().equals("wall"))
-      {
-        System.out.println(x);
-        gameBoard[x][1].setType(TileType.wall);
-        entityManager.prop3 = new Prop3(x*tileSize,1);
-        break;
-      }
-    }
+    region1Prop();
     // Spawn zombies on board and create list of wall tiles for
     // purposes of collision detection.
     for (int col = 0; col < boardHeight; col++)
@@ -429,6 +417,29 @@ public class ZombieHouse3d
     group.addEventFilter(MouseEvent.ANY, new MouseEventHandler(camera, entityManager.player, this));
 
     return group;
+  }
+
+  //spawns the crawler
+  private void region1Prop()
+  {
+    Random rand = new Random();
+    int x;
+    while(true)
+    {
+      x = 1 + rand.nextInt(boardHeight-1);
+      if(!gameBoard[x][1].getType().equals("wall"))
+      {
+        System.out.println(x);
+        gameBoard[x][1].setType(TileType.wall);
+        entityManager.prop3 = new Prop3(x*tileSize,1);
+        break;
+      }
+    }
+  }
+
+  private void region2Prop()
+  {
+
   }
 
   /**
