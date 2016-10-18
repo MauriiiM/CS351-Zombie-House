@@ -49,6 +49,7 @@ public class EntityManager
   public Prop2 prop2;
   public Prop3 prop3;
   public Prop4 prop4;
+  public Prop5 prop5;
   public ArrayList<Prop> props;
   public SoundManager soundManager;
   public ZombieHouse3d zombieHouse;
