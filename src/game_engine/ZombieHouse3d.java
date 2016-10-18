@@ -225,8 +225,7 @@ public class ZombieHouse3d
     if (entityManager.player == null)
     {
       entityManager.chainsaw = new Chainsaw(3,2);
-      entityManager.prop1 = new Prop1(3, 2);
-      entityManager.prop2 = new Prop2(3,3);
+      //entityManager.prop1 = new Prop1(3, 2);
       light.setColor(Color.GRAY);
       entityManager.player = new Player(camera, entityManager, light, entityManager.chainsaw);
     }
@@ -305,6 +304,7 @@ public class ZombieHouse3d
     region2Prop();
     region3Prop();
     region4Prop();
+    dreamRunner();
     // Spawn zombies on board and create list of wall tiles for
     // purposes of collision detection.
     for (int col = 0; col < boardHeight; col++)
@@ -386,7 +386,7 @@ public class ZombieHouse3d
     }
 
     root.getChildren().addAll(entityManager.player.chainsaw.getMesh());
-    root.getChildren().addAll(entityManager.prop1.getMesh());
+//    root.getChildren().addAll(entityManager.prop1.getMesh());
     root.getChildren().addAll(entityManager.prop2.getMesh());
     root.getChildren().addAll(entityManager.prop3.getMesh());
     root.getChildren().addAll(entityManager.prop4.getMesh());
@@ -407,7 +407,7 @@ public class ZombieHouse3d
 
     Group group = new Group();
     group.getChildren().add(subScene);
-    group.addEventFilter(MouseEvent.ANY, new MouseEventHandler(camera, entityManager.player, this));
+//    group.addEventFilter(MouseEvent.ANY, new MouseEventHandler(camera, entityManager.player, this));
 
     return group;
   }
@@ -472,6 +472,25 @@ public class ZombieHouse3d
       {
         gameBoard[boardHeight-2][z].setType(TileType.wall);
         entityManager.prop6 = new Prop3(boardHeight-1,z, 3);
+        break;
+      }
+    }
+  }
+
+  //spawn dream runner
+  private void dreamRunner()
+  {
+    Random rand = new Random();
+    int x;
+    int z;
+    while(true)
+    {
+      x = 1 + rand.nextInt(boardWidth-2);
+      z = 1 + rand.nextInt(boardWidth-2);
+      if(!gameBoard[x][z].getType().equals("wall") && gameBoard[x][z+1].getType().equals("wall"))
+      {
+        gameBoard[x][z].setType(TileType.wall);
+        entityManager.prop2 = new Prop2(x+.5,z);
         break;
       }
     }

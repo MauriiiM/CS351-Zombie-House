@@ -70,11 +70,10 @@ class KeyboardEventHandler extends InputHandler implements EventHandler<KeyEvent
         player.light.setLightOn(!player.lightOn);
         player.lightOn = !player.lightOn;
       }
-      if (event.getCode() == KeyCode.UP && !gameIsPaused)
-      {
-        player.camera.setTranslateY(-2 * Tile.tileSize);
-//        player.camera.setRotate(90);
-      }
+//      if (event.getCode() == KeyCode.UP && !gameIsPaused)
+//      {
+//        player.camera.setTranslateY(-2 * Tile.tileSize);
+//      }
       if (event.getCode() == KeyCode.LEFT && !gameIsPaused)
       {
         player.turnLeft = true;
@@ -133,10 +132,10 @@ class KeyboardEventHandler extends InputHandler implements EventHandler<KeyEvent
       {
         player.shiftPressed.set(false);
       }
-      if (event.getCode() == KeyCode.UP)
-      {
-        player.camera.setTranslateY(0);
-      }
+//      if (event.getCode() == KeyCode.UP)
+//      {
+//        player.camera.setTranslateY(0);
+//      }
 //      if (event.getCode() == KeyCode.SPACE)
 //      {
 //        player.camera.setTranslateY(0);
