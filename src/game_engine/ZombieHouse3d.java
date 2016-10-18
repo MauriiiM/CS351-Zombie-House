@@ -427,7 +427,7 @@ public class ZombieHouse3d
     while(true)
     {
       x = 1 + rand.nextInt(boardHeight-1);
-      if(!gameBoard[x][1].getType().equals("wall"))
+      if(!gameBoard[x][1].getType().equals("wall") && !gameBoard[x][0].getType().equals("exit"))
       {
         gameBoard[x][1].setType(TileType.wall);
         entityManager.prop3 = new Prop3(x*tileSize,1, 0);
@@ -443,7 +443,7 @@ public class ZombieHouse3d
     while(true)
     {
       z = 1 + rand.nextInt(boardWidth-1);
-      if(!gameBoard[1][z].getType().equals("wall"))
+      if(!gameBoard[1][z].getType().equals("wall") && !gameBoard[0][z].getType().equals("exit"))
       {
         gameBoard[1][z].setType(TileType.wall);
         entityManager.prop4 = new Prop3(1,z*tileSize, 1);
@@ -459,7 +459,7 @@ public class ZombieHouse3d
     while(true)
     {
       x = 1 + rand.nextInt(boardWidth-1);
-      if(!gameBoard[x][boardWidth-2].getType().equals("wall"))
+      if(!gameBoard[x][boardWidth-2].getType().equals("wall") && !gameBoard[x][boardWidth-1].getType().equals("exit"))
       {
         System.out.println(x);
         gameBoard[x][boardWidth-2].setType(TileType.wall);
