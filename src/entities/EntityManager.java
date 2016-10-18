@@ -420,6 +420,10 @@ public class EntityManager
             }
           }
         }
+        for(Zombie zombie : bifurcatedZombies)
+        {
+          zombie.goingAfterPlayer.set(true);
+        }
       }
     }
   }
