@@ -38,7 +38,7 @@ public class Scenes implements EventHandler<ActionEvent>
   private int winH = 800;
 
   public Button returnButton = new Button();
-  private Button returnButtonDeath = new Button();
+  public Button returnButtonDeath = new Button();
   private Button goTo3dGame = new Button();
   public Button tryAgainButton = new Button();
   public Button goTo3dGameNextLevel = new Button();
@@ -57,8 +57,6 @@ public class Scenes implements EventHandler<ActionEvent>
   Slider playerRegen = new Slider(0, 2, 0.2);
   Slider zombieSmell = new Slider(0, 30, 15);
   Slider maxZombies = new Slider(0, 30, 20);
-  Slider mapWidth = new Slider(0, 100, 50);
-  Slider mapHeight = new Slider(0, 100, 50);
   Slider rotateSensitivity = new Slider(0, 20, 5);
 
   private ZombieHouse3d threeDGameObject = new ZombieHouse3d(0, this);
@@ -134,16 +132,6 @@ public class Scenes implements EventHandler<ActionEvent>
     maxZombies.setShowTickLabels(true);
     maxZombies.setMajorTickUnit(5);
 
-    mapWidth.setShowTickMarks(true);
-    mapWidth.setSnapToTicks(true);
-    mapWidth.setShowTickLabels(true);
-    mapWidth.setMajorTickUnit(20);
-
-    mapHeight.setShowTickMarks(true);
-    mapHeight.setSnapToTicks(true);
-    mapHeight.setShowTickLabels(true);
-    mapHeight.setMajorTickUnit(20);
-
     rotateSensitivity.setShowTickMarks(true);
     rotateSensitivity.setSnapToTicks(true);
     rotateSensitivity.setShowTickLabels(true);
@@ -198,20 +186,6 @@ public class Scenes implements EventHandler<ActionEvent>
         Attributes.Max_Zombies = maxZombies.getValue();
       }
     });
-    mapWidth.valueProperty().addListener(new ChangeListener<Number>()
-    {
-      public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val)
-      {
-        Attributes.Map_Width = (int) mapWidth.getValue();
-      }
-    });
-    mapHeight.valueProperty().addListener(new ChangeListener<Number>()
-    {
-      public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val)
-      {
-        Attributes.Map_Height = (int) mapHeight.getValue();
-      }
-    });
     rotateSensitivity.valueProperty().addListener(new ChangeListener<Number>()
     {
       public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val)
@@ -246,7 +220,7 @@ public class Scenes implements EventHandler<ActionEvent>
     gameOverRoot.setStyle("-fx-background-image: url(/Images/dead_bg.jpg);-fx-background-size: stretch;-fx-background-repeat: " + "no-repeat;");
     gameOverRoot.setPrefSize(winW, winH);
     HBox hBoxGameOver = new HBox();
-    hBoxGameOver.getChildren().addAll(returnButton, tryAgainButton);
+//    hBoxGameOver.getChildren().addAll(returnButtonDeath, tryAgainButton);
     gameOverRoot.setTop(hBoxGameOver);
 
     //loading Scene
@@ -266,9 +240,8 @@ public class Scenes implements EventHandler<ActionEvent>
     settingsRoot = new BorderPane();
     settingsRoot.setPrefSize(winW, winH);
     settingsRoot.setCenter(new Label("Settings!"));
-
     VBox sliders = new VBox();
-    sliders.getChildren().addAll(new Label("Player Hearing:"), playerHearing, new Label("Player Walking Speed"), playerWalkingSpeed, new Label("Player Sprint Speed"), playerSprintSpeed, new Label("Player Stamina"), playerStamina, new Label("Player Regen"), playerRegen, new Label("Zombie Smell"), zombieSmell, new Label("Max Zombies"), maxZombies, new Label("Map Width"), mapWidth, new Label("Map Height"), mapHeight, new Label("Rotate Sensitivity"), rotateSensitivity);
+    sliders.getChildren().addAll(new Label("Player Hearing:"), playerHearing, new Label("Player Walking Speed"), playerWalkingSpeed, new Label("Player Sprint Speed"), playerSprintSpeed, new Label("Player Stamina"), playerStamina, new Label("Player Regen"), playerRegen, new Label("Zombie Smell"), zombieSmell, new Label("Max Zombies"), maxZombies, new Label("Rotate Sensitivity"), rotateSensitivity);
     sliders.setSpacing(5);
     sliders.setPadding(new Insets(10, 20, 10, 20));
     settingsRoot.setLeft(sliders);
@@ -297,7 +270,7 @@ public class Scenes implements EventHandler<ActionEvent>
     if (numLevels > 1) s = "s";
     if (numLevels == 5)
     {
-      this.winRoot.setCenter(new Label("You have escaped all 5 Houses, good job?"));
+      this.winRoot.setCenter(new Label("You have escaped all 5 Houses, good job!"));
     }
     else
     {
@@ -364,7 +337,7 @@ public class Scenes implements EventHandler<ActionEvent>
         e.printStackTrace();
       }
     }
-    else if (source == goTo3dGameNextLevel)
+    else if (source == goTo3dGameNextLevel) //NEXT LEVEL
     {
       playButtonSound();
       soundManager.playTrack(0);
@@ -385,7 +358,10 @@ public class Scenes implements EventHandler<ActionEvent>
     {
       playButtonSound();
       soundManager.playTrack(0);
-      System.out.println("MAIN MENU");
+      if (source == returnButtonDeath){
+        System.out.println("DISPOSE");
+        threeDGameObject.dispose();
+      }
       try
       {
         main.assignStage(mainMenu);

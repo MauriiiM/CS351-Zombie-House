@@ -356,7 +356,7 @@ public class EntityManager
 //      reset();
 //      dispose();
       HBox hBox = new HBox();
-      hBox.getChildren().addAll(scenes.returnButton, scenes.tryAgainButton);
+      hBox.getChildren().addAll(scenes.tryAgainButton, scenes.returnButtonDeath);
       scenes.gameOverRoot.setTop(hBox);
       main.assignStage(scenes.gameOver);
     }

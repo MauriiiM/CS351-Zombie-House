@@ -190,7 +190,6 @@ public class Zombie extends Creature
 
   /**
    * @param newEngaged
-   * @todo setEnganged(!getEngaged()) when damged, not setEngaged(true) because can be returned to false if that zombie killed player.
    */
   void setEngaged(boolean newEngaged)
   {
@@ -470,8 +469,6 @@ public class Zombie extends Creature
    * needlessly hit obstacles. After these checks are done, the findPathToPlayer
    * method is called to find the shortest path to the player.
    *
-   * @todo it seems zombie will find path to player regardless of its position in the map, change it to only find path
-   * if player is "engaged" (i.e. if it's in the near vicinity)
    */
   @Override
   public void tick()
@@ -821,7 +818,7 @@ public class Zombie extends Creature
       if (calcPath.distanceToPlayer <= zombieSmell || (isMasterZombie && masterZombieChasePlayer.get()))
       {
         goingAfterPlayer.set(true);
-        if(!hasPath)engaged = true;
+        if (!hasPath) engaged = true;
       }
       else
       {

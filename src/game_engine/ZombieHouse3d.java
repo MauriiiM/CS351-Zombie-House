@@ -7,7 +7,6 @@ import java.util.Random;
 import com.interactivemesh.jfx.importer.obj.ObjImportOption;
 import com.interactivemesh.jfx.importer.obj.ObjModelImporter;
 
-import com.sun.net.httpserver.Filter;
 import entities.*;
 import graphing.GraphNode;
 import graphing.TileGraph;
@@ -82,7 +81,7 @@ public class ZombieHouse3d
 
   private final URL chainsawURL = getClass().getResource("chainsawAttack.mp3");
   private final Media chainMedia = new Media(chainsawURL.toString());
-  private final MediaPlayer chainPlayer = new MediaPlayer(chainMedia);
+  private final MediaPlayer chainsawPlayer = new MediaPlayer(chainMedia);
 
   /**
    * Constructor for ZombieHouse3d object
@@ -109,14 +108,12 @@ public class ZombieHouse3d
    */
   public void dispose()
   {
-    System.out.println("zombieHouse3D DISPOSE AFTER 5 DEATHS");
-
-    chainPlayer.dispose();
     gameLoop.stop();
+//    chainsawPlayer.dispose();
     entityManager = null;
     scene = null;
     camera = null;
-    light = null;
+    light.setColor(Color.GRAY);
     gameBoard = null;
     walls.clear();
     exits.clear();
@@ -183,13 +180,13 @@ public class ZombieHouse3d
 
   public void playChainsaw()
   {
-    chainPlayer.setCycleCount(AudioClip.INDEFINITE);
-    chainPlayer.play();
+    chainsawPlayer.setCycleCount(AudioClip.INDEFINITE);
+    chainsawPlayer.play();
   }
 
   public void pauseChainsaw()
   {
-    chainPlayer.pause();
+    chainsawPlayer.pause();
   }
 
   void setPaused(boolean setPause)
