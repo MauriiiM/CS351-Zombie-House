@@ -1,12 +1,23 @@
 # Read Me
 
 ---
-
+## Authors
+### spring 2016
+  * Jeffrey McCall
+  * Atle Olson
+  * Ben Matthews
+### fall 2016
+  * Mauricio Monsivais
+  * Javier Zazueta
+  * almost everything done is worked on already made classes with about 7 new classes and tons of new resources
+---
+  * JAR files may have to be added as libraries (right click on jar in Resources->add to library)
+---
 ## How to Use the Program:
 Entry Point: Main.java
 * Launches a window with buttons:
   * Play Zombie House 3d: Launches the main 3d implementation of the game
-  * Play Zombie House 2d: Launches the supplemental  2d implementation of the game
+  * (DISABLED)Play Zombie House 2d: Launches the supplemental  2d implementation of the game
   * (debug feature) Loading Screen: Takes you to a sample loading scene
   * (debug feature) Game Over: Takes you to the game over scene
   * (debug feature) Win Screen: Takes you to the game win scene
@@ -33,12 +44,19 @@ Entry Point: Main.java
   * EntityManager - controls and instantiates entities
   * MouseHandler - controls mouse input
   * KeyboardHandler - controls the keyboard input
+  * BELOW THIS IS FALL 2016------------
+  * InputHandler - extended by both handlers for info sharing
 
 ##### Entity Architecture:
 * Entity - abstract entity
   * Creature - abstract moving entity
     * Player - the player object
     * Zombie - a zombie object
+    * BELOW THIS ARE FALL 2016-----------
+    * PLayerGhost
+    * Chainsaw
+    * Prop, 1,  2, 3,
+    * CreaturePathInfo (after lives storage)
 
 ##### Utilities and Tools:
 * MapViewer - used to view a generated Map
