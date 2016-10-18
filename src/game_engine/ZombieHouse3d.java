@@ -2,6 +2,7 @@ package game_engine;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Random;
 
 import com.interactivemesh.jfx.importer.obj.ObjImportOption;
 import com.interactivemesh.jfx.importer.obj.ObjModelImporter;
@@ -230,7 +231,6 @@ public class ZombieHouse3d
       entityManager.chainsaw = new Chainsaw(3,2);
       entityManager.prop1 = new Prop1(3, 2);
       entityManager.prop2 = new Prop2(3,3);
-      entityManager.prop3 = new Prop3(3,1);
       light.setColor(Color.GRAY);
       entityManager.player = new Player(camera, entityManager, light, entityManager.chainsaw);
     }
@@ -303,6 +303,19 @@ public class ZombieHouse3d
 
         root.getChildren().add(floorDrawingBoard[col][row]);
         root.getChildren().add(roofDrawingBoard[col][row]);
+      }
+    }
+    Random rand = new Random();
+    int x;
+    while(true)
+    {
+      x = 1 + rand.nextInt(boardHeight-1);
+      if(!gameBoard[x][1].getType().equals("wall"))
+      {
+        System.out.println(x);
+        gameBoard[x][1].setType(TileType.wall);
+        entityManager.prop3 = new Prop3(x*tileSize,1);
+        break;
       }
     }
     // Spawn zombies on board and create list of wall tiles for
