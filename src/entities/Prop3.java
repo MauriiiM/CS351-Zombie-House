@@ -13,11 +13,12 @@ public class Prop3
 
   private ObjModelImporter o;
   private Node[] in;
-  public Prop3(double xTranslate, double zTranslate)
+  public Prop3(double xTranslate, double zTranslate, int x)
   {
     o = new ObjModelImporter();
     o.setOptions(ObjImportOption.NONE);
-    o.read("Resources/Meshes/Crawler/hdemon.obj");
+    if(x == 0) o.read("Resources/Meshes/Crawler/hdemon.obj");
+    else o.read("Resources/Meshes/Crawler" + x + "/hdemon.obj");
     in = o.getImport();
     for(int i = 0; i < in.length; i++)
     {

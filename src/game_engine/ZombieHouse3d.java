@@ -430,7 +430,7 @@ public class ZombieHouse3d
       if(!gameBoard[x][1].getType().equals("wall"))
       {
         gameBoard[x][1].setType(TileType.wall);
-        entityManager.prop3 = new Prop3(x*tileSize,1);
+        entityManager.prop3 = new Prop3(x*tileSize,1, 0);
         break;
       }
     }
@@ -446,7 +446,7 @@ public class ZombieHouse3d
       if(!gameBoard[1][z].getType().equals("wall"))
       {
         gameBoard[1][z].setType(TileType.wall);
-        entityManager.prop4 = new Prop4(1,z*tileSize);
+        entityManager.prop4 = new Prop3(1,z*tileSize, 1);
         break;
       }
     }
@@ -463,7 +463,7 @@ public class ZombieHouse3d
       {
         System.out.println(z);
         gameBoard[boardWidth-2][z-1].setType(TileType.wall);
-        entityManager.prop5 = new Prop5(boardWidth-2,z*tileSize-1);
+        entityManager.prop5 = new Prop3(boardWidth-2,z*tileSize-1, 2);
         break;
       }
     }
