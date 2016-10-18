@@ -2,6 +2,8 @@ package entities;
 
 import com.interactivemesh.jfx.importer.obj.ObjImportOption;
 import com.interactivemesh.jfx.importer.obj.ObjModelImporter;
+import com.interactivemesh.jfx.importer.tds.TdsImportOption;
+import com.interactivemesh.jfx.importer.tds.TdsModelImporter;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.transform.Rotate;
@@ -15,7 +17,6 @@ import java.util.ArrayList;
 public class PlayerGhost extends Creature
 {
   private ArrayList<CreaturePathInfo> path;
-  private ObjModelImporter ghostMesh;
   private Node[] in;
   private Group root;
   private boolean dead;
@@ -25,15 +26,16 @@ public class PlayerGhost extends Creature
   {
     this.path = (ArrayList<CreaturePathInfo>) path.clone();
     this.root = root;
-    ghostMesh = new ObjModelImporter();
+    ObjModelImporter ghostMesh = new ObjModelImporter();
     ghostMesh.setOptions(ObjImportOption.NONE);
-    ghostMesh.read("Resources/Meshes/DreamRunner/d_runner.obj");
-//    ghostMesh.read("Resources/Meshes/Rock/Rock.obj");
+    ghostMesh.read("Resources/Meshes/ghost/ghost_s.obj");
     in = ghostMesh.getImport();
     for (int i = 0; i < in.length; i++)
     {
+//      in[i].setScaleY(.08);
+//      in[i].setScaleZ(-.08);
       in[i].setTranslateX(path.get(0).getX());
-      in[i].setTranslateY(.5);
+      in[i].setTranslateY(.6);
       in[i].setTranslateZ(path.get(0).getZ());
       in[i].setRotationAxis(Rotate.Y_AXIS);
       in[i].setRotate(path.get(0).getAngle());
